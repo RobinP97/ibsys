@@ -10,7 +10,7 @@ import { waitingliststock } from "./waitingliststock";
 import { waitinglistworkstations } from "./waitinglistworkstations";
 import { warehousestock } from "./warehousestock";
 
-export interface results
+export interface Results
 {
     game: number;
     group: number;

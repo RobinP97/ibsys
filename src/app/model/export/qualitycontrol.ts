@@ -1,6 +1,6 @@
 export interface qualitycontrol
 {
     type: string;
-    losequanity: number;
+    losequantity: number;
     delay: number;
 }

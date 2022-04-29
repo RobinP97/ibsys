@@ -1,0 +1,31 @@
+$palette-mcgpalette0:
+rgb(242, 248, 239)
+rgb(223, 237, 216)
+rgb(201, 226, 190)
+rgb(179, 214, 164)
+rgb(163, 205, 145)
+rgb(147, 196, 125)
+rgb(139, 190, 117)
+rgb(128, 182, 106)
+rgb(118, 175, 96)
+rgb(100, 162, 77)
+rgb(255, 255, 255)
+rgb(218, 255, 205)
+rgb(180, 255, 154)
+rgb(161, 255, 128)
+;
+
+$palette-mcgpalette0-50: nth($palette-mcgpalette0, 1);
+$palette-mcgpalette0-100: nth($palette-mcgpalette0, 2);
+$palette-mcgpalette0-200: nth($palette-mcgpalette0, 3);
+$palette-mcgpalette0-300: nth($palette-mcgpalette0, 4);
+$palette-mcgpalette0-400: nth($palette-mcgpalette0, 5);
+$palette-mcgpalette0-500: nth($palette-mcgpalette0, 6);
+$palette-mcgpalette0-600: nth($palette-mcgpalette0, 7);
+$palette-mcgpalette0-700: nth($palette-mcgpalette0, 8);
+$palette-mcgpalette0-800: nth($palette-mcgpalette0, 9);
+$palette-mcgpalette0-900: nth($palette-mcgpalette0, 10);
+$palette-mcgpalette0-A100: nth($palette-mcgpalette0, 11);
+$palette-mcgpalette0-A200: nth($palette-mcgpalette0, 12);
+$palette-mcgpalette0-A400: nth($palette-mcgpalette0, 13);
+$palette-mcgpalette0-A700: nth($palette-mcgpalette0, 14);

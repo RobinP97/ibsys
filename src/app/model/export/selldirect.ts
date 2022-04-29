@@ -1,6 +1,6 @@
 import { item } from "./item";
 
-export interface sellwish
+export interface selldirect
 {
     item: item[];
 }

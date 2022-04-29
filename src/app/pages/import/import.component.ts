@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Results } from 'src/app/model/import/results';
+
 import { IoService } from 'src/app/service/io.service';
+import { Results } from 'src/app/model/import/results';
 
 @Component({
   selector: 'app-import',
@@ -17,7 +18,9 @@ export class ImportComponent implements OnInit {
 
   constructor(private readonly ioService: IoService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log('');
+  }
 
   // TODO: Prüfung, nur XML-Dateien
   // TODO: Upload, nur wenn eine Datei ausgewählt wurde
@@ -26,7 +29,7 @@ export class ImportComponent implements OnInit {
     this.file = event.target.files[0];
   }
 
-  upload(event: any): void {
+  upload(): void {
     console.log('UPLOAD:', this.file);
     // FileReader objects can read from a file or a blob
     const reader: FileReader = new FileReader();
@@ -50,7 +53,7 @@ export class ImportComponent implements OnInit {
       console.error('ERROR reading file:', reader.error);
       this.readFileSuccesful = false;
     });
-    var tewt = null;
+    let tewt = null;
     reader.readAsText(this.file, 'utf-8');
   }
 

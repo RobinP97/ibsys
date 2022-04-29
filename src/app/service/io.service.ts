@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
 import { Parser, ParserOptions } from 'xml2js';
+
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',

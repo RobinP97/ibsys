@@ -1,9 +1,9 @@
 # Ibsys
 
-## Linting
-
-`ng lint` überpüft die Anwendungen mithilfe des TypeScript-Linters TSLint.
-`ng lint --fix` korrigiert automatische einige Linting Fehler
+## Nützliche VSC Plugins
+- sort-imports
+- ESLint
+- Prettier
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.0.
 

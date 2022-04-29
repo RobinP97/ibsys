@@ -1,6 +1,5 @@
-export interface order
-{
-    article: number;
-    quantity: number;
-    modus: number;
+export interface order {
+  article: number;
+  quantity: number;
+  modus: number;
 }

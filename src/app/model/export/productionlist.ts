@@ -1,6 +1,5 @@
-import { production } from "./production";
+import { production } from './production';
 
-export interface productionlist
-{
-    production: production[];
+export interface productionlist {
+  production: production[];
 }

@@ -1,19 +1,7 @@
-$palette-mcgpalette0:
-rgb(242, 248, 239)
-rgb(223, 237, 216)
-rgb(201, 226, 190)
-rgb(179, 214, 164)
-rgb(163, 205, 145)
-rgb(147, 196, 125)
-rgb(139, 190, 117)
-rgb(128, 182, 106)
-rgb(118, 175, 96)
-rgb(100, 162, 77)
-rgb(255, 255, 255)
-rgb(218, 255, 205)
-rgb(180, 255, 154)
-rgb(161, 255, 128)
-;
+$palette-mcgpalette0: rgb(242, 248, 239) rgb(223, 237, 216) rgb(201, 226, 190)
+  rgb(179, 214, 164) rgb(163, 205, 145) rgb(147, 196, 125) rgb(139, 190, 117)
+  rgb(128, 182, 106) rgb(118, 175, 96) rgb(100, 162, 77) rgb(255, 255, 255)
+  rgb(218, 255, 205) rgb(180, 255, 154) rgb(161, 255, 128);
 
 $palette-mcgpalette0-50: nth($palette-mcgpalette0, 1);
 $palette-mcgpalette0-100: nth($palette-mcgpalette0, 2);

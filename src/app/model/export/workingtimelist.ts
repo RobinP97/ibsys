@@ -1,6 +1,5 @@
-import { workingtime } from "./workingtime";
+import { workingtime } from './workingtime';
 
-export interface workingtimelist
-{
-    workingtime: workingtime[];
+export interface workingtimelist {
+  workingtime: workingtime[];
 }

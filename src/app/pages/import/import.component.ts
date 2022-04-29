@@ -5,10 +5,9 @@ import { IoService } from 'src/app/service/io.service';
 @Component({
   selector: 'app-import',
   templateUrl: './import.component.html',
-  styleUrls: ['./import.component.scss']
+  styleUrls: ['./import.component.scss'],
 })
 export class ImportComponent implements OnInit {
-
   importedData: Results;
   inputData;
   fileUploadSuccessful: boolean;
@@ -16,8 +15,7 @@ export class ImportComponent implements OnInit {
   readFileSuccesful: boolean;
   file: File;
 
-
-  constructor(private readonly ioService: IoService) { }
+  constructor(private readonly ioService: IoService) {}
 
   ngOnInit(): void {}
 
@@ -30,12 +28,12 @@ export class ImportComponent implements OnInit {
 
   upload(event: any): void {
     console.log('UPLOAD:', this.file);
-      // FileReader objects can read from a file or a blob
+    // FileReader objects can read from a file or a blob
     const reader: FileReader = new FileReader();
     // FileReader Events:
     // load – no errors, reading complete.
     // error – error has occurred.
-    reader.addEventListener('load', e =>  {
+    reader.addEventListener('load', (e) => {
       this.readFileSuccesful = true;
       console.log(reader.result);
 
@@ -48,37 +46,35 @@ export class ImportComponent implements OnInit {
     });
 
     // TODO: Fehlerbehandlung
-    reader.addEventListener('error', err => {
+    reader.addEventListener('error', (err) => {
       console.error('ERROR reading file:', reader.error);
       this.readFileSuccesful = false;
     });
     var tewt = null;
     reader.readAsText(this.file, 'utf-8');
-
   }
 
   // inputData verarbeiten und in der Anwendung bereitstellen
   // am besten über Subject, die abonniert werden können (Änderungen werden dann an alle Subscriber weitergeleitet - sehr wichtig!)
   // in dem Sinne benötigt man das Restults Interface gar nicht
   loadData(): void {
-      // TODO: Fehler wenn this.inputData === undefined
-      this.importedData = {
-        game: this.inputData.results.attr.game,
-        period: this.inputData.results.attr.period,
-        group: this.inputData.results.attr.group,
-        forecasts: undefined,
-        warehousestock: undefined,
-        inwardstockmovement: undefined,
-        futureinwardstockmovement: undefined,
-        idletimecosts: undefined,
-        waitinglistworkstations: undefined,
-        waitingliststock: undefined,
-        ordersinwork: undefined,
-        completedorders: undefined,
-        cycletimes: undefined,
-        result: undefined,
-      };
-      console.log(this.importedData);
+    // TODO: Fehler wenn this.inputData === undefined
+    this.importedData = {
+      game: this.inputData.results.attr.game,
+      period: this.inputData.results.attr.period,
+      group: this.inputData.results.attr.group,
+      forecasts: undefined,
+      warehousestock: undefined,
+      inwardstockmovement: undefined,
+      futureinwardstockmovement: undefined,
+      idletimecosts: undefined,
+      waitinglistworkstations: undefined,
+      waitingliststock: undefined,
+      ordersinwork: undefined,
+      completedorders: undefined,
+      cycletimes: undefined,
+      result: undefined,
+    };
+    console.log(this.importedData);
   }
-
 }

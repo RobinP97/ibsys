@@ -10,20 +10,19 @@ import { waitingliststock } from './waitingliststock';
 import { waitinglistworkstations } from './waitinglistworkstations';
 import { warehousestock } from './warehousestock';
 
-export interface Results
-{
-    game: number;
-    group: number;
-    period: number;
-    forecasts: forecast;
-    warehousestock: warehousestock;
-    inwardstockmovement: inwardstockmovement;
-    futureinwardstockmovement: futureinwardstockmovement;
-    idletimecosts: idletimecosts;
-    waitinglistworkstations: waitinglistworkstations;
-    waitingliststock: waitingliststock;
-    ordersinwork: ordersinwork;
-    completedorders: completedorders;
-    cycletimes: cycletimes;
-    result: result;
+export interface Results {
+  game: number;
+  group: number;
+  period: number;
+  forecasts: forecast;
+  warehousestock: warehousestock;
+  inwardstockmovement: inwardstockmovement;
+  futureinwardstockmovement: futureinwardstockmovement;
+  idletimecosts: idletimecosts;
+  waitinglistworkstations: waitinglistworkstations;
+  waitingliststock: waitingliststock;
+  ordersinwork: ordersinwork;
+  completedorders: completedorders;
+  cycletimes: cycletimes;
+  result: result;
 }

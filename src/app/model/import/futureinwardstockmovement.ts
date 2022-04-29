@@ -1,6 +1,5 @@
 import { orderinwardstockmovement } from './orderinwardstockmovement';
 
-export interface futureinwardstockmovement
-{
-    order?: orderinwardstockmovement[];
+export interface futureinwardstockmovement {
+  order?: orderinwardstockmovement[];
 }

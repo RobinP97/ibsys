@@ -2,19 +2,18 @@ import { Injectable } from '@angular/core';
 import { Parser, ParserOptions } from 'xml2js';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IoService {
-
-  constructor() { }
+  constructor() {}
 
   // Doku unter: https://openbase.com/js/xml2js/documentation
   readonly xmlOptions: ParserOptions = {
-    attrkey : 'attr', // (default: $): Prefix that is used to access the attributes.
-    charkey : '_text', // (default: _): Prefix that is used to access the character content.
-    trim : true, // (default: false): Trim the whitespace at the beginning and end of text nodes.
-    normalizeTags : true, // normalizeTags (default: false): Normalize all tag names to lowercase
-    normalize : true, // normalize (default: false): Trim whitespaces inside text nodes.
+    attrkey: 'attr', // (default: $): Prefix that is used to access the attributes.
+    charkey: '_text', // (default: _): Prefix that is used to access the character content.
+    trim: true, // (default: false): Trim the whitespace at the beginning and end of text nodes.
+    normalizeTags: true, // normalizeTags (default: false): Normalize all tag names to lowercase
+    normalize: true, // normalize (default: false): Trim whitespaces inside text nodes.
     // explicitChildren : true,
     //
     // Hooks für die Verarbietung der Attribtename/werte bzw Nodenamen/werte

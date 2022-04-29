@@ -1,5 +1,4 @@
-export interface production
-{
-    article: number;
-    quantity: number;
+export interface production {
+  article: number;
+  quantity: number;
 }

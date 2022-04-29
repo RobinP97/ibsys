@@ -1,6 +1,5 @@
 import { completedorder } from './completedorder';
 
-export interface completedorders
-{
-    order: completedorder[];
+export interface completedorders {
+  order: completedorder[];
 }

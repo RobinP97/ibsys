@@ -1,6 +1,5 @@
-export interface workingtime
-{
-    station: number;
-    shift: number;
-    overtime: number;
+export interface workingtime {
+  station: number;
+  shift: number;
+  overtime: number;
 }

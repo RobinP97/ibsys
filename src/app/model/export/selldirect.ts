@@ -1,6 +1,5 @@
-import { item } from "./item";
+import { item } from './item';
 
-export interface selldirect
-{
-    item: item[];
+export interface selldirect {
+  item: item[];
 }

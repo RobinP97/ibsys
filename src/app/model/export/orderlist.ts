@@ -1,6 +1,5 @@
-import { order } from "./order";
+import { order } from './order';
 
-export interface orderlist
-{
-    order: order[];
+export interface orderlist {
+  order: order[];
 }

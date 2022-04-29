@@ -1,4 +1,4 @@
-import { waitinglist } from "./waitinglist";
+import { waitinglist } from './waitinglist';
 
 export interface workplacewaitinglistworkstation
 {

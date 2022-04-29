@@ -1,4 +1,4 @@
-import { completedorder } from "./completedorder";
+import { completedorder } from './completedorder';
 
 export interface completedorders
 {

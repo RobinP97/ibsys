@@ -7,62 +7,62 @@ export interface result
             all: number;
         }
         possiblecapacity: {
-            current: number; 
+            current: number;
             average: number;
             all: number;
         }
         relpossiblenormalcapacity: {
-            current: string; 
+            current: string;
             average: string;
             all: string;
         }
         productivetime: {
-            current: number; 
+            current: number;
             average: number;
             all: number;
         }
         effiency: {
-            current: string; 
+            current: string;
             average: string;
             all: string;
         }
         sellwish: {
-            current: number; 
+            current: number;
             average: number;
             all: number;
         }
         salesquantity: {
-            current: number; 
+            current: number;
             average: number;
             all: number;
         }
         deliveryreliability: {
-            current: string; 
+            current: string;
             average: string;
             all: string;
-        }   
+        }
         idletime: {
-            current: number; 
+            current: number;
             average: number;
             all: number;
         }
         idletimecosts: {
-            current: number; 
+            current: number;
             average: number;
             all: number;
-        }        
+        }
         storevalue: {
-            current: number; 
+            current: number;
             average: number;
             all: number;
-        }     
+        }
         storagecosts: {
-            current: number; 
+            current: number;
             average: number;
             all: number;
         }
 
-    }
+    };
 
     defectivegoods: {
         quantity: {
@@ -71,50 +71,50 @@ export interface result
             all: number;
         }
         costs: {
-            current: number; 
+            current: number;
             average: number;
             all: number;
         }
-    }
+    };
 
     normalsale: {
         salesprice: {
-            current: number; 
+            current: number;
             average: number;
-            all: number;        
+            all: number;
         }
         profit: {
-            current: number; 
+            current: number;
             average: number;
-            all: number;        
+            all: number;
         }
         profitperunit: {
-            current: number; 
+            current: number;
             average: number;
-            all: number;        
+            all: number;
         }
-    }
+    };
 
     directsale: {
         profit: {
-            current: number; 
+            current: number;
             average: number;
-            all: number;        
+            all: number;
         }
         contractpenalty: {
-            current: number; 
+            current: number;
             average: number;
-            all: number;        
+            all: number;
         }
-    }
+    };
 
     marketplacesale: {
         profit: {
-            current: number; 
+            current: number;
             average: number;
-            all: number;        
+            all: number;
         }
-    }
+    };
 
     summary: {
         profit: {
@@ -122,5 +122,5 @@ export interface result
             average: number;
             all: number;
         }
-    }
+    };
 }

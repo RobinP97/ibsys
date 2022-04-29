@@ -1,4 +1,4 @@
-import { workplaceidletimecosts } from "./workplaceidletimecosts";
+import { workplaceidletimecosts } from './workplaceidletimecosts';
 
 export interface idletimecosts
 {
@@ -9,5 +9,5 @@ export interface idletimecosts
         wageidletimecosts: number;
         wagecosts: number;
         machineidletimecosts: number;
-    }
+    };
 }

@@ -1,4 +1,4 @@
-import { orderinwardstockmovement } from "./orderinwardstockmovement";
+import { orderinwardstockmovement } from './orderinwardstockmovement';
 
 export interface inwardstockmovement
 {

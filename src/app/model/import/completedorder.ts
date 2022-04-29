@@ -12,5 +12,5 @@ export interface completedorder
         amount: number;
         cycletime: number;
         cost: number;
-    }[]
+    }[];
 }

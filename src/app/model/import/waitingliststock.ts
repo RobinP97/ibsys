@@ -1,4 +1,4 @@
-import { missingpart } from "./missingpart";
+import { missingpart } from './missingpart';
 
 export interface waitingliststock
 {

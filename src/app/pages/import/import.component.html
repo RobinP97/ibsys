@@ -1,12 +1,30 @@
 <div>
-  <label for="formFile" class="form-label">Datei hochladen</label>
-  <input
-    (change)="onFileChange($event)"
-    class="form-control"
-    type="file"
-    id="formFile"
-  />
-  <button (click)="upload()" type="button" class="btn btn-primary mt-3">
-    Hochladen
-  </button>
+  <div>
+    <label for="formFile" class="form-label">Datei hochladen</label>
+    <input
+      (change)="onFileChange($event)"
+      class="form-control"
+      type="file"
+      id="formFile"
+    />
+    <button (click)="upload()">
+      Hochladen
+    </button>
+  </div>
+
+  <div *ngIf="fileUploadSuccessful">
+  <button (click)="prettyprintImportedData=!prettyprintImportedData">JSON foramtieren</button>
+   <table>
+     <tr>
+       <th>Schlüssel</th>
+       <th>Wert</th>
+     </tr>
+    <tr *ngFor="let key of importedDataKeys">
+      <td>{{key}}</td>
+      <td *ngIf="prettyprintImportedData" [innerHTML]="importedData[key] | prettyprint"></td>
+      <td *ngIf="!prettyprintImportedData" [innerHTML]="importedData[key] | json"></td>
+    </tr>
+   </table>
+  </div>
 </div>
+

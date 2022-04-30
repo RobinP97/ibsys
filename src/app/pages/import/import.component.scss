@@ -1,0 +1,27 @@
+table {
+    border-collapse: separate;
+    width: 100%;
+    border-spacing: 0 16px;
+}
+
+tr > th {
+    background-color: rgba(252, 252, 252, 0.4);
+    font-size: 2em;
+    text-align: left;
+}
+
+td {
+    border-bottom: 1px dotted black;
+    border-top: 1px dotted black;
+}
+
+tr:hover { 
+    background-color: rgba(150, 212, 212, 0.4); 
+}
+
+div {
+    margin-bottom: 24px;
+}
+
+
+  

@@ -1,6 +1,7 @@
 export interface cycletimes {
   startedorders: number;
   waitingorders: number;
+  // Vorschlag: Separates interface
   order: {
     id: number;
     period: number;

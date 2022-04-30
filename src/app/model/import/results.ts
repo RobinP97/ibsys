@@ -4,7 +4,7 @@ import { forecast } from './forecast';
 import { futureinwardstockmovement } from './futureinwardstockmovement';
 import { idletimecosts } from './idletimecosts';
 import { inwardstockmovement } from './inwardstockmovement';
-import { ordersinwork } from './ordersinwork';
+import { orderinwork } from './orderinwork';
 import { result } from './result';
 import { waitingliststock } from './waitingliststock';
 import { waitinglistworkstations } from './waitinglistworkstations';
@@ -16,12 +16,17 @@ export interface Results {
   period: number;
   forecasts: forecast;
   warehousestock: warehousestock;
+  //Vorschlag ohne Zwischenklasse: inwardstockmovement[]
   inwardstockmovement: inwardstockmovement;
+  //Vorschlag ohne Zwischenklasse: futureinwardstockmovement[]
   futureinwardstockmovement: futureinwardstockmovement;
   idletimecosts: idletimecosts;
+  //Vorschlag ohne Zwischenklasse: workplacewaitinglistworkstation[]
   waitinglistworkstations: waitinglistworkstations;
+  //Vorschlag ohne Zwischenklasse:  missingpart[]
   waitingliststock: waitingliststock;
-  ordersinwork: ordersinwork;
+  ordersinwork: orderinwork[];
+  //Vorschlag ohne Zwischenklasse:  completedorder[]
   completedorders: completedorders;
   cycletimes: cycletimes;
   result: result;

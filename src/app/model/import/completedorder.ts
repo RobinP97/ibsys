@@ -5,6 +5,7 @@ export interface completedorder {
   quantity: number;
   cost: number;
   averageunitcosts: number;
+  // Vorschlag: separates interface
   batch: {
     id: number;
     amount: number;

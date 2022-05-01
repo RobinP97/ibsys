@@ -1,4 +1,4 @@
-export interface cycletimes {
+export interface Cycletimes {
   startedorders: number;
   waitingorders: number;
   // Vorschlag: Separates interface

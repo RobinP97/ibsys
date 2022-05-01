@@ -1,7 +1,7 @@
-import { workplaceidletimecosts } from './workplaceidletimecosts';
+import { WorkplaceIdletimeCosts } from './workplaceidletimecosts';
 
-export interface idletimecosts {
-  workplace: workplaceidletimecosts[];
+export interface IdleTimeCosts {
+  workplace: WorkplaceIdletimeCosts[];
   sum: {
     setupevents: number;
     idletime: number;

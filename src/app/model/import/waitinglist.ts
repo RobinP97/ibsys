@@ -1,4 +1,4 @@
-export interface waitinglist {
+export interface WaitingListEntry {
   period: number;
   order: number;
   firstbatch: number;

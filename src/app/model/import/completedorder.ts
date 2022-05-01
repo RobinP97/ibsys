@@ -1,4 +1,4 @@
-export interface completedorder {
+export interface CompletedOrder {
   period: number;
   id: number;
   item: number;

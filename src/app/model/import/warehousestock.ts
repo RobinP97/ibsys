@@ -1,6 +1,6 @@
-import { article } from './article';
+import { Article } from './article';
 
-export interface warehousestock {
-  article: article[];
+export interface WarehouseStock {
+  article: Article[];
   totalstockvalue: number;
 }

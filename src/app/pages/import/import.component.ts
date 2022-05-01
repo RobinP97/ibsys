@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Article } from 'src/app/model/import/article';
+import { Clipboard } from '@angular/cdk/clipboard';
 import { CompletedOrder } from 'src/app/model/import/completedorder';
 import { Cycletimes } from 'src/app/model/import/cycletimes';
 import { Forecast } from 'src/app/model/import/forecast';
@@ -33,6 +34,7 @@ export class ImportComponent implements OnInit {
   parsedXml: any;
   readFileString: string;
   jsonToXmlString: string;
+  readEqualsParsed: boolean;
 
   importedDataKeys: string[] = [
     'game',
@@ -52,7 +54,7 @@ export class ImportComponent implements OnInit {
   ];
   prettyprintImportedData: boolean = false;
 
-  constructor(private readonly ioService: IoService) {}
+  constructor(private readonly ioService: IoService, private clipboard: Clipboard) {}
 
   ngOnInit(): void {
     console.log('');
@@ -569,7 +571,7 @@ export class ImportComponent implements OnInit {
   }
 
   testXmlTextEquality() {
-    return this.readFileString.length === this.jsonToXmlString.length;
+    this.readEqualsParsed = this.readFileString.length === this.jsonToXmlString.length;
   }
 
   findFirstDifference(a: string, b: string) {
@@ -588,4 +590,8 @@ export class ImportComponent implements OnInit {
       });
     };      
   }
+
+  copyText(textToCopy: string) {
+    this.clipboard.copy(textToCopy);
+}
 }

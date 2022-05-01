@@ -1,7 +1,7 @@
-import { waitinglist } from './waitinglist';
+import { WaitingListEntry } from './waitinglist';
 
-export interface workplacewaitinglistworkstation {
+export interface WorkplaceWaitingListWorkstation {
   id: number;
   timeneed: number;
-  waitinglist: waitinglist[];
+  waitinglist: WaitingListEntry[];
 }

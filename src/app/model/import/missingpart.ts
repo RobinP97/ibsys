@@ -1,7 +1,6 @@
-import { waitinglistworkstations } from './waitinglistworkstations';
-import { workplacewaitinglistworkstation } from './workplaceWaitingListWorkstations';
+import { WorkplaceWaitingListWorkstation } from './workplaceWaitingListWorkstations';
 
-export interface missingpart {
+export interface MissingPart {
   id: number;
-  workplace: workplacewaitinglistworkstation;
+  workplace: WorkplaceWaitingListWorkstation;
 }

@@ -1,4 +1,4 @@
-export interface result {
+export interface Result {
   general: {
     capacity: {
       current: number;

@@ -1,4 +1,4 @@
-export interface orderinwardstockmovement {
+export interface OrderInwardStockMovement {
   orderperiod: number;
   id: number;
   mode: number;

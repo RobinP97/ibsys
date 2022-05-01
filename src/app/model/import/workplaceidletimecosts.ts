@@ -1,4 +1,4 @@
-export interface workplaceidletimecosts {
+export interface WorkplaceIdletimeCosts {
   id: number;
   setupevents: number;
   idletime: number;

@@ -1,4 +1,4 @@
-export interface article {
+export interface Article {
   id: number;
   amount: number;
   startamount: number;

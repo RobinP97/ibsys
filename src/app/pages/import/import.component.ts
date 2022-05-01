@@ -4,12 +4,13 @@ import { Article } from 'src/app/model/import/article';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { CompletedOrder } from 'src/app/model/import/completedorder';
 import { Cycletimes } from 'src/app/model/import/cycletimes';
+import { DataService } from 'src/app/service/data.service';
 import { Forecast } from 'src/app/model/import/forecast';
 import { IdleTimeCosts } from 'src/app/model/import/idletimecosts';
 import { IoService } from 'src/app/service/io.service';
 import { MissingPart } from 'src/app/model/import/missingpart';
+import { OrderInWork } from 'src/app/model/import/orderinwork';
 import { OrderInwardStockMovement } from 'src/app/model/import/orderinwardstockmovement';
-import { OrderInwork } from 'src/app/model/import/orderinwork';
 import { Result } from 'src/app/model/import/result';
 import { Results } from 'src/app/model/import/results';
 import { WaitingListEntry } from 'src/app/model/import/waitinglist';
@@ -55,7 +56,8 @@ export class ImportComponent implements OnInit {
 
   constructor(
     private readonly ioService: IoService,
-    private clipboard: Clipboard
+    private clipboard: Clipboard,
+    private readonly dataSerivce: DataService
   ) {}
 
   ngOnInit(): void {
@@ -138,27 +140,29 @@ export class ImportComponent implements OnInit {
 
   loadGame(): number {
     const game: number = parseInt(this.parsedXml.results.attr.game);
-    console.log('game', game);
+    this.dataSerivce.setGame(game);
 
     return game;
   }
 
   loadPeriod(): number {
     const period: number = parseInt(this.parsedXml.results.attr.period);
-    console.log('period', period);
+    this.dataSerivce.setPeriod(period);
+
     return period;
   }
 
   loadGroup(): number {
     const group: number = parseInt(this.parsedXml.results.attr.group);
-    console.log('group', group);
+    this.dataSerivce.setGroup(group);
+
     return group;
   }
 
   loadForecast(): Forecast {
     const forecastInput = this.parsedXml.results.forecast[0].attr;
     const forecast: Forecast = this.createForecast(forecastInput);
-    console.log('forecast', forecast);
+    this.dataSerivce.setForecast(forecast);
 
     return forecast;
   }
@@ -174,7 +178,7 @@ export class ImportComponent implements OnInit {
       article: articles,
       totalstockvalue: totalStockValue,
     };
-    console.log('warehousestock', warehouseStock);
+    this.dataSerivce.setWarehouseStock(warehouseStock);
 
     return warehouseStock;
   }
@@ -189,7 +193,7 @@ export class ImportComponent implements OnInit {
       inwardStockMovementInput.order.map((element) =>
         this.createOrder(element)
       );
-    console.log('inwardstockmovement', orders);
+    this.dataSerivce.setInwardStockMovement(orders);
 
     return orders;
   }
@@ -204,7 +208,7 @@ export class ImportComponent implements OnInit {
       futureInwardStockMovementInput.order.map((element) =>
         this.createOrder(element)
       );
-    console.log('futureinwardstockmovement', orders);
+    this.dataSerivce.setFutureInwardStockMovement(orders);
 
     return orders;
   }
@@ -225,7 +229,7 @@ export class ImportComponent implements OnInit {
       workplace: idletimeCostsWorkplaces,
       sum: sum,
     };
-    console.log('idletimecosts', idleTimeCosts);
+    this.dataSerivce.setIdleTimeCosts(idleTimeCosts);
 
     return idleTimeCosts;
   }
@@ -240,8 +244,7 @@ export class ImportComponent implements OnInit {
       waitinglistworkstationsInput.workplace.map((element) =>
         this.createWorkplaceWaitingListStation(element)
       );
-
-    console.log('waitinglistworkstations', waitingListWorkplaces);
+    this.dataSerivce.setWaitingListWorkstations(waitingListWorkplaces);
 
     return waitingListWorkplaces;
   }
@@ -251,24 +254,23 @@ export class ImportComponent implements OnInit {
     // Check: gibt es überhaupt Material in der Warteschlange? Wenn nein, dann wurde <waitingliststock/> als "" geparst
     if (typeof waitingListStockInput === 'string') return undefined;
 
-    const missingParts: MissingPart[] = waitingListStockInput.missingpart
-      // .filter((element) => element)
-      .map((element) => this.createMissingPart(element));
-
-    console.log('waitingliststock', missingParts);
+    const missingParts: MissingPart[] = waitingListStockInput.missingpart.map(
+      (element) => this.createMissingPart(element)
+    );
+    this.dataSerivce.setWaitingListStock(missingParts);
 
     return missingParts;
   }
 
-  loadOrdersInWork(): OrderInwork[] {
+  loadOrdersInWork(): OrderInWork[] {
     const ordersInWorkInput = this.parsedXml.results.ordersinwork[0];
     // Check: gibt es überhaupt Aufträge in der Warteschlange, die gerade bearbeitet werden?
     if (typeof ordersInWorkInput === 'string') return undefined;
 
-    const ordersInWork: OrderInwork[] = ordersInWorkInput.workplace.map(
+    const ordersInWork: OrderInWork[] = ordersInWorkInput.workplace.map(
       (element) => this.createOrderInWork(element)
     );
-    console.log('ordersinwork', ordersInWork);
+    this.dataSerivce.setOrdersInWork(ordersInWork);
 
     return ordersInWork;
   }
@@ -281,8 +283,7 @@ export class ImportComponent implements OnInit {
     const completedOrders: CompletedOrder[] = completeOrdersInput.order.map(
       (element) => this.createCompletedOrder(element)
     );
-
-    console.log('completedorders', completedOrders);
+    this.dataSerivce.setCompletedOrders(completedOrders);
 
     return completedOrders;
   }
@@ -292,7 +293,7 @@ export class ImportComponent implements OnInit {
     //TODO: was wenn der Tag leer ist?
 
     const cycleTimes: Cycletimes = this.createCycletimes(cycleTimesInput);
-    console.log('cycletimes', cycleTimes);
+    this.dataSerivce.setCycleTimes(cycleTimes);
 
     return cycleTimes;
   }
@@ -306,7 +307,7 @@ export class ImportComponent implements OnInit {
     const marketplaceSaleInput = resultInput.marketplacesale[0];
     const summaryInput = resultInput.summary[0];
 
-    const results: Result = {
+    const result: Result = {
       general: {
         capacity: generalInput.capacity[0].attr,
         possiblecapacity: generalInput.possiblecapacity[0].attr,
@@ -342,9 +343,9 @@ export class ImportComponent implements OnInit {
         profit: summaryInput.profit[0].attr,
       },
     };
-    console.log('results', results);
+    this.dataSerivce.setResults(result);
 
-    return results;
+    return result;
   }
 
   //-----------------------------------------------------------------------
@@ -432,7 +433,7 @@ export class ImportComponent implements OnInit {
     };
   }
 
-  createOrderInWork(elemet: any): OrderInwork {
+  createOrderInWork(elemet: any): OrderInWork {
     return {
       id: elemet.attr.id,
       period: elemet.attr.period,

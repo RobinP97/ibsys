@@ -34,13 +34,13 @@
   <button (click)="prettyprintImportedData=!prettyprintImportedData">{{ "import.formatJSON" | translate }}</button>
    <table>
      <tr>
-       <th>{{ "import.key" | translate }}</th>
-       <th>{{ "import.value" | translate }}</th>
+       <th class="json-overview-col-1">{{ "import.key" | translate }}</th>
+       <th class="json-overview-col-2">{{ "import.value" | translate }}</th>
      </tr>
     <tr *ngFor="let key of importedDataKeys">
-      <td>{{key}}</td>
-      <td *ngIf="prettyprintImportedData" [innerHTML]="importedData[key] | prettyprint"></td>
-      <td *ngIf="!prettyprintImportedData" [innerHTML]="importedData[key] | json"></td>
+      <td class="json-overview-col-1">{{key}}</td>
+      <td class="json-overview-col-2" *ngIf="prettyprintImportedData" [innerHTML]="importedData[key] | prettyprint"></td>
+      <td class="json-overview-col-2" *ngIf="!prettyprintImportedData" [innerHTML]="importedData[key] | json"></td>
     </tr>
    </table>
   </div>

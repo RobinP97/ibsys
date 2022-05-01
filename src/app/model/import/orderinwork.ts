@@ -1,4 +1,4 @@
-export interface OrderInwork {
+export interface OrderInWork {
   id: number;
   period: number;
   order: number;

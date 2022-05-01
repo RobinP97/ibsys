@@ -21,7 +21,7 @@ export interface Results {
   waitinglistworkstations: WorkplaceWaitingListWorkstation[];
   waitingliststock: MissingPart[];
   ordersinwork: OrderInwork[];
-  completedorders:  CompletedOrder[];
+  completedorders: CompletedOrder[];
   cycletimes: Cycletimes;
   result: Result;
 }

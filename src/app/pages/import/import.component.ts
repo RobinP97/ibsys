@@ -24,7 +24,6 @@ import { WorkplaceWaitingListWorkstation } from 'src/app/model/import/workplaceW
 })
 export class ImportComponent implements OnInit {
   importedData: Results;
-  
 
   fileUploadSuccessful: boolean;
   xmlParsingSuccessful: boolean;
@@ -54,7 +53,10 @@ export class ImportComponent implements OnInit {
   ];
   prettyprintImportedData: boolean = false;
 
-  constructor(private readonly ioService: IoService, private clipboard: Clipboard) {}
+  constructor(
+    private readonly ioService: IoService,
+    private clipboard: Clipboard
+  ) {}
 
   ngOnInit(): void {
     console.log('');
@@ -87,12 +89,12 @@ export class ImportComponent implements OnInit {
       this.readFileString = reader.result.toString();
 
       this.parsedXml = this.ioService.parseXml(reader.result);
-      console.log('Reader', reader.result);  
+      console.log('Reader', reader.result);
       this.xmlParsingSuccessful = this.parsedXml !== undefined;
 
       if (this.xmlParsingSuccessful) this.loadData();
       if (this.fileUploadSuccessful) this.jsonToXmlString = this.jsonToXml();
-      
+
       //TODO: Else Fall: Fehlerbehandlung
     });
 
@@ -183,7 +185,10 @@ export class ImportComponent implements OnInit {
     // Check: gabe es in der letzen Periode überhaupt Materialeingänge?
     if (typeof inwardStockMovementInput === 'string') return undefined;
 
-    const orders: OrderInwardStockMovement[] = inwardStockMovementInput.order.map((element) => this.createOrder(element));
+    const orders: OrderInwardStockMovement[] =
+      inwardStockMovementInput.order.map((element) =>
+        this.createOrder(element)
+      );
     console.log('inwardstockmovement', orders);
 
     return orders;
@@ -273,8 +278,8 @@ export class ImportComponent implements OnInit {
     // Check: wurden in der letzen Periode überhaupt Aufträge abgeschlossen?
     if (typeof completeOrdersInput === 'string') return undefined;
 
-    const completedOrders: CompletedOrder[] = completeOrdersInput.order.map((element) =>
-      this.createCompletedOrder(element)
+    const completedOrders: CompletedOrder[] = completeOrdersInput.order.map(
+      (element) => this.createCompletedOrder(element)
     );
 
     console.log('completedorders', completedOrders);
@@ -470,7 +475,7 @@ export class ImportComponent implements OnInit {
       ['waitinglistworkstations', 'workplace'],
       ['waitingliststock', 'missingpart'],
       ['ordersinwork', 'workplace'],
-      ['completedorders', 'order']
+      ['completedorders', 'order'],
     ]);
     const emptyTags = [
       'forecast',
@@ -486,13 +491,23 @@ export class ImportComponent implements OnInit {
       'result',
     ];
     let tag = '<?xml version="1.0" encoding="UTF-8"?>\r\n';
-    tag += this.parseProperty( this.importedData, 'results', tagHelper, emptyTags);
+    tag += this.parseProperty(
+      this.importedData,
+      'results',
+      tagHelper,
+      emptyTags
+    );
     return tag;
   }
 
-
-  parseProperty(object: any, tagname: string, tagHelper: Map<string, string>, emptyTags: string[]) {   
-    if (object === undefined || Object.keys(object).length === 0) return `<${tagname}/>`;// opt: Zeilenumbruch
+  parseProperty(
+    object: any,
+    tagname: string,
+    tagHelper: Map<string, string>,
+    emptyTags: string[]
+  ) {
+    if (object === undefined || Object.keys(object).length === 0)
+      return `<${tagname}/>`; // opt: Zeilenumbruch
     let tag = `<${tagname}`;
     let subObjectKeys: string[] = [];
     // Attribute
@@ -501,7 +516,7 @@ export class ImportComponent implements OnInit {
       if (value === undefined) {
         if (emptyTags.includes(key)) subObjectKeys.push(key);
         continue;
-      } 
+      }
       // Spezialfall
       let isAttribute = typeof value !== 'object';
       if (key === 'totalstockvalue') {
@@ -514,69 +529,74 @@ export class ImportComponent implements OnInit {
         subObjectKeys.push(key);
       }
     }
-    
+
     // geschachtelte Tags
     if (subObjectKeys.length > 0) {
-      tag += ">";//
+      tag += '>'; //
       for (let key of subObjectKeys) {
         let value = object[key];
         // Spezialfall
         if (key === 'totalstockvalue') {
-          tag += `<totalstockvalue>${value}</totalstockvalue>`// opt: Zeilenumbruch
+          tag += `<totalstockvalue>${value}</totalstockvalue>`; // opt: Zeilenumbruch
           continue;
-        }      
+        }
         if (tagHelper.has(key)) {
           if (value !== undefined) {
             tag += `<${key}>`;
             for (let entry of value) {
-              tag += this.parseProperty(entry, tagHelper.get(key), tagHelper, emptyTags);
+              tag += this.parseProperty(
+                entry,
+                tagHelper.get(key),
+                tagHelper,
+                emptyTags
+              );
             }
             tag += `</${key}>`;
           } else {
             tag += `<${key}/>`;
           }
         } else {
-          value = Array.isArray(value) ? value : [value]
+          value = Array.isArray(value) ? value : [value];
           for (let entry of value) {
             tag += this.parseProperty(entry, key, tagHelper, emptyTags);
           }
         }
       }
-      tag += `</${tagname}>`;// opt: Zeilenumbruch
+      tag += `</${tagname}>`; // opt: Zeilenumbruch
     } else {
-      tag += "/>";// opt: Zeilenumbruch
+      tag += '/>'; // opt: Zeilenumbruch
     }
     return tag;
   }
 
   testXmlTextEquality() {
-    this.readEqualsParsed = this.readFileString.length === this.jsonToXmlString.length;
+    this.readEqualsParsed =
+      this.readFileString.length === this.jsonToXmlString.length;
   }
 
   findFirstDifference(a: string, b: string) {
     return (a, b) => {
-        a = [...a];
-        b = [...b];
-        return b.find((char, i) => {
+      a = [...a];
+      b = [...b];
+      return b.find((char, i) => {
         // console.log(i, 'char', `"${char}"` , `"${a[i]}"`);
         return {
           pos: i,
-          difference : {
+          difference: {
             a: a[i],
             b: char,
-          }
+          },
         };
       });
-    };      
+    };
   }
 
   copyText(textToCopy: string) {
     return this.clipboard.copy(textToCopy);
   }
-  
+
   copyLongText(textToCopy: string) {
-    const pending = 
-            this.clipboard.beginCopy(textToCopy);
+    const pending = this.clipboard.beginCopy(textToCopy);
     let remainingAttempts = 3;
     const attempt = () => {
       const result = pending.copy();

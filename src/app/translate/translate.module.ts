@@ -1,13 +1,12 @@
-import { NgModule } from '@angular/core';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http,
-    './assets/i18n/',
-    '.json');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
@@ -26,4 +25,4 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   exports: [TranslateModule],
 })
-export class NgxTranslateModule { }
+export class NgxTranslateModule {}

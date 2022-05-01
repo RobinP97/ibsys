@@ -14,7 +14,7 @@ export class NavBarComponent {
     { code: 'de', label: 'Deutsch' },
   ];
 
-  constructor(private translate: TranslateService) { }
+  constructor(private translate: TranslateService) {}
 
   changeSiteLanguage(localeCode: string): void {
     const selectedLanguage = this.languageList

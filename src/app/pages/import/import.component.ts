@@ -91,7 +91,7 @@ export class ImportComponent implements OnInit {
       this.readFileString = reader.result.toString();
 
       this.parsedXml = this.ioService.parseXml(reader.result);
-      console.log('Reader', reader.result);
+      // console.log('Reader', reader.result);
       this.xmlParsingSuccessful = this.parsedXml !== undefined;
 
       if (this.xmlParsingSuccessful) this.loadData();
@@ -572,24 +572,15 @@ export class ImportComponent implements OnInit {
 
   testXmlTextEquality() {
     this.readEqualsParsed =
-      this.readFileString.length === this.jsonToXmlString.length;
+      this.readFileString.length === this.jsonToXmlString.length &&
+      this.findFirstDifference(this.readFileString, this.jsonToXmlString) ===
+        undefined;
   }
 
   findFirstDifference(a: string, b: string) {
-    return (a, b) => {
-      a = [...a];
-      b = [...b];
-      return b.find((char, i) => {
-        // console.log(i, 'char', `"${char}"` , `"${a[i]}"`);
-        return {
-          pos: i,
-          difference: {
-            a: a[i],
-            b: char,
-          },
-        };
-      });
-    };
+    const arr1 = [...a];
+    const arr2 = [...b];
+    return arr2.find((char, i) => arr1[i] !== char);
   }
 
   copyText(textToCopy: string) {

@@ -66,6 +66,10 @@ export class ImportComponent implements OnInit {
     this.fileUploadSuccessful = false;
     this.xmlParsingSuccessful = false;
     this.readFileSuccesful = false;
+    this.readEqualsParsed = undefined;
+    this.parsedXml = undefined;
+    this.readFileString = undefined;
+    this.jsonToXmlString = undefined;
 
     console.log('file', event.target);
     this.file = event.target.files[0];
@@ -87,8 +91,8 @@ export class ImportComponent implements OnInit {
       this.xmlParsingSuccessful = this.parsedXml !== undefined;
 
       if (this.xmlParsingSuccessful) this.loadData();
-      if (this.fileUploadSuccessful) console.log('Result', reader.result.toString().length, this.jsonToXml().length);
-  
+      if (this.fileUploadSuccessful) this.jsonToXmlString = this.jsonToXml();
+      
       //TODO: Else Fall: Fehlerbehandlung
     });
 
@@ -459,23 +463,6 @@ export class ImportComponent implements OnInit {
   // validierung: json to xml
   //-----------------------------------------------------------------------
   jsonToXml(): string {
-    // Wenn property vom type string oder number, dann attribut
-    // Wenn property vom Type array, dann liste von tag
-    // Wenn property vom Type object, dann ein Tag
-    // let tag = `<results game="${this.importedData.game}" group="${this.importedData.group}" period="${this.importedData.period}">\n`
-    // const keys: string[] = [
-    //   'forecast',
-    //   'warehousestock',
-    //   'inwardstockmovement',
-    //   'futureinwardstockmovement',
-    //   'idletimecosts',
-    //   'waitinglistworkstations',
-    //   'waitingliststock',
-    //   'ordersinwork',
-    //   'completedorders',
-    //   'cycletimes',
-    //   'result',
-    // ];
     const tagHelper = new Map([
       ['ordersinwork', 'workplace'],
       ['inwardstockmovement', 'order'],
@@ -498,16 +485,8 @@ export class ImportComponent implements OnInit {
       'cycletimes',
       'result',
     ];
-    // for (let key of keys) {
-    //   console.log('import key:', key);      
-    //   tag +=  this.parseProperty(this.importedData[key], key, tagHelper);
-    //   console.log('done with key', key);
-    // }
-    // tag +=  this.parseProperty(this.importedData.ordersinwork, 'ordersinwork', tagHelper);
-    // tag += '</results>';
     let tag = '<?xml version="1.0" encoding="UTF-8"?>\r\n';
     tag += this.parseProperty( this.importedData, 'results', tagHelper, emptyTags);
-    console.log('jsonToXml', tag);
     return tag;
   }
 
@@ -592,6 +571,21 @@ export class ImportComponent implements OnInit {
   }
 
   copyText(textToCopy: string) {
-    this.clipboard.copy(textToCopy);
-}
+    return this.clipboard.copy(textToCopy);
+  }
+  
+  copyLongText(textToCopy: string) {
+    const pending = 
+            this.clipboard.beginCopy(textToCopy);
+    let remainingAttempts = 3;
+    const attempt = () => {
+      const result = pending.copy();
+      if (!result && --remainingAttempts) {
+        setTimeout(attempt);
+      } else {
+        pending.destroy();
+      }
+    };
+    attempt();
+  }
 }

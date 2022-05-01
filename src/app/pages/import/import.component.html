@@ -1,23 +1,20 @@
-<div>
+<div class="importField">
   <div>
-    <label for="formFile" class="form-label">Datei hochladen</label>
-    <input
-      (change)="onFileChange($event)"
-      class="form-control"
-      type="file"
-      id="formFile"
-    />
-    <button (click)="upload()">
-      Hochladen
+    <label for="formFile" class="form-label">{{ "import.fileupload" | translate }}</label>
+    <label class="btn btn-primary">
+      <i class="fa fa-image"></i>{{ "import.selectFile" | translate }}<input type="file"  id="formFile" class="form-control" style="display: none;" name="image" (change)="onFileChange($event)">
+    </label>
+    <button (click)="upload()" class="btn btn-primary">
+      {{ "import.upload" | translate }}
     </button>
   </div>
 
   <div *ngIf="fileUploadSuccessful">
-  <button (click)="prettyprintImportedData=!prettyprintImportedData">JSON formatieren</button>
+  <button (click)="prettyprintImportedData=!prettyprintImportedData">{{ "import.formatJSON" | translate }}</button>
    <table>
      <tr>
-       <th>Schlüssel</th>
-       <th>Wert</th>
+       <th>{{ "import.key" | translate }}</th>
+       <th>{{ "import.value" | translate }}</th>
      </tr>
     <tr *ngFor="let key of importedDataKeys">
       <td>{{key}}</td>

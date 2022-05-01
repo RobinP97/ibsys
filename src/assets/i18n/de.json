@@ -1,0 +1,10 @@
+{
+    "import": {
+        "fileupload": "Datei hochladen",
+        "upload" : "hochladen",
+        "formatJSON": "JSON formatieren",
+        "key": "Schlüssel",
+        "value": "Wert",
+        "selectFile": "Datei auswählen"
+      }
+}

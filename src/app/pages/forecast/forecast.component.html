@@ -1,0 +1,74 @@
+<table>
+    <tr>
+        <th>
+
+        </th>
+        <th>
+            {{ "P" + this.period }}
+        </th>
+        <th>
+            {{ "P" + (period+1) }}
+        </th>
+        <th>
+            {{ "P" + (period+2) }}
+        </th>
+        <th>
+            {{ "P" + (period+3) }}
+        </th>
+    </tr>
+    <tr>
+        {{ '' // Product 1 }}
+        <td>
+            P1
+        </td>
+        <td>
+            <input matInput class="md-table" type="number" [(ngModel)]="forecastP1.p1"/> 
+        </td>
+        <td>
+            <input matInput class="md-table" type="number" [(ngModel)]="forecastP2.p1"/> 
+        </td>
+        <td>
+            <input matInput class="md-table" type="number" [(ngModel)]="forecastP3.p1"/> 
+        </td>
+        <td>
+            <input matInput class="md-table" type="number" [(ngModel)]="forecastP4.p1"/> 
+        </td>
+    </tr>
+    <tr>
+        {{ '' // Product 2 }}
+        <td>
+            P2
+        </td>
+        <td>            
+            <input matInput class="md-table" type="number" [(ngModel)]="forecastP1.p2"/> 
+        </td>
+        <td>
+            <input matInput class="md-table" type="number" [(ngModel)]="forecastP2.p2"/> 
+        </td>
+        <td>            
+            <input matInput class="md-table" type="number" [(ngModel)]="forecastP3.p2"/> 
+        </td>
+        <td>            
+            <input matInput class="md-table" type="number" [(ngModel)]="forecastP4.p2"/> 
+        </td>
+    </tr>
+    <tr>
+        
+        {{ '' // Product 3 }}
+        <td>
+            P3
+        </td>
+        <td>
+            <input matInput class="md-table" type="number" [(ngModel)]="forecastP1.p3"/> 
+        </td>
+        <td>
+            <input matInput class="md-table" type="number" [(ngModel)]="forecastP2.p3"/> 
+        </td>
+        <td>            
+            <input matInput class="md-table" type="number" [(ngModel)]="forecastP3.p3"/> 
+        </td>        
+        <td>
+            <input matInput class="md-table" type="number" [(ngModel)]="forecastP4.p3"/> 
+        </td>
+    </tr>
+</table>

@@ -17,6 +17,7 @@ import { NavBarComponent } from './pages/nav-bar/nav-bar.component';
 import { NgModule } from '@angular/core';
 import { NgxTranslateModule } from './translate/translate.module';
 import { PrettyPrintPipe } from './pipes/prettyprint.pipe';
+import { ForecastComponent } from './pages/forecast/forecast.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { PrettyPrintPipe } from './pipes/prettyprint.pipe';
     ImportComponent,
     PrettyPrintPipe,
     NavBarComponent,
+    ForecastComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,1 +1,1 @@
-results.ts
+geplante Forecast aus der Componente speichern lassen

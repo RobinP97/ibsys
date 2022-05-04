@@ -28,7 +28,7 @@ export class ForecastComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.period = 1;
+    this.period = 0;
     dataSerivce.period$.subscribe({
       next: (v) => (this.period = v),
     });

@@ -47,9 +47,9 @@ export class IoService {
     // NICHT isNaN(value), da "4-4-4-4"='true' ergibt und damit geparst werden (z.B, 4-4-4-4 ergibt 4)
     if (numRegex.test(value)) {
       // parseFloat() erwartet Zahlenformat #####.## - Komma ersetzen
-      toParse = toParse.replace(',', '.');
+      toParse = value.replace(',', '.');
       toParse = toParse.includes('.')
-        ? parseFloat(toParse).toFixed(2)
+        ? parseFloat(toParse)
         : parseInt(toParse, 10);
     }
     return toParse;

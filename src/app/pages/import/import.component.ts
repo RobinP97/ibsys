@@ -142,21 +142,21 @@ export class ImportComponent implements OnInit {
   }
 
   loadGame(): number {
-    const game: number = parseInt(this.parsedXml.results.attr.game);
+    const game: number = this.parsedXml.results.attr.game;
     this.dataSerivce.setGame(game);
 
     return game;
   }
 
   loadPeriod(): number {
-    const period: number = parseInt(this.parsedXml.results.attr.period);
+    const period: number = this.parsedXml.results.attr.period;
     this.dataSerivce.setPeriod(period);
 
     return period;
   }
 
   loadGroup(): number {
-    const group: number = parseInt(this.parsedXml.results.attr.group);
+    const group: number = this.parsedXml.results.attr.group;
     this.dataSerivce.setGroup(group);
 
     return group;

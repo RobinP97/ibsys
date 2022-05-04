@@ -1,0 +1,18 @@
+export const localStorageKeys = {
+  FORECASTS: 'forecasts',
+  MANDATORYORDERS: 'mandatoryorders',
+  GAME: 'game',
+  GROUP: 'group',
+  PERIOD: 'period',
+  FORECAST: 'forecast',
+  WAREHOUSESTOCK: 'warehousestock',
+  INWARDSTOCKMOVEMENT: 'inwardstockmovement',
+  FUTUREINWARDSTOCKMOVEMENT: 'futureinwardstockmovement',
+  IDLETIMECOSTS: 'idletimecosts',
+  WAITINGLISTWORKSTATIONS: 'waitinglistworkstations',
+  WAITINGLISTSTOCK: 'waitingliststock',
+  ORDERSINWORK: 'ordersinwork',
+  COMPLETEDORDERS: 'completedorders',
+  CYCLETIMES: 'cycletimes',
+  RESULT: 'result',
+};

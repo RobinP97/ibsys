@@ -117,12 +117,15 @@ export class ImportComponent implements OnInit {
   // am besten über Subject, die abonniert werden können (Änderungen werden dann an alle Subscriber weitergeleitet - sehr wichtig!)
   // in dem Sinne benötigt man das Restults Interface gar nicht
   loadData(): void {
+    this.dataSerivce.resetData();
+    console.log('Clear local storage');
+
     // TODO: Fehler wenn this.inputData === undefined
     this.importedData = {
       game: this.loadGame(),
       group: this.loadGroup(),
       period: this.loadPeriod(),
-      forecast: this.loadForecast(),
+      forecast: this.loadMandatoryOrders(),
       warehousestock: this.loadWarehouseStock(),
       inwardstockmovement: this.loadInwardStockMovement(),
       futureinwardstockmovement: this.loadFutureInwardStockMovement(),
@@ -159,12 +162,12 @@ export class ImportComponent implements OnInit {
     return group;
   }
 
-  loadForecast(): Forecast {
-    const forecastInput = this.parsedXml.results.forecast[0].attr;
-    const forecast: Forecast = this.createForecast(forecastInput);
-    this.dataSerivce.setForecast(forecast);
+  loadMandatoryOrders(): Forecast {
+    const mandatoryOrdersInput = this.parsedXml.results.forecast[0].attr;
+    const mandatoryOrders: Forecast = this.createForecast(mandatoryOrdersInput);
+    this.dataSerivce.setMandatoryOrders(mandatoryOrders);
 
-    return forecast;
+    return mandatoryOrders;
   }
 
   loadWarehouseStock(): WarehouseStock {
@@ -479,7 +482,7 @@ export class ImportComponent implements OnInit {
       ['completedorders', 'order'],
     ]);
     const emptyTags = [
-      'forecast',
+      'mandatoryOrders',
       'warehousestock',
       'inwardstockmovement',
       'futureinwardstockmovement',

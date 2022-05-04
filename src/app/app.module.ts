@@ -3,6 +3,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ForecastComponent } from './pages/forecast/forecast.component';
 import { FormsModule } from '@angular/forms';
 import { ImportComponent } from './pages/import/import.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,7 +18,6 @@ import { NavBarComponent } from './pages/nav-bar/nav-bar.component';
 import { NgModule } from '@angular/core';
 import { NgxTranslateModule } from './translate/translate.module';
 import { PrettyPrintPipe } from './pipes/prettyprint.pipe';
-import { ForecastComponent } from './pages/forecast/forecast.component';
 
 @NgModule({
   declarations: [

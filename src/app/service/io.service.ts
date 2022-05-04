@@ -1,13 +1,13 @@
 import { Parser, ParserOptions } from 'xml2js';
 
 import { Injectable } from '@angular/core';
+import { parseNumbers } from 'xml2js/lib/processors';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IoService {
   constructor() {}
-
   // Doku unter: https://openbase.com/js/xml2js/documentation
   readonly xmlOptions: ParserOptions = {
     attrkey: 'attr', // (default: $): Prefix that is used to access the attributes.
@@ -19,9 +19,9 @@ export class IoService {
     //
     // Hooks für die Verarbietung der Attribtename/werte bzw Nodenamen/werte
     // attrNameProcessors : [ (name) => { console.log('NAME:', name); return name; }],
-    // attrValueProcessors : [ (name, value) => { console.log('NAME:', name, 'VALUE:', value); return name; }],
+    attrValueProcessors: [this.parseNumber], //[ (name, value) => { console.log('NAME:', name, 'VALUE:', value); return name; }],
     // tagNameProcessors : [ (name) => { console.log('TAGNAME:', name); return name; }],
-    // valueProcessors : [ (value, name) =>  { console.log("VALUE:", value, "NAME", name); return name; }]
+    valueProcessors: [this.parseNumber], // (value, name) =>  { console.log("VALUE:", value, "NAME", name); return name; }]
   };
 
   parseXml(xml: any): any {
@@ -39,5 +39,19 @@ export class IoService {
     console.log(parsedXml);
 
     return parsedXml;
+  }
+
+  parseNumber(value: any, name: any): any {
+    let toParse = value;
+    const numRegex: RegExp = new RegExp('^([0-9]+)(.[0-9]{1,2})?$');
+    // NICHT isNaN(value), da "4-4-4-4"='true' ergibt und damit geparst werden (z.B, 4-4-4-4 ergibt 4)
+    if (numRegex.test(value)) {
+      // parseFloat() erwartet Zahlenformat #####.## - Komma ersetzen
+      toParse = toParse.replace(',', '.');
+      toParse = toParse.includes('.')
+        ? parseFloat(toParse).toFixed(2)
+        : parseInt(toParse, 10);
+    }
+    return toParse;
   }
 }

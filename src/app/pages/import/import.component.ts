@@ -517,18 +517,21 @@ export class ImportComponent implements OnInit {
     // Attribute
     for (let key in object) {
       let value = object[key];
+      // Spezialfall - Kurzschreibweise </...>
       if (value === undefined) {
         if (emptyTags.includes(key)) subObjectKeys.push(key);
         continue;
       }
       // Spezialfall
-      let isAttribute = typeof value !== 'object';
       if (key === 'totalstockvalue') {
         subObjectKeys.push('totalstockvalue');
         continue;
       }
+      let isAttribute = typeof value !== 'object';
       if (isAttribute) {
-        tag += ` ${key}="${value}"`;
+        tag += ` ${key}="${
+          !Number.isNaN(value) ? value.toString().replace('.', ',') : value
+        }"`;
       } else {
         subObjectKeys.push(key);
       }
@@ -541,7 +544,9 @@ export class ImportComponent implements OnInit {
         let value = object[key];
         // Spezialfall
         if (key === 'totalstockvalue') {
-          tag += `<totalstockvalue>${value}</totalstockvalue>`; // opt: Zeilenumbruch
+          tag += `<totalstockvalue>${value
+            .toString()
+            .replace('.', ',')}</totalstockvalue>`; // opt: Zeilenumbruch
           continue;
         }
         if (tagHelper.has(key)) {

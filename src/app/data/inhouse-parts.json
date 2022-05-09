@@ -1,0 +1,689 @@
+{
+    "inhouse-parts": [
+        {
+            "partId": "1",
+            "category": "P",
+            "designation": "Kinderfahrrad",
+            "usage": [0,0,0],
+            "startPrice": 156.13,
+            "startAmount": 100,
+            "elements":[26,51],
+            "processingChain": [
+                {
+                   "workstationId": "4",
+                   "productionTime": 6,
+                   "setUpTime": 30 
+                }
+            ]
+        },
+        {
+            "partId": "2",
+            "category": "P",
+            "designation": "Damenfahrrad",
+            "usage":[0,0,0],
+            "startPrice": 163.33,
+            "startAmount": 100,
+            "elements":[26,56],
+            "processingChain":[
+                {
+                    "workstationId":"4",
+                    "productionTime": 7,
+                    "setUpTime": 20
+                }
+            ]
+        },
+        {
+            "partId":"3",
+            "category":"P",
+            "designation": "Herrenfahrrad",
+            "usage":[0,0,0],
+            "startPrice": 165.08,
+            "startAmount": 100,
+            "elements":[26,31],
+            "processingChain":[
+                {
+                    "workstationId":"4",
+                    "productionTime": 7,
+                    "setUpTime": 30
+                }
+            ]
+        },
+        {
+            "partId":"4",
+            "category":"E",
+            "designation": "Hinterradgruppe",
+            "usage":[1,0,0],
+            "startPrice": 40.85,
+            "startAmount": 100,
+            "elements":[],
+            "processingChain":[
+                {
+                    "workstationId":"10",
+                    "productionTime": 4,
+                    "setUpTime": 20
+                },
+                {
+                    "workstationId":"11",
+                    "productionTime": 3,
+                    "setUpTime": 10
+                }
+            ]
+        },
+        {
+            "partId":"5",
+            "category":"E",
+            "designation": "Hinterradgruppe",
+            "usage":[0,1,0],
+            "startPrice": 39.85,
+            "startAmount": 100,
+            "elements":[],
+            "processingChain":[
+                {
+                    "workstationId":"10",
+                    "productionTime": 4,
+                    "setUpTime": 20
+                },
+                {
+                    "workstationId":"11",
+                    "productionTime":3,
+                    "setUpTime":10
+                }
+            ]
+        },
+        {
+            "partId":"6",
+            "category":"E",
+            "designation": "Hinterradgruppe",
+            "usage":[0,0,1],
+            "startPrice": 40.85,
+            "startAmount": 100,
+            "elements":[],
+            "processingChain":[
+                {
+                    "workstationId":"10",
+                    "productionTime": 4,
+                    "setUpTime": 20
+                },
+                {
+                    "workstationId":"11",
+                    "productionTime": 3,
+                    "setUpTime": 10
+                }
+            ]
+        },
+        {
+            "partId":"7",
+            "category":"E",
+            "designation": "Vorderradgruppe",
+            "usage":[1,0,0],
+            "startPrice": 35.85,
+            "startAmount": 100,
+            "elements":[],
+            "processingChain":[
+                {
+                    "workstationId":"10",
+                    "productionTime": 4,
+                    "setUpTime": 20
+                },
+                {
+                    "workstationId":"11",
+                    "productionTime": 3,
+                    "setUpTime": 10
+                }
+            ]
+        },
+        {
+            "partId":"8",
+            "category":"E",
+            "designation": "Vorderradgruppe",
+            "usage":[0,1,0],
+            "startPrice": 35.85,
+            "startAmount": 100,
+            "elements":[],
+            "processingChain":[
+                {
+                    "workstationId":"10",
+                    "productionTime": 4,
+                    "setUpTime": 20
+                },
+                {
+                    "workstationId":"11",
+                    "productionTime": 3,
+                    "setUpTime": 10
+                }
+            ]
+        },
+        {
+            "partId":"9",
+            "category":"E",
+            "designation": "Vorderradgruppe",
+            "usage":[0,0,1],
+            "startPrice": 35.85,
+            "startAmount": 100,
+            "elements":[],
+            "processingChain":[
+                {
+                    "workstationId":"10",
+                    "productionTime": 4,
+                    "setUpTime": 20
+                },
+                {
+                    "workstationId":"11",
+                    "productionTime": 3,
+                    "setUpTime": 10
+                }
+            ]
+        },
+        {
+            "partId":"10",
+            "category":"E",
+            "designation": "Schutzblech h.",
+            "usage":[1,0,0],
+            "startPrice": 12.40,
+            "startAmount": 100,
+            "elements":[],
+            "processingChain":[
+                {
+                    "workstationId":"13",
+                    "productionTime": 2,
+                    "setUpTime": 0
+                },
+                {
+                    "workstationId":"12",
+                    "productionTime": 3,
+                    "setUpTime": 0
+                },
+                {
+                    "workstationId":"8",
+                    "productionTime": 1,
+                    "setUpTime": 15
+                },
+                {
+                    "workstationId":"7",
+                    "productionTime": 2,
+                    "setUpTime": 20
+                },
+                {
+                    "workstationId":"9",
+                    "productionTime": 3,
+                    "setUpTime": 15
+                }
+            ]
+        },
+        {
+            "partId":"11",
+            "category":"E",
+            "designation": "Schutzblech h.",
+            "usage":[0,1,0],
+            "startPrice": 14.65,
+            "startAmount": 100,
+            "elements":[],
+            "processingChain":[
+                {
+                    "workstationId":"13",
+                    "productionTime": 2,
+                    "setUpTime": 0
+                },
+                {
+                    "workstationId":"12",
+                    "productionTime": 3,
+                    "setUpTime": 0
+                },
+                {
+                    "workstationId":"8",
+                    "productionTime": 2,
+                    "setUpTime": 15
+                },
+                {
+                    "workstationId":"7",
+                    "productionTime": 2,
+                    "setUpTime": 20
+                },
+                {
+                    "workstationId":"9",
+                    "productionTime": 3,
+                    "setUpTime": 15
+                }
+            ]
+        },
+        {
+            "partId":"12",
+            "category":"E",
+            "designation": "Schutzblech h.",
+            "usage":[0,0,1],
+            "startPrice": 14.65,
+            "startAmount": 100,
+            "elements":[],
+            "processingChain":[
+                {
+                    "workstationId":"13",
+                    "productionTime": 2,
+                    "setUpTime": 0
+                },
+                {
+                    "workstationId":"12",
+                    "productionTime": 3,
+                    "setUpTime": 0
+                },
+                {
+                    "workstationId":"8",
+                    "productionTime": 2,
+                    "setUpTime": 15
+                },
+                {
+                    "workstationId":"7",
+                    "productionTime": 2,
+                    "setUpTime": 20
+                },
+                {
+                    "workstationId":"9",
+                    "productionTime": 3,
+                    "setUpTime": 15
+                }
+            ]
+        },
+        {
+            "partId":"13",
+            "category":"E",
+            "designation": "Schutzblech v.",
+            "usage":[1,0,0],
+            "startPrice": 12.40,
+            "startAmount": 100,
+            "elements":[],
+            "processingChain":[
+                {
+                    "workstationId":"13",
+                    "productionTime": 2,
+                    "setUpTime": 0
+                },
+                {
+                    "workstationId":"12",
+                    "productionTime": 3,
+                    "setUpTime": 0
+                },
+                {
+                    "workstationId":"8",
+                    "productionTime": 1,
+                    "setUpTime": 15
+                },
+                {
+                    "workstationId":"7",
+                    "productionTime": 2,
+                    "setUpTime": 20
+                },
+                {
+                    "workstationId":"9",
+                    "productionTime": 3,
+                    "setUpTime": 15
+                }
+            ]
+        },
+        {
+            "partId":"14",
+            "category":"E",
+            "designation": "Schutzblech v.",
+            "usage":[0,1,0],
+            "startPrice": 14.65,
+            "startAmount": 100,
+            "elements":[],
+            "processingChain":[
+                {
+                    "workstationId":"13",
+                    "productionTime": 2,
+                    "setUpTime": 0
+                },
+                {
+                    "workstationId":"12",
+                    "productionTime": 3,
+                    "setUpTime": 0
+                },
+                {
+                    "workstationId":"8",
+                    "productionTime": 2,
+                    "setUpTime": 15
+                },
+                {
+                    "workstationId":"7",
+                    "productionTime": 2,
+                    "setUpTime": 20
+                },
+                {
+                    "workstationId":"9",
+                    "productionTime": 3,
+                    "setUpTime": 15
+                }
+            ]
+        },
+        {
+            "partId":"15",
+            "category":"E",
+            "designation": "Schutzblech v.",
+            "usage":[0,0,1],
+            "startPrice": 14.65,
+            "startAmount": 100,
+            "elements":[],
+            "processingChain":[
+                {
+                    "workstationId":"13",
+                    "productionTime": 2,
+                    "setUpTime": 0
+                },
+                {
+                    "workstationId":"12",
+                    "productionTime": 3,
+                    "setUpTime": 0
+                },
+                {
+                    "workstationId":"8",
+                    "productionTime": 2,
+                    "setUpTime": 15
+                },
+                {
+                    "workstationId":"7",
+                    "productionTime": 2,
+                    "setUpTime": 20
+                },
+                {
+                    "workstationId":"9",
+                    "productionTime": 3,
+                    "setUpTime": 15
+                }
+            ]
+        },
+        {
+            "partId":"16",
+            "category":"E",
+            "designation": "Lenker cpl.",
+            "usage":[1,1,1],
+            "startPrice": 7.02,
+            "startAmount": 300,
+            "elements":[],
+            "processingChain":[
+                {
+                    "workstationId":"6",
+                    "productionTime": 2,
+                    "setUpTime": 15
+                },
+                {
+                    "workstationId":"14",
+                    "productionTime": 3,
+                    "setUpTime": 0
+                }
+            ]
+        },
+        {
+            "partId":"17",
+            "category":"E",
+            "designation": "Sattel cpl.",
+            "usage":[1,1,1],
+            "startPrice": 7.16,
+            "startAmount": 300,
+            "elements":[],
+            "processingChain":[
+                {
+                    "workstationId":"15",
+                    "productionTime": 3,
+                    "setUpTime": 15
+                }
+            ]
+        },
+        {
+            "partId":"18",
+            "category":"E",
+            "designation": "Rahmen",
+            "usage":[1,0,0],
+            "startPrice": 13.15,
+            "startAmount": 100,
+            "elements":[],
+            "processingChain":[
+                {
+                    "workstationId":"6",
+                    "productionTime": 3,
+                    "setUpTime": 15
+                },
+                {
+                    "workstationId":"8",
+                    "productionTime": 3,
+                    "setUpTime": 20
+                },
+                {
+                    "workstationId":"7",
+                    "productionTime": 2,
+                    "setUpTime": 20
+                },
+                {
+                    "workstationId":"9",
+                    "productionTime": 2,
+                    "setUpTime": 15
+                }
+            ]
+        },
+        {
+            "partId":"19",
+            "category":"E",
+            "designation": "Rahmen",
+            "usage":[0,1,0],
+            "startPrice": 14.35,
+            "startAmount": 100,
+            "elements":[],
+            "processingChain":[
+                {
+                    "workstationId":"6",
+                    "productionTime": 3,
+                    "setUpTime": 15
+                },
+                {
+                    "workstationId":"8",
+                    "productionTime": 3,
+                    "setUpTime": 25
+                },
+                {
+                    "workstationId":"7",
+                    "productionTime": 2,
+                    "setUpTime": 20
+                },
+                {
+                    "workstationId":"9",
+                    "productionTime": 2,
+                    "setUpTime": 15
+                }
+            ]
+        },
+        {
+            "partId":"20",
+            "category":"E",
+            "designation": "Rahmen",
+            "usage":[0,0,1],
+            "startPrice": 15.55,
+            "startAmount": 100,
+            "elements":[],
+            "processingChain":[
+                {
+                    "workstationId":"6",
+                    "productionTime": 3,
+                    "setUpTime": 15
+                },
+                {
+                    "workstationId":"8",
+                    "productionTime": 3,
+                    "setUpTime": 20
+                },
+                {
+                    "workstationId":"7",
+                    "productionTime": 2,
+                    "setUpTime": 20
+                },
+                {
+                    "workstationId":"9",
+                    "productionTime": 2,
+                    "setUpTime": 15
+                }
+            ]
+        },
+        {
+            "partId":"26",
+            "category":"E",
+            "designation": "Pedal cpl.",
+            "usage":[1,1,1],
+            "startPrice": 10.50,
+            "startAmount": 300,
+            "elements":[],
+            "processingChain":[
+                {
+                    "workstationId":"7",
+                    "productionTime": 2,
+                    "setUpTime": 30
+                },
+                {
+                    "workstationId":"15",
+                    "productionTime": 3,
+                    "setUpTime": 15
+                }
+            ]
+        },
+        {
+            "partId":"29",
+            "category":"E",
+            "designation": "Vorderrad mont.",
+            "usage":[0,0,1],
+            "startPrice": 69.29,
+            "startAmount": 100,
+            "elements":[9,15,20],
+            "processingChain":[
+                {
+                    "workstationId":"1",
+                    "productionTime": 6,
+                    "setUpTime": 20
+                }
+            ]
+        },
+        {
+            "partId":"30",
+            "category":"E",
+            "designation": "Rahmen u. Räder",
+            "usage":[0,0,1],
+            "startPrice": 127.53,
+            "startAmount": 100,
+            "elements":[6,12,29],
+            "processingChain":[
+                {
+                    "workstationId":"2",
+                    "productionTime": 5,
+                    "setUpTime": 20
+                }
+            ]
+        },
+        {
+            "partId":"31",
+            "category":"E",
+            "designation": "Fahrrad o. Ped.",
+            "usage":[0,0,1],
+            "startPrice": 144.42,
+            "startAmount": 100,
+            "elements":[16,17,30],
+            "processingChain":[
+                {
+                    "workstationId":"3",
+                    "productionTime": 6,
+                    "setUpTime": 20
+                }
+            ]
+        },
+        {
+            "partId":"49",
+            "category":"E",
+            "designation": "Vorderrad cpl.",
+            "usage":[1,0,0],
+            "startPrice": 64.64,
+            "startAmount": 100,
+            "elements":[7,13,18],
+            "processingChain":[
+                {
+                    "workstationId":"1",
+                    "productionTime": 6,
+                    "setUpTime": 20
+                }
+            ]
+        },
+        {
+            "partId":"50",
+            "category":"E",
+            "designation": "Rahmen u. Räder",
+            "usage":[1,0,0],
+            "startPrice": 120.63,
+            "startAmount": 100,
+            "elements":[9,15,20],
+            "processingChain":[
+                {
+                    "workstationId":"2",
+                    "productionTime": 5,
+                    "setUpTime": 30
+                }
+            ]
+        },
+        {
+            "partId":"51",
+            "category":"E",
+            "designation": "Fahrrad o. Ped.",
+            "usage":[1,0,0],
+            "startPrice": 137.47,
+            "startAmount": 100,
+            "elements":[16,17,50],
+            "processingChain":[
+                {
+                    "workstationId":"3",
+                    "productionTime": 5,
+                    "setUpTime": 20
+                }
+            ]
+        },
+        {
+            "partId":"54",
+            "category":"E",
+            "designation": "Vorderrad cpl.",
+            "usage":[0,1,0],
+            "startPrice": 68.09,
+            "startAmount": 100,
+            "elements":[8,14,19],
+            "processingChain":[
+                {
+                    "workstationId":"1",
+                    "productionTime": 6,
+                    "setUpTime": 20
+                }
+            ]
+        },
+        {
+            "partId":"55",
+            "category":"E",
+            "designation": "Rahmen u. Räder",
+            "usage":[0,1,0],
+            "startPrice": 125.33,
+            "startAmount": 100,
+            "elements":[5,11,54],
+            "processingChain":[
+                {
+                    "workstationId":"2",
+                    "productionTime": 5,
+                    "setUpTime": 30
+                }
+            ]
+        },
+        {
+            "partId":"56",
+            "category":"E",
+            "designation": "Fahrrad o. Ped.",
+            "usage":[0,1,0],
+            "startPrice": 142.67,
+            "startAmount": 100,
+            "elements":[16,17,55],
+            "processingChain":[
+                {
+                    "workstationId":"3",
+                    "productionTime": 6,
+                    "setUpTime": 20
+                }
+            ]
+        }
+    ]
+}

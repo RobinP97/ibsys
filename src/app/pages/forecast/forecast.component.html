@@ -1,10 +1,7 @@
-<table>
+<table (change)="saveForecasts()">
     <tr>
         <th>
 
-        </th>
-        <th>
-            {{ "P" + this.period }}
         </th>
         <th>
             {{ "P" + (period+1) }}
@@ -14,6 +11,9 @@
         </th>
         <th>
             {{ "P" + (period+3) }}
+        </th>
+        <th>
+            {{ "P" + (period+4) }}
         </th>
     </tr>
     <tr>

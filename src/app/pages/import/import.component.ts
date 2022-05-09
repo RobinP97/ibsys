@@ -117,12 +117,15 @@ export class ImportComponent implements OnInit {
   // am besten über Subject, die abonniert werden können (Änderungen werden dann an alle Subscriber weitergeleitet - sehr wichtig!)
   // in dem Sinne benötigt man das Restults Interface gar nicht
   loadData(): void {
+    this.dataSerivce.resetData();
+    console.log('Clear local storage');
+
     // TODO: Fehler wenn this.inputData === undefined
     this.importedData = {
       game: this.loadGame(),
       group: this.loadGroup(),
       period: this.loadPeriod(),
-      forecast: this.loadForecast(),
+      forecast: this.loadMandatoryOrders(),
       warehousestock: this.loadWarehouseStock(),
       inwardstockmovement: this.loadInwardStockMovement(),
       futureinwardstockmovement: this.loadFutureInwardStockMovement(),
@@ -139,32 +142,32 @@ export class ImportComponent implements OnInit {
   }
 
   loadGame(): number {
-    const game: number = parseInt(this.parsedXml.results.attr.game);
+    const game: number = this.parsedXml.results.attr.game;
     this.dataSerivce.setGame(game);
 
     return game;
   }
 
   loadPeriod(): number {
-    const period: number = parseInt(this.parsedXml.results.attr.period);
+    const period: number = this.parsedXml.results.attr.period;
     this.dataSerivce.setPeriod(period);
 
     return period;
   }
 
   loadGroup(): number {
-    const group: number = parseInt(this.parsedXml.results.attr.group);
+    const group: number = this.parsedXml.results.attr.group;
     this.dataSerivce.setGroup(group);
 
     return group;
   }
 
-  loadForecast(): Forecast {
-    const forecastInput = this.parsedXml.results.forecast[0].attr;
-    const forecast: Forecast = this.createForecast(forecastInput);
-    this.dataSerivce.setForecast(forecast);
+  loadMandatoryOrders(): Forecast {
+    const mandatoryOrdersInput = this.parsedXml.results.forecast[0].attr;
+    const mandatoryOrders: Forecast = this.createForecast(mandatoryOrdersInput);
+    this.dataSerivce.setMandatoryOrders(mandatoryOrders);
 
-    return forecast;
+    return mandatoryOrders;
   }
 
   loadWarehouseStock(): WarehouseStock {
@@ -479,7 +482,7 @@ export class ImportComponent implements OnInit {
       ['completedorders', 'order'],
     ]);
     const emptyTags = [
-      'forecast',
+      'mandatoryOrders',
       'warehousestock',
       'inwardstockmovement',
       'futureinwardstockmovement',
@@ -514,18 +517,21 @@ export class ImportComponent implements OnInit {
     // Attribute
     for (let key in object) {
       let value = object[key];
+      // Spezialfall - Kurzschreibweise </...>
       if (value === undefined) {
         if (emptyTags.includes(key)) subObjectKeys.push(key);
         continue;
       }
       // Spezialfall
-      let isAttribute = typeof value !== 'object';
       if (key === 'totalstockvalue') {
         subObjectKeys.push('totalstockvalue');
         continue;
       }
+      let isAttribute = typeof value !== 'object';
       if (isAttribute) {
-        tag += ` ${key}="${value}"`;
+        tag += ` ${key}="${
+          !Number.isNaN(value) ? value.toString().replace('.', ',') : value
+        }"`;
       } else {
         subObjectKeys.push(key);
       }
@@ -538,7 +544,9 @@ export class ImportComponent implements OnInit {
         let value = object[key];
         // Spezialfall
         if (key === 'totalstockvalue') {
-          tag += `<totalstockvalue>${value}</totalstockvalue>`; // opt: Zeilenumbruch
+          tag += `<totalstockvalue>${value
+            .toString()
+            .replace('.', ',')}</totalstockvalue>`; // opt: Zeilenumbruch
           continue;
         }
         if (tagHelper.has(key)) {

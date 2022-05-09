@@ -13,7 +13,8 @@ export class LocalStorageService {
 
   public getItem(key: string): any {
     // return JSON.parse(sessionStorage.getItem(key));
-    return JSON.parse(localStorage.getItem(key));
+    const item = JSON.parse(localStorage.getItem(key));
+    return item === null ? undefined : item;
   }
 
   public removeItem(key: string): void {

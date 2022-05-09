@@ -11,6 +11,7 @@ import { Result } from '../model/import/result';
 import { Subject } from 'rxjs';
 import { WarehouseStock } from '../model/import/warehousestock';
 import { WorkplaceWaitingListWorkstation } from '../model/import/workplaceWaitingListWorkstations';
+import { localStorageKeys as key } from '../shared/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,8 @@ export class DataService {
   group$ = new Subject<number>();
   period$ = new Subject<number>();
 
-  forecast$ = new Subject<Forecast>();
+  mandatoryOrders$ = new Subject<Forecast>();
+  forecasts$ = new Subject<Forecast[]>();
   warehouseStock$ = new Subject<WarehouseStock>();
   inwardStockMovement$ = new Subject<OrderInwardStockMovement[]>();
   futureInwardStockMovement$ = new Subject<OrderInwardStockMovement[]>();
@@ -38,42 +40,59 @@ export class DataService {
 
   constructor(private readonly localStorageService: LocalStorageService) {}
 
+  resetData() {
+    this.localStorageService.clear();
+  }
+
   //-------------------------------------------------------------------------------------------
   // get-Methoden: Holen Daten aus dem Browerchache
   //-------------------------------------------------------------------------------------------
-
+  getForcasts(): Forecast[] {
+    const forecasts: Forecast[] = this.localStorageService.getItem(
+      key.FORECASTS
+    );
+    console.log('FORECAST', forecasts);
+    return forecasts === undefined
+      ? ([{}, {}, {}, {}] as Forecast[])
+      : forecasts;
+  }
   //-------------------------------------------------------------------------------------------
   // get-Methoden: Schreibe Daten in den Browerchache und informiere die relevanten Abonnenten
   //-------------------------------------------------------------------------------------------
   setGame(game: number) {
     this.game$.next(game);
-    this.localStorageService.setItem('game', game);
+    this.localStorageService.setItem(key.GAME, game);
   }
 
   setPeriod(period: number) {
     this.period$.next(period);
-    this.localStorageService.setItem('period', period);
+    this.localStorageService.setItem(key.PERIOD, period);
   }
 
   setGroup(group: number) {
     this.period$.next(group);
-    this.localStorageService.setItem('group', group);
+    this.localStorageService.setItem(key.GROUP, group);
   }
 
-  setForecast(forecast: Forecast) {
-    this.forecast$.next(forecast);
-    this.localStorageService.setItem('forecast', forecast);
+  setMandatoryOrders(mandatoryOrders: Forecast) {
+    this.mandatoryOrders$.next(mandatoryOrders);
+    this.localStorageService.setItem(key.MANDATORYORDERS, mandatoryOrders);
+    // forecasts: verbindliche Aufträge, Prognose p2, prognose p3, prognose p4
+    const forecasts: Forecast[] = this.getForcasts();
+    forecasts[0] = mandatoryOrders;
+    this.forecasts$.next(forecasts);
+    this.localStorageService.setItem(key.FORECASTS, forecasts);
   }
 
   setWarehouseStock(warehouseStock: WarehouseStock) {
     this.warehouseStock$.next(warehouseStock);
-    this.localStorageService.setItem('warehousestock', warehouseStock);
+    this.localStorageService.setItem(key.WAREHOUSESTOCK, warehouseStock);
   }
 
   setInwardStockMovement(inwardStockMovement: OrderInwardStockMovement[]) {
     this.inwardStockMovement$.next(inwardStockMovement);
     this.localStorageService.setItem(
-      'inwardstockmovement',
+      key.INWARDSTOCKMOVEMENT,
       inwardStockMovement
     );
   }
@@ -83,14 +102,14 @@ export class DataService {
   ) {
     this.futureInwardStockMovement$.next(futureInwardStockMovement);
     this.localStorageService.setItem(
-      'futureinwardstockmovement',
+      key.FUTUREINWARDSTOCKMOVEMENT,
       futureInwardStockMovement
     );
   }
 
   setIdleTimeCosts(idleTimeCosts: IdleTimeCosts) {
     this.idleTimeCosts$.next(idleTimeCosts);
-    this.localStorageService.setItem('idletimecosts', idleTimeCosts);
+    this.localStorageService.setItem(key.IDLETIMECOSTS, idleTimeCosts);
   }
 
   setWaitingListWorkstations(
@@ -98,33 +117,41 @@ export class DataService {
   ) {
     this.waitinglistworkstations$.next(waitinglistworkstations);
     this.localStorageService.setItem(
-      'waitinglistworkstations',
+      key.WAITINGLISTWORKSTATIONS,
       waitinglistworkstations
     );
   }
 
   setWaitingListStock(waitingListStock: MissingPart[]) {
     this.waitingListStock$.next(waitingListStock);
-    this.localStorageService.setItem('waitingliststock', waitingListStock);
+    this.localStorageService.setItem(key.WAITINGLISTSTOCK, waitingListStock);
   }
 
   setOrdersInWork(ordersInWork: OrderInWork[]) {
     this.ordersInWork$.next(ordersInWork);
-    this.localStorageService.setItem('ordersinwork', ordersInWork);
+    this.localStorageService.setItem(key.ORDERSINWORK, ordersInWork);
   }
 
   setCompletedOrders(completedOrders: CompletedOrder[]) {
     this.completedOrders$.next(completedOrders);
-    this.localStorageService.setItem('completedorders', completedOrders);
+    this.localStorageService.setItem(key.COMPLETEDORDERS, completedOrders);
   }
 
   setCycleTimes(cycleTimes: Cycletimes) {
     this.cycleTimes$.next(cycleTimes);
-    this.localStorageService.setItem('cycletimes', cycleTimes);
+    this.localStorageService.setItem(key.CYCLETIMES, cycleTimes);
   }
 
   setResults(result: Result) {
     this.result$.next(result);
-    this.localStorageService.setItem('result', result);
+    this.localStorageService.setItem(key.RESULT, result);
+  }
+
+  setForecasts(forecasts: Forecast[]) {
+    this.forecasts$.next(forecasts);
+    this.localStorageService.setItem(key.FORECASTS, forecasts);
+    const mandatoryOrder = forecasts[0];
+    this.mandatoryOrders$.next(mandatoryOrder);
+    this.localStorageService.setItem(key.MANDATORYORDERS, mandatoryOrder);
   }
 }

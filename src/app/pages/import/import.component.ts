@@ -408,7 +408,7 @@ export class ImportComponent implements OnInit {
       ? undefined
       : element.waitinglist.map((waitingListEntry) => waitingListEntry.attr); //this.createWaitingListEntry(waitingListEntry));
     // Wenn es keine waitinglist gibt muss timeneed = 0 sein
-    const timeneed = hasWaitingList ? element.attr.timeneed : '0';
+    const timeneed = hasWaitingList ? element.attr.timeneed : 0;
     return {
       id: element.attr.id,
       timeneed: timeneed,

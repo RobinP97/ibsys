@@ -1,0 +1,48 @@
+<table class="production-table">
+<tr>
+    <th>
+        {{ "production.product" | translate }}
+    </th>
+    <th>
+        {{ "production.binding_orders" | translate }}
+    </th>
+    <th>
+        {{ "production.planned_stock" | translate }}
+    </th>
+    <th>
+        {{ "production.current_stock" | translate }}
+    </th>
+    <th>
+        {{ "production.in_queue" | translate }}
+    </th>
+    <th>
+        {{ "production.in_process" | translate }}
+    </th>
+    <th>
+        {{ "production.planned_production" | translate }}
+    </th>
+</tr>
+<tr [value]="inhouse_parts" *ngFor="let inhouse_part of inhouse_parts;let i=index; trackBy:trackByIndex">
+    <td>
+       {{inhouse_part.category + inhouse_part.id}}
+    </td>
+    <td>
+        <input [(ngModel)]="inhouse_parts[i].binding_orders" (change)="updateAfterChange(inhouse_parts[i])">
+     </td>
+     <td>
+        <input [(ngModel)]="inhouse_parts[i].planned_stock" (change)="updateAfterChange(inhouse_parts[i])">
+     </td>
+     <td>
+        <input [(ngModel)]="inhouse_parts[i].current_stock" (change)="updateAfterChange(inhouse_parts[i])">
+     </td>
+     <td>
+        <input [(ngModel)]="inhouse_parts[i].in_queue" (change)="updateAfterChange(inhouse_parts[i])">
+     </td>
+     <td>
+        <input [(ngModel)]="inhouse_parts[i].in_process" (change)="updateAfterChange(inhouse_parts[i])">
+     </td>
+     <td>
+        <input [(ngModel)]="inhouse_parts[i].planned_production" (change)="updateAfterChange(inhouse_parts[i])">
+     </td>
+    <tr>
+</table>

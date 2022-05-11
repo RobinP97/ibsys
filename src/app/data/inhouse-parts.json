@@ -1,5 +1,4 @@
-{
-    "inhouse-parts": [
+[
         {
             "partId": "1",
             "category": "P",
@@ -612,7 +611,7 @@
             "usage":[1,0,0],
             "startPrice": 120.63,
             "startAmount": 100,
-            "elements":[9,15,20],
+            "elements":[4,10,49],
             "processingChain":[
                 {
                     "workstationId":"2",
@@ -686,4 +685,3 @@
             ]
         }
     ]
-}

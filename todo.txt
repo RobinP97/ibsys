@@ -1,1 +1,1 @@
-geplante Forecast aus der Componente speichern lassen
+waitinglistworkstations fixen, sobald sie aus dem Dataservice abfragbar sind

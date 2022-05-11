@@ -43,26 +43,27 @@ export class ProductionComponent implements OnInit {
       this.updateArrayAfterImport();
     },
   });
-  /*dataSerivce.waitinglistworkstations$.subscribe({
+  dataSerivce.waitinglistworkstations$.subscribe({
     next: (v) => {
       this.waitinglistWorkstations = v;
       this.count++;
       this.updateArrayAfterImport();
     },
-  });*/
+  });
   this.fillArray(dataSerivce);
   }
 
-  /*setWaitingListWorkstations(){
+  setWaitingListWorkstations(){
     this.waitinglistWorkstations.forEach( waitinglistWorkStation => {
-      console.log("test:")
-      console.log(waitinglistWorkStation);
-      waitinglistWorkStation.waitinglist.forEach(element => {
+      if(waitinglistWorkStation.waitinglist !== undefined)
+      {
+        waitinglistWorkStation.waitinglist.forEach(element => {
 
-      this.inhouse_parts.find(x => x.id == element.item).in_queue = element.amount;
-      })
+          this.inhouse_parts.find(x => x.id == element.item).in_queue = element.amount;
+          })
+      }
     })
-  }*/
+  }
 
   setOrderInWork(){
     this.ordersinwork.forEach(element => {
@@ -98,6 +99,7 @@ export class ProductionComponent implements OnInit {
       part.planned_production = 0;
       part.planned_stock = 0;
       part.in_queue = 0;
+      part.predecessor_waiting_list = 0;
       part.in_process = 0;
       part.elements = element.elements;
       this.inhouse_parts.push(part);
@@ -106,12 +108,12 @@ export class ProductionComponent implements OnInit {
 
   updateArrayAfterImport()
   {
-    if(this.count == 3)
-    {
+    if(this.count == 4)
+    {      
+      this.setWaitingListWorkstations();
       this.setForecastUse();
       this.setOrderInWork();
       this.updateWareHouse();
-      //this.setWaitingListWorkstations();
       this.resetBindingOrders();
       this.onChange(this.inhouse_parts.find(x => x.id == 1),undefined, true);
       this.onChange(this.inhouse_parts.find(x => x.id == 2),undefined, true);
@@ -121,13 +123,13 @@ export class ProductionComponent implements OnInit {
 
   updateAfterChange()
   {
-    this.resetBindingOrders();
+    this.resetBindingOrders();    
     this.UpdateChain(this.inhouse_parts.find(x => x.id == 1));
     this.UpdateChain(this.inhouse_parts.find(x => x.id == 2));
     this.UpdateChain(this.inhouse_parts.find(x => x.id == 3));
   }
   
-  UpdateChain(part: Production, binding_orders?: number)
+  UpdateChain(part: Production, binding_orders?: number, predecessor_waiting_list?: number)
   {
     let planned = 0;
 
@@ -136,7 +138,11 @@ export class ProductionComponent implements OnInit {
     {
       part.binding_orders += binding_orders;
     }
-    planned = part.binding_orders + part.planned_stock - part.current_stock - part.in_queue - part.in_process;   
+    planned = part.binding_orders + part.predecessor_waiting_list + part.planned_stock - part.current_stock - part.in_queue - part.in_process;  
+    if(part.in_queue>0)
+    {
+      console.log(planned + " = "+ part.binding_orders + " + " + part.planned_stock + " - " + part.current_stock + " - " + part.in_queue  + " - " + part.in_process)
+    } 
     if(planned<0)
     {
       planned = 0;
@@ -145,7 +151,7 @@ export class ProductionComponent implements OnInit {
     if(typeof part.elements !== 'undefined' && part.elements.length > 0)
     {
       part.elements.forEach(element => {
-        this.UpdateChain(this.inhouse_parts.find(x => x.id == element), planned);
+        this.UpdateChain(this.inhouse_parts.find(x => x.id == element), planned,part.in_queue);
       })
     }
   }
@@ -166,14 +172,17 @@ export class ProductionComponent implements OnInit {
     });
   }
 
-  onChange(part: Production, binding_orders?: number, imported?: boolean): void{
+  onChange(part: Production, binding_orders?: number, imported?: boolean, predecessor_waiting_list?: number): void{
 
     let planned = 0;
     if(imported)
     {
       part.planned_stock = part.current_stock;
     }
-
+    if(typeof predecessor_waiting_list !== 'undefined')
+    {
+      part.predecessor_waiting_list = predecessor_waiting_list;
+    }
     if(typeof binding_orders !== 'undefined')
     {
       if(binding_orders < 0)
@@ -181,8 +190,13 @@ export class ProductionComponent implements OnInit {
         binding_orders = 0;
       }
       part.binding_orders += binding_orders;
-    }
-    planned = part.binding_orders + part.planned_stock - part.current_stock - part.in_queue - part.in_process;
+    } 
+    if(part.in_queue>0)
+    {
+      console.log(part.id + ":")
+      console.log(planned + " = "+ part.binding_orders + " + "  + part.predecessor_waiting_list + "+" + part.planned_stock + " - " + part.current_stock + " - " + part.in_queue  + " - " + part.in_process)
+    } 
+    planned = part.binding_orders + part.predecessor_waiting_list + part.planned_stock - part.current_stock - part.in_queue - part.in_process;
     if(planned<0)
     {
       planned = 0;
@@ -193,7 +207,8 @@ export class ProductionComponent implements OnInit {
     if(typeof part.elements !== 'undefined' && part.elements.length > 0)
     {
       part.elements.forEach(element => {
-        this.onChange(this.inhouse_parts.find(x => x.id == element),part.planned_production,imported);
+        console.log(part.in_queue);
+        this.onChange(this.inhouse_parts.find(x => x.id == element),part.planned_production,imported,part.in_queue);
       });
     }
   }

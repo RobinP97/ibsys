@@ -8,5 +8,6 @@ export interface Production {
     in_process: number;
     planned_production: number;
     elements: number[];
+    predecessor_waiting_list: number;
   }
   

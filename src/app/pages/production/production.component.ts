@@ -1,86 +1,95 @@
-import { Component, OnInit } from '@angular/core';
-import { Forecast } from 'src/app/model/import/forecast';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
 import { DataService } from 'src/app/service/data.service';
+import { Forecast } from 'src/app/model/import/forecast';
+import { OrderInWork } from 'src/app/model/import/orderinwork';
 import { Production } from 'src/app/model/production/production';
 import { WarehouseStock } from 'src/app/model/import/warehousestock';
-import { OrderInWork } from 'src/app/model/import/orderinwork';
 import { WorkplaceWaitingListWorkstation } from 'src/app/model/import/workplaceWaitingListWorkstations';
 
 @Component({
   selector: 'app-production',
   templateUrl: './production.component.html',
-  styleUrls: ['./production.component.scss']
+  styleUrls: ['./production.component.scss'],
 })
-export class ProductionComponent implements OnInit {
+export class ProductionComponent implements OnDestroy {
+  // Alle Bestellungen der Periode
   inhouse_parts: Production[];
   forecasts: Forecast[];
   warehousestock: WarehouseStock;
   ordersinwork: OrderInWork[];
   waitinglistWorkstations: WorkplaceWaitingListWorkstation[];
-  
 
-  constructor(private readonly dataSerivce: DataService) { 
-    dataSerivce.forecasts$.subscribe({
-    next: (v) => {
-      this.forecasts = v;
-      this.updateArrayAfterImport();
-    },
-  });
-  dataSerivce.ordersInWork$.subscribe({
-    next: (v) => {
-      this.ordersinwork = v;
-      this.updateArrayAfterImport();
-    },
-  });
-  dataSerivce.warehouseStock$.subscribe({
-    next: (v) => {
-      this.warehousestock = v;
-      this.updateArrayAfterImport();
-    },
-  });
-  dataSerivce.waitinglistworkstations$.subscribe({
-    next: (v) => {
-      this.waitinglistWorkstations = v;
-      this.updateArrayAfterImport();
-    },
-  });
-  this.fillArray(dataSerivce);
+  constructor(private readonly dataSerivce: DataService) {
+    // dataSerivce.forecasts$.subscribe({
+    //   next: (v) => {
+    //     this.forecasts = v;
+    //     //@robin: sollte, das hier nicht updateAfterChange sein?
+    //     this.updateArrayAfterImport();
+    //   },
+    // });
+    // Vielleicht ist es einfacher am Anfang via dataService.get... sich die Daten zu holen, damit zu arbeiten und am Ende, wenn die Komponente verlassen wird alle mit
+    // dataService.set... abzuspeichern
+    // dataSerivce.ordersInWork$.subscribe({
+    //   next: (v) => {
+    //     this.ordersinwork = v;
+    //     this.updateArrayAfterImport();
+    //   },
+    // });
+    // dataSerivce.warehouseStock$.subscribe({
+    //   next: (v) => {
+    //     this.warehousestock = v;
+    //     this.updateArrayAfterImport();
+    //   },
+    // });
+    // dataSerivce.waitinglistworkstations$.subscribe({
+    //   next: (v) => {
+    //     this.waitinglistWorkstations = v;
+    //     this.updateArrayAfterImport();
+    //   },
+    // });
+    this.initializeInhouseParts(dataSerivce);
+
+    this.waitinglistWorkstations =
+      this.dataSerivce.getWaitinglistWorkstations();
+    this.forecasts = this.dataSerivce.getForcasts();
+    this.warehousestock = this.dataSerivce.getWarehouseStock();
+    this.ordersinwork = this.dataSerivce.getOrdersInWork();
+
+    this.updateArrayAfterImport();
   }
 
-  setWaitingListWorkstations(){
-    if(this.waitinglistWorkstations !== undefined)
-    {
-      this.waitinglistWorkstations.forEach( waitinglistWorkStation => {
-        if(waitinglistWorkStation.waitinglist !== undefined)
-        {
-          waitinglistWorkStation.waitinglist.forEach(element => {
-  
-            this.inhouse_parts.find(x => x.id == element.item).in_queue = element.amount;
-            })
-        }
-      })
-    }
+  setWaitingListWorkstations() {
+    // if (this.waitinglistWorkstations !== undefined) {
+    this.waitinglistWorkstations?.forEach((waitinglistWorkStation) => {
+      // if (waitinglistWorkStation.waitinglist !== undefined) {
+      waitinglistWorkStation.waitinglist?.forEach((element) => {
+        this.inhouse_parts.find((x) => x.id == element.item).in_queue =
+          element.amount;
+      });
+      // }
+    });
+    // }
   }
 
-  setOrderInWork(){
-    if(this.ordersinwork !== undefined)
-    {
-      this.ordersinwork.forEach(element => {
-        this.inhouse_parts.find(x => x.id == element.item).in_process = element.amount;
-      })
-    }
+  setOrderInWork() {
+    // if (this.ordersinwork !== undefined) {
+    this.ordersinwork?.forEach((element) => {
+      this.inhouse_parts.find((x) => x.id == element.item).in_process =
+        element.amount;
+    });
+    // }
   }
 
   setForecastUse(): void {
-    if(this.forecasts[0] !== undefined)
-    {
-      var first = this.inhouse_parts.find(x => x.id == 1);
+    if (this.forecasts[0] !== undefined) {
+      const first = this.inhouse_parts.find((x) => x.id == 1);
       first.binding_orders = this.forecasts[0].p1;
       first.planned_stock = first.binding_orders;
-      var second = this.inhouse_parts.find(x => x.id == 2);
+      const second = this.inhouse_parts.find((x) => x.id == 2);
       second.binding_orders = this.forecasts[0].p2;
       second.planned_stock = second.binding_orders;
-      var third = this.inhouse_parts.find(x => x.id == 3);
+      const third = this.inhouse_parts.find((x) => x.id == 3);
       third.binding_orders = this.forecasts[0].p3;
       third.planned_stock = third.binding_orders;
     }
@@ -90,11 +99,12 @@ export class ProductionComponent implements OnInit {
     return index;
   }
 
-  fillArray(dataSerivce: DataService): void {
-    let inhouse_part = require("../../data/inhouse-parts.json");
+  // inhouse_parts initial mit Werten aus inhouse-parts.json befüllen
+  initializeInhouseParts(dataSerivce: DataService): void {
+    const inhouse_part = require('../../data/inhouse-parts.json');
     this.inhouse_parts = [];
-    inhouse_part.forEach(element => {
-      let part = {} as Production;
+    inhouse_part.forEach((element) => {
+      const part = {} as Production;
       part.id = element.partId;
       part.category = element.category;
       part.binding_orders = 0;
@@ -109,115 +119,171 @@ export class ProductionComponent implements OnInit {
     });
   }
 
-  updateArrayAfterImport()
-  {     
-      this.setWaitingListWorkstations();
-      this.setForecastUse();
-      this.setOrderInWork();
-      this.updateWareHouse();
-      this.resetBindingOrders();
-      this.onChange(this.inhouse_parts.find(x => x.id == 1),undefined, true);
-      this.onChange(this.inhouse_parts.find(x => x.id == 2),undefined, true);
-      this.onChange(this.inhouse_parts.find(x => x.id == 3),undefined, true);
+  updateArrayAfterImport() {
+    this.setWaitingListWorkstations();
+    this.setForecastUse(); // Spalten Verbindliche Aufträge und Geplanter Lagerbestand am Ende der Period
+    this.setOrderInWork(); // Spalte Aufträge in Bearbeitung
+    this.updateWareHouse(); // Spalte Aktueller Lagerbestand
+    this.resetBindingOrders(); // Spalte verbindliche Aufträge ab id=4
+
+    this.onChange(
+      this.inhouse_parts.find((x) => x.id == 1),
+      undefined,
+      true
+    );
+    this.onChange(
+      this.inhouse_parts.find((x) => x.id == 2),
+      undefined,
+      true
+    );
+    this.onChange(
+      this.inhouse_parts.find((x) => x.id == 3),
+      undefined,
+      true
+    );
   }
 
-  updateAfterChange()
-  {
-    this.resetBindingOrders();    
-    this.UpdateChain(this.inhouse_parts.find(x => x.id == 1));
-    this.UpdateChain(this.inhouse_parts.find(x => x.id == 2));
-    this.UpdateChain(this.inhouse_parts.find(x => x.id == 3));
+  updateAfterChange(inhouse_part) {
+    // TODO: Bei Ändeurngen in der Spalte "Verbindliche Aufträge" klappt das >ktualisieren für alle E-Produkte noch nicht. Grund ist der reset der binding orders
+    // Lsg: Vielleicht einfache keine Eingabemöglichkeit für die verbindlichen Aufträge
+    this.resetBindingOrders();
+    this.updateChain(this.inhouse_parts.find((x) => x.id == 1));
+    this.updateChain(this.inhouse_parts.find((x) => x.id == 2));
+    this.updateChain(this.inhouse_parts.find((x) => x.id == 3));
   }
-  
-  UpdateChain(part: Production, binding_orders?: number, predecessor_waiting_list?: number)
-  {
+
+  updateChain(
+    part: Production,
+    binding_orders?: number,
+    predecessor_waiting_list?: number
+  ) {
     let planned = 0;
-
-
-    if(typeof binding_orders !== 'undefined' && binding_orders > 0)
-    {
+    if (typeof binding_orders !== 'undefined' && binding_orders > 0) {
       part.binding_orders += binding_orders;
     }
-    if(typeof predecessor_waiting_list !== 'undefined')
-    {
+    if (typeof predecessor_waiting_list !== 'undefined') {
       part.predecessor_waiting_list = predecessor_waiting_list;
     }
-    planned = part.binding_orders + part.predecessor_waiting_list + part.planned_stock - part.current_stock - part.in_queue - part.in_process;  
-      console.log(planned + " = "+ part.binding_orders + " + " + part.planned_stock + " - " + part.current_stock + " - " + part.in_queue  + " - " + part.in_process)
-    if(planned<0)
-    {
+    planned =
+      part.binding_orders +
+      part.predecessor_waiting_list +
+      part.planned_stock -
+      part.current_stock -
+      part.in_queue -
+      part.in_process;
+    console.log(part.id + ':');
+    console.log(
+      planned +
+        ' = ' +
+        part.binding_orders +
+        ' + ' +
+        part.planned_stock +
+        ' - ' +
+        part.current_stock +
+        ' - ' +
+        part.in_queue +
+        ' - ' +
+        part.in_process
+    );
+    if (planned < 0) {
       planned = 0;
     }
     part.planned_production = planned;
-    if(typeof part.elements !== 'undefined' && part.elements.length > 0)
-    {
-      part.elements.forEach(element => {
-        this.UpdateChain(this.inhouse_parts.find(x => x.id == element), planned,part.in_queue);
-      })
+    if (typeof part.elements !== 'undefined' && part.elements.length > 0) {
+      part.elements.forEach((element) => {
+        this.updateChain(
+          this.inhouse_parts.find((x) => x.id == element),
+          planned,
+          part.in_queue
+        );
+      });
     }
   }
 
   updateWareHouse(): void {
-    if(this.warehousestock !== undefined)
-    {
-      this.inhouse_parts.forEach(element => {
-        let article = this.warehousestock.article.find(x => x.id == element.id);
+    if (this.warehousestock !== undefined) {
+      this.inhouse_parts.forEach((element) => {
+        let article = this.warehousestock.article.find(
+          (x) => x.id == element.id
+        );
         element.current_stock = article.amount;
       });
     }
   }
 
-  resetBindingOrders(){
-    this.inhouse_parts.forEach(element => {
-      if(element.id > 3)
-      {
+  resetBindingOrders() {
+    this.inhouse_parts.forEach((element) => {
+      if (element.id > 3) {
         element.binding_orders = 0;
       }
     });
   }
 
-  onChange(part: Production, binding_orders?: number, imported?: boolean, predecessor_waiting_list?: number): void{
-
+  onChange(
+    part: Production,
+    binding_orders?: number,
+    imported?: boolean,
+    predecessor_waiting_list?: number
+  ): void {
     let planned = 0;
-    if(imported)
-    {
+    if (imported) {
       part.planned_stock = part.current_stock;
     }
-    if(typeof predecessor_waiting_list !== 'undefined')
-    {
+    if (typeof predecessor_waiting_list !== 'undefined') {
       part.predecessor_waiting_list = predecessor_waiting_list;
     }
-    if(typeof binding_orders !== 'undefined')
-    {
-      if(binding_orders < 0)
-      {
+    if (typeof binding_orders !== 'undefined') {
+      if (binding_orders < 0) {
         binding_orders = 0;
       }
       part.binding_orders += binding_orders;
-    } 
-    if(part.in_queue>0)
-    {
-      console.log(part.id + ":")
-      console.log(planned + " = "+ part.binding_orders + " + "  + part.predecessor_waiting_list + "+" + part.planned_stock + " - " + part.current_stock + " - " + part.in_queue  + " - " + part.in_process)
-    } 
-    planned = part.binding_orders + part.predecessor_waiting_list + part.planned_stock - part.current_stock - part.in_queue - part.in_process;
-    if(planned<0)
-    {
+    }
+    if (part.in_queue > 0) {
+      // TODO: Im ersten Durchlauf ist planned noch 0
+      console.log(part.id + ':');
+      console.log(
+        planned +
+          ' = ' +
+          part.binding_orders +
+          ' + ' +
+          part.predecessor_waiting_list +
+          '+' +
+          part.planned_stock +
+          ' - ' +
+          part.current_stock +
+          ' - ' +
+          part.in_queue +
+          ' - ' +
+          part.in_process
+      );
+    }
+    planned =
+      part.binding_orders +
+      part.predecessor_waiting_list +
+      part.planned_stock -
+      part.current_stock -
+      part.in_queue -
+      part.in_process;
+    if (planned < 0) {
       planned = 0;
     }
 
     part.planned_production = planned;
 
-    if(typeof part.elements !== 'undefined' && part.elements.length > 0)
-    {
-      part.elements.forEach(element => {
+    if (typeof part.elements !== 'undefined' && part.elements.length > 0) {
+      part.elements.forEach((element) => {
         console.log(part.in_queue);
-        this.onChange(this.inhouse_parts.find(x => x.id == element),part.planned_production,imported,part.in_queue);
+        this.onChange(
+          this.inhouse_parts.find((x) => x.id == element),
+          part.planned_production,
+          imported,
+          part.in_queue
+        );
       });
     }
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.dataSerivce.setProduction(this.inhouse_parts);
   }
-
 }

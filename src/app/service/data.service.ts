@@ -7,6 +7,7 @@ import { LocalStorageService } from './local-storage.service';
 import { MissingPart } from '../model/import/missingpart';
 import { OrderInWork } from '../model/import/orderinwork';
 import { OrderInwardStockMovement } from '../model/import/orderinwardstockmovement';
+import { Production } from '../model/production/production';
 import { Result } from '../model/import/result';
 import { Subject } from 'rxjs';
 import { WarehouseStock } from '../model/import/warehousestock';
@@ -33,6 +34,7 @@ export class DataService {
   completedOrders$ = new Subject<CompletedOrder[]>();
   cycleTimes$ = new Subject<Cycletimes>();
   result$ = new Subject<Result>();
+  production$ = new Subject<Production[]>();
 
   //... und weitere die wir brauchen
   // Mit Subjects können wir einer Menge an Abonnenten Änderungen an relevanten Daten mitteilen
@@ -51,10 +53,30 @@ export class DataService {
     const forecasts: Forecast[] = this.localStorageService.getItem(
       key.FORECASTS
     );
-    console.log('FORECAST', forecasts);
+
     return forecasts === undefined
       ? ([{}, {}, {}, {}] as Forecast[])
       : forecasts;
+  }
+
+  getWaitinglistWorkstations(): WorkplaceWaitingListWorkstation[] {
+    const waitinglistWorkStation: WorkplaceWaitingListWorkstation[] =
+      this.localStorageService.getItem(key.WAITINGLISTWORKSTATIONS);
+    return waitinglistWorkStation;
+  }
+
+  getWarehouseStock(): WarehouseStock {
+    const warehouseStock: WarehouseStock = this.localStorageService.getItem(
+      key.WAREHOUSESTOCK
+    );
+    return warehouseStock;
+  }
+
+  getOrdersInWork(): OrderInWork[] {
+    const ordersInWork: OrderInWork[] = this.localStorageService.getItem(
+      key.ORDERSINWORK
+    );
+    return ordersInWork;
   }
   //-------------------------------------------------------------------------------------------
   // get-Methoden: Schreibe Daten in den Browerchache und informiere die relevanten Abonnenten
@@ -153,5 +175,10 @@ export class DataService {
     const mandatoryOrder = forecasts[0];
     this.mandatoryOrders$.next(mandatoryOrder);
     this.localStorageService.setItem(key.MANDATORYORDERS, mandatoryOrder);
+  }
+
+  setProduction(production: Production[]) {
+    this.production$.next(production);
+    this.localStorageService.setItem(key.PRODUCTION, production);
   }
 }

@@ -15,4 +15,5 @@ export const localStorageKeys = {
   COMPLETEDORDERS: 'completedorders',
   CYCLETIMES: 'cycletimes',
   RESULT: 'result',
+  PRODUCTION: 'production',
 };

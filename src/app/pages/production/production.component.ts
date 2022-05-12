@@ -16,37 +16,31 @@ export class ProductionComponent implements OnInit {
   forecasts: Forecast[];
   warehousestock: WarehouseStock;
   ordersinwork: OrderInWork[];
-  count: number;
   waitinglistWorkstations: WorkplaceWaitingListWorkstation[];
   
 
   constructor(private readonly dataSerivce: DataService) { 
-    this.count = 0;  
     dataSerivce.forecasts$.subscribe({
     next: (v) => {
       this.forecasts = v;
-      this.count++;
       this.updateArrayAfterImport();
     },
   });
   dataSerivce.ordersInWork$.subscribe({
     next: (v) => {
       this.ordersinwork = v;
-      this.count++;
       this.updateArrayAfterImport();
     },
   });
   dataSerivce.warehouseStock$.subscribe({
     next: (v) => {
       this.warehousestock = v;
-      this.count++;
       this.updateArrayAfterImport();
     },
   });
   dataSerivce.waitinglistworkstations$.subscribe({
     next: (v) => {
       this.waitinglistWorkstations = v;
-      this.count++;
       this.updateArrayAfterImport();
     },
   });
@@ -54,33 +48,42 @@ export class ProductionComponent implements OnInit {
   }
 
   setWaitingListWorkstations(){
-    this.waitinglistWorkstations.forEach( waitinglistWorkStation => {
-      if(waitinglistWorkStation.waitinglist !== undefined)
-      {
-        waitinglistWorkStation.waitinglist.forEach(element => {
-
-          this.inhouse_parts.find(x => x.id == element.item).in_queue = element.amount;
-          })
-      }
-    })
+    if(this.waitinglistWorkstations !== undefined)
+    {
+      this.waitinglistWorkstations.forEach( waitinglistWorkStation => {
+        if(waitinglistWorkStation.waitinglist !== undefined)
+        {
+          waitinglistWorkStation.waitinglist.forEach(element => {
+  
+            this.inhouse_parts.find(x => x.id == element.item).in_queue = element.amount;
+            })
+        }
+      })
+    }
   }
 
   setOrderInWork(){
-    this.ordersinwork.forEach(element => {
-      this.inhouse_parts.find(x => x.id == element.item).in_process = element.amount;
-    })
+    if(this.ordersinwork !== undefined)
+    {
+      this.ordersinwork.forEach(element => {
+        this.inhouse_parts.find(x => x.id == element.item).in_process = element.amount;
+      })
+    }
   }
 
   setForecastUse(): void {
-    var first = this.inhouse_parts.find(x => x.id == 1);
-    first.binding_orders = this.forecasts[0].p1;
-    first.planned_stock = first.binding_orders;
-    var second = this.inhouse_parts.find(x => x.id == 2);
-    second.binding_orders = this.forecasts[0].p2;
-    second.planned_stock = second.binding_orders;
-    var third = this.inhouse_parts.find(x => x.id == 3);
-    third.binding_orders = this.forecasts[0].p3;
-    third.planned_stock = third.binding_orders;
+    if(this.forecasts[0] !== undefined)
+    {
+      var first = this.inhouse_parts.find(x => x.id == 1);
+      first.binding_orders = this.forecasts[0].p1;
+      first.planned_stock = first.binding_orders;
+      var second = this.inhouse_parts.find(x => x.id == 2);
+      second.binding_orders = this.forecasts[0].p2;
+      second.planned_stock = second.binding_orders;
+      var third = this.inhouse_parts.find(x => x.id == 3);
+      third.binding_orders = this.forecasts[0].p3;
+      third.planned_stock = third.binding_orders;
+    }
   }
 
   trackByIndex(index: number, obj: any): any {
@@ -107,9 +110,7 @@ export class ProductionComponent implements OnInit {
   }
 
   updateArrayAfterImport()
-  {
-    if(this.count == 4)
-    {      
+  {     
       this.setWaitingListWorkstations();
       this.setForecastUse();
       this.setOrderInWork();
@@ -118,7 +119,6 @@ export class ProductionComponent implements OnInit {
       this.onChange(this.inhouse_parts.find(x => x.id == 1),undefined, true);
       this.onChange(this.inhouse_parts.find(x => x.id == 2),undefined, true);
       this.onChange(this.inhouse_parts.find(x => x.id == 3),undefined, true);
-    }
   }
 
   updateAfterChange()
@@ -138,11 +138,12 @@ export class ProductionComponent implements OnInit {
     {
       part.binding_orders += binding_orders;
     }
-    planned = part.binding_orders + part.predecessor_waiting_list + part.planned_stock - part.current_stock - part.in_queue - part.in_process;  
-    if(part.in_queue>0)
+    if(typeof predecessor_waiting_list !== 'undefined')
     {
+      part.predecessor_waiting_list = predecessor_waiting_list;
+    }
+    planned = part.binding_orders + part.predecessor_waiting_list + part.planned_stock - part.current_stock - part.in_queue - part.in_process;  
       console.log(planned + " = "+ part.binding_orders + " + " + part.planned_stock + " - " + part.current_stock + " - " + part.in_queue  + " - " + part.in_process)
-    } 
     if(planned<0)
     {
       planned = 0;
@@ -157,10 +158,13 @@ export class ProductionComponent implements OnInit {
   }
 
   updateWareHouse(): void {
-    this.inhouse_parts.forEach(element => {
-      let article = this.warehousestock.article.find(x => x.id == element.id);
-      element.current_stock = article.amount;
-    });
+    if(this.warehousestock !== undefined)
+    {
+      this.inhouse_parts.forEach(element => {
+        let article = this.warehousestock.article.find(x => x.id == element.id);
+        element.current_stock = article.amount;
+      });
+    }
   }
 
   resetBindingOrders(){

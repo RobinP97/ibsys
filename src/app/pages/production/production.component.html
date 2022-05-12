@@ -27,22 +27,22 @@
        {{inhouse_part.category + inhouse_part.id}}
     </td>
     <td>
-        <input [(ngModel)]="inhouse_parts[i].binding_orders" (change)="updateAfterChange(inhouse_parts[i])">
+        <input matInput type="number" (change)="updateAfterChange(inhouse_parts[i])" [(ngModel)]="inhouse_parts[i].binding_orders"  min="0"/>
      </td>
      <td>
-        <input [(ngModel)]="inhouse_parts[i].planned_stock" (change)="updateAfterChange(inhouse_parts[i])">
+        <input matInput [(ngModel)]="inhouse_parts[i].planned_stock" (change)="updateAfterChange(inhouse_parts[i])" type="number"  min="0"/>
      </td>
      <td>
-        <input [(ngModel)]="inhouse_parts[i].current_stock" (change)="updateAfterChange(inhouse_parts[i])">
+        <input matInput [(ngModel)]="inhouse_parts[i].current_stock" (change)="updateAfterChange(inhouse_parts[i])" type="number"  min="0"/>
      </td>
      <td>
-        <input [(ngModel)]="inhouse_parts[i].in_queue" (change)="updateAfterChange(inhouse_parts[i])">
+        <input matInput [(ngModel)]="inhouse_parts[i].in_queue" (change)="updateAfterChange(inhouse_parts[i])" type="number"  min="0"/>
      </td>
      <td>
-        <input [(ngModel)]="inhouse_parts[i].in_process" (change)="updateAfterChange(inhouse_parts[i])">
+        <input matInput [(ngModel)]="inhouse_parts[i].in_process" (change)="updateAfterChange(inhouse_parts[i])" type="number" min="0"/>
      </td>
      <td>
-        <input [(ngModel)]="inhouse_parts[i].planned_production" (change)="updateAfterChange(inhouse_parts[i])">
+        <input matInput [(ngModel)]="inhouse_parts[i].planned_production" (change)="updateAfterChange(inhouse_parts[i])" type="number" min="0"/>
      </td>
     <tr>
 </table>

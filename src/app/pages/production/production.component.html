@@ -27,7 +27,7 @@
        {{inhouse_part.category + inhouse_part.id}}
     </td>
     <td>
-        <input matInput type="number" (change)="updateAfterChange(inhouse_parts[i])" [(ngModel)]="inhouse_parts[i].binding_orders"  min="0"/>
+        <input matInput [(ngModel)]="inhouse_parts[i].binding_orders"  (change)="updateAfterChange(inhouse_parts[i])" type="number" min="0"/>
      </td>
      <td>
         <input matInput [(ngModel)]="inhouse_parts[i].planned_stock" (change)="updateAfterChange(inhouse_parts[i])" type="number"  min="0"/>

@@ -14,6 +14,7 @@
         "in_queue": "orders in queue",
         "in_process": "orders in process",
         "planned_production": "planned production orders",
-        "product": "product"
+        "product": "product",        
+        "predecessor_waiting_list": "queue of the follow-up product"
       }
 }

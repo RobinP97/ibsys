@@ -177,6 +177,8 @@ export class ProductionComponent implements OnDestroy {
         ' = ' +
         part.binding_orders +
         ' + ' +
+        part.predecessor_waiting_list +
+        ' + ' +
         part.planned_stock +
         ' - ' +
         part.current_stock +

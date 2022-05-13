@@ -4,6 +4,8 @@
     docker run -p 80:80 ibsys
 
 ## Hosting
+    web.jeberhardt.dev
+    TODO: BasicAuth
     https://www.strato.de/server/linux-vserver/
 
     docker run -d --name=ibsys --restart=unless-stopped  -p=443:443 \

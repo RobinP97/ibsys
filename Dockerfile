@@ -7,6 +7,6 @@ RUN npm install --force &&  \
 
 ### Webserver stage ###
 FROM nginx:latest
-COPY /etc/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY /etc/nginx/ /etc/nginx/conf.d/
 RUN rm -f -r /usr/share/nginx/html/* 
 COPY --from=builder /app/dist/ibsys /usr/share/nginx/html

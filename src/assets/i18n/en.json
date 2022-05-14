@@ -16,5 +16,30 @@
         "planned_production": "planned production orders",
         "product": "product",        
         "predecessor_waiting_list": "queue of the follow-up product"
+      },
+      "capacity": {
+        "period": "period...",
+        "label": "label",
+        "article_code": "article code",
+        "order_quantity": "order quantity",
+        "workstation": "workstation",
+        "back_wheel": "back wheel",
+        "front_wheel": "front wheel",
+        "back_fender": "back fender",
+        "front_fender": "front fender",
+        "handlebar": "handlebar",
+        "saddle": "saddle",
+        "frame": "frame",
+        "pedals": "pedals",
+        "front_wheel_complete": "front wheel complete",
+        "frame_and_wheels": "frame and wheels",
+        "bike_without_pedals": "bike without pedals",
+        "bike_complete": "bike complete",
+        "capacity_need_new": "capacity need new",
+        "set-up_time": "set-up time",
+        "capacity_need_deficit_prior_period": "capacity need deficit prior period",
+        "set-up_time_deficit_prior_period": "set-up time deficit prior period",
+        "total_capacity_need": "total capacity need",
+        "shifts_and_extra_hours": "shifts and extra hours"
       }
 }

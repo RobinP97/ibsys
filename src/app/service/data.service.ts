@@ -78,6 +78,13 @@ export class DataService {
     );
     return ordersInWork;
   }
+
+  getProduction(): Production[] {
+    const production: Production[] = this.localStorageService.getItem(
+      key.PRODUCTION
+    );
+    return production;
+  }
   //-------------------------------------------------------------------------------------------
   // get-Methoden: Schreibe Daten in den Browerchache und informiere die relevanten Abonnenten
   //-------------------------------------------------------------------------------------------

@@ -22,6 +22,7 @@ import { NgModule } from '@angular/core';
 import { NgxTranslateModule } from './translate/translate.module';
 import { PrettyPrintPipe } from './pipes/prettyprint.pipe';
 import { ProductionComponent } from './pages/production/production.component';
+import { OrderPlanningComponent } from './pages/order-planning/order-planning.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ProductionComponent } from './pages/production/production.component';
     HomeComponent,
     NavBarPlanningComponent,
     DebugComponent,
+    OrderPlanningComponent,
   ],
   imports: [
     BrowserModule,

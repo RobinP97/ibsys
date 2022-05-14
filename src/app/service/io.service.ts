@@ -3,6 +3,15 @@ import { Parser, ParserOptions } from 'xml2js';
 import { Injectable } from '@angular/core';
 import { parseNumbers } from 'xml2js/lib/processors';
 
+// DEBUG: Ohne attr und value Prozessoren
+export const xmlDebugOptions: ParserOptions = {
+  attrkey: 'attr', // (default: $): Prefix that is used to access the attributes.
+  charkey: '_text', // (default: _): Prefix that is used to access the character content.
+  trim: true, // (default: false): Trim the whitespace at the beginning and end of text nodes.
+  normalizeTags: true, // normalizeTags (default: false): Normalize all tag names to lowercase
+  normalize: true, // normalize (default: false): Trim whitespaces inside text nodes.
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -24,8 +33,10 @@ export class IoService {
     valueProcessors: [this.parseNumber], // (value, name) =>  { console.log("VALUE:", value, "NAME", name); return name; }]
   };
 
-  parseXml(xml: any): any {
-    const xmlParser = new Parser(this.xmlOptions);
+  parseXml(xml: any, xmlOptions?: ParserOptions): any {
+    const xmlParser = xmlOptions
+      ? new Parser(xmlOptions)
+      : new Parser(this.xmlOptions);
     let parsedXml;
     xmlParser.parseString(xml, (err, res) => {
       if (res) {

@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
 import { MatStepper } from '@angular/material/stepper';
+import { STEPS } from '../production-planning-steps';
+import { Step } from 'src/app/model/production/step';
 
 @Component({
   templateUrl: './nav-bar-planning.component.html',
@@ -11,16 +13,15 @@ export class NavBarPlanningComponent implements OnInit {
   @ViewChild('stepper') stepper: MatStepper | undefined;
   @ViewChildren(RouterOutlet) fooList: any;
   @ViewChildren('matStep') stepList: any;
-  steps: any[] = [
-    { title: 'import.title', index: 0, path: '' },
-    { title: 'production.title', index: 1, path: 'forecast' },
-    { title: 'Third', index: 2, path: 'production' },
-  ];
+  steps: Step[];
+
   selectedStepIndex = 0;
 
   constructor(private readonly router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.steps = STEPS;
+  }
 
   move(index: number) {
     if (this.stepper) {
@@ -38,7 +39,7 @@ export class NavBarPlanningComponent implements OnInit {
   selectionChanged(event: any) {
     this.selectedStepIndex = event.selectedIndex;
     const url = 'planning/' + this.steps[this.selectedStepIndex].path;
-    console.log(url, this.steps);
-    this.router.navigate([url]); //using -> private router: Router
+    // console.log(url, this.steps);
+    this.router.navigate([url]);
   }
 }

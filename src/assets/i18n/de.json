@@ -8,8 +8,11 @@
         "value": "Wert",
         "selectFile": "Datei auswählen"
       },
+      "forecast": {
+        "title" : "Produktionsplan"
+      },
       "production": {
-        "title" : "Produktionsplan",
+        "title" : "Eigenfertigung",
         "binding_orders": "Verbindliche Aufträge",
         "planned_stock": "Geplanter Lagerbestand am Ende der Periode",
         "current_stock": "Aktueller Lagerbestand",

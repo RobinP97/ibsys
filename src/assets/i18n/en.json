@@ -7,9 +7,12 @@
         "key": "key",
         "value": "value",
         "selectFile": "select file"
-      },
-      "production": {
-        "title" : "Production plan",
+    },
+    "forecast": {
+        "title" : "Production plan"
+    },
+    "production": {
+        "title" : "In-house production",
         "binding_orders": "binding orders",
         "planned_stock": "planned stock at the end of the period",
         "current_stock": "current stock",
@@ -18,9 +21,9 @@
         "planned_production": "planned production orders",
         "product": "product",        
         "predecessor_waiting_list": "queue of the follow-up product"
-      },
-      "btn": {
+    },
+    "btn": {
         "next" : "Next",
         "back" : "Back"
-      }
+    }
 }

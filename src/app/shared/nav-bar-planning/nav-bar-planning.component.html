@@ -18,6 +18,7 @@
 </div>
 <router-outlet></router-outlet>
 -->
+<!--Vorlage: https://github.com/TheFringe/mat-stepper-routing -->
 <mat-horizontal-stepper #stepper (selectionChange)="selectionChanged($event)">
     <mat-step
       [label]="step.title | translate"

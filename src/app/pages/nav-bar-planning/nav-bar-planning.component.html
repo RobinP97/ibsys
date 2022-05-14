@@ -1,5 +1,5 @@
-<p>nav-bar-planning works!</p>
-<p>Muss selbstverständlich noch schöner aussehen :)</p>
+
+<!--
 <div style="border: 2px solid black; max-width: 500px;">
     <p>Schritte der Planung könnte man als Stepper aus Angular Material umsetzen</p>
     <div id="mynavbar">  
@@ -17,3 +17,22 @@
     </div>
 </div>
 <router-outlet></router-outlet>
+-->
+<mat-horizontal-stepper #stepper (selectionChange)="selectionChanged($event)">
+    <mat-step
+      [label]="step.title | translate"
+      #matStep
+      *ngFor="let step of steps; let i = index"
+      [routerLink]="'planning/' + step.path"
+    >
+      <router-outlet *ngIf="i === selectedStepIndex"></router-outlet>
+      <div class="btn-wrapper">
+        <div>
+            <button *ngIf="i !== 0" mat-button matStepperPrevious class="btn btn-secondary">{{ "btn.back" | translate }}</button>
+        </div>
+        <div>
+            <button *ngIf="steps.length !== i + 1" mat-button matStepperNext class="btn btn-secondary">{{ "btn.next" | translate }}</button>
+        </div>
+      </div>
+    </mat-step>
+</mat-horizontal-stepper>

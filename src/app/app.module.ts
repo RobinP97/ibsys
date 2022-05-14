@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavBarComponent } from './pages/nav-bar/nav-bar.component';
 import { NavBarPlanningComponent } from './pages/nav-bar-planning/nav-bar-planning.component';
@@ -48,6 +49,7 @@ import { ProductionComponent } from './pages/production/production.component';
     MatButtonModule,
     MatToolbarModule,
     MatSelectModule,
+    MatStepperModule,
     MatInputModule,
     MatRadioModule,
     MatMenuModule,

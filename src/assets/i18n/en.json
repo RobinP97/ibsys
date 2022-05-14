@@ -1,5 +1,6 @@
 {
     "import": {
+        "title": "Data import",
         "fileupload": "upload file",
         "upload": "upload", 
         "formatJSON": "formatting JSON",
@@ -8,6 +9,7 @@
         "selectFile": "select file"
       },
       "production": {
+        "title" : "Production plan",
         "binding_orders": "binding orders",
         "planned_stock": "planned stock at the end of the period",
         "current_stock": "current stock",
@@ -16,5 +18,9 @@
         "planned_production": "planned production orders",
         "product": "product",        
         "predecessor_waiting_list": "queue of the follow-up product"
+      },
+      "btn": {
+        "next" : "Next",
+        "back" : "Back"
       }
 }

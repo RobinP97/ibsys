@@ -48,15 +48,20 @@ export class ProductionComponent implements OnDestroy {
     //     this.updateArrayAfterImport();
     //   },
     // });
-    this.initializeInhouseParts(dataSerivce);
+    // Entweder wurde die Eigenfertigung schon einmal geplant und unter dem Schlüssel "production" abgespeichert
+    this.inhouse_parts = dataSerivce.getProduction();
+    // oder noch nicht, sodass man initial eine Zusammenstellung aus den importierten Daten und inhouse-parts.json erstellen muss
+    if (!this.inhouse_parts) {
+      this.initializeInhouseParts(dataSerivce);
 
-    this.waitinglistWorkstations =
-      this.dataSerivce.getWaitinglistWorkstations();
-    this.forecasts = this.dataSerivce.getForcasts();
-    this.warehousestock = this.dataSerivce.getWarehouseStock();
-    this.ordersinwork = this.dataSerivce.getOrdersInWork();
+      this.waitinglistWorkstations =
+        this.dataSerivce.getWaitinglistWorkstations();
+      this.forecasts = this.dataSerivce.getForcasts();
+      this.warehousestock = this.dataSerivce.getWarehouseStock();
+      this.ordersinwork = this.dataSerivce.getOrdersInWork();
 
-    this.updateArrayAfterImport();
+      this.updateArrayAfterImport();
+    }
   }
 
   setWaitingListWorkstations() {
@@ -144,8 +149,9 @@ export class ProductionComponent implements OnDestroy {
   }
 
   updateAfterChange(inhouse_part) {
-    // TODO: Bei Ändeurngen in der Spalte "Verbindliche Aufträge" klappt das >ktualisieren für alle E-Produkte noch nicht. Grund ist der reset der binding orders
+    // TODO: Bei Ändeurngen in der Spalte "Verbindliche Aufträge" klappt das aktualisieren für alle E-Produkte noch nicht. Grund ist der reset der binding orders
     // Lsg: Vielleicht einfache keine Eingabemöglichkeit für die verbindlichen Aufträge
+    // TODO: @robin welche spalten sol der User überhaupt editieren können. Alles was der USer ändern kann müssen wir abspeichern und einlesen...
     this.resetBindingOrders();
     this.updateChain(this.inhouse_parts.find((x) => x.id == 1));
     this.updateChain(this.inhouse_parts.find((x) => x.id == 2));
@@ -286,6 +292,7 @@ export class ProductionComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // TODO: Abspeichern aller Werte die geändert werden können
     this.dataSerivce.setProduction(this.inhouse_parts);
   }
 }

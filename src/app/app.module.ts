@@ -15,11 +15,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { NavBarComponent } from './pages/nav-bar/nav-bar.component';
-import { NavBarPlanningComponent } from './pages/nav-bar-planning/nav-bar-planning.component';
+import { NavBarComponent } from './shared/nav-bar/nav-bar.component';
+import { NavBarPlanningComponent } from './shared/nav-bar-planning/nav-bar-planning.component';
 import { NgModule } from '@angular/core';
 import { NgxTranslateModule } from './translate/translate.module';
+import { OrderPlanningComponent } from './pages/order-planning/order-planning.component';
 import { PrettyPrintPipe } from './pipes/prettyprint.pipe';
 import { ProductionComponent } from './pages/production/production.component';
 
@@ -34,6 +36,7 @@ import { ProductionComponent } from './pages/production/production.component';
     HomeComponent,
     NavBarPlanningComponent,
     DebugComponent,
+    OrderPlanningComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +49,7 @@ import { ProductionComponent } from './pages/production/production.component';
     MatButtonModule,
     MatToolbarModule,
     MatSelectModule,
+    MatStepperModule,
     MatInputModule,
     MatRadioModule,
     MatMenuModule,

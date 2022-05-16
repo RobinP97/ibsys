@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { Article } from 'src/app/model/import/article';
 import { Clipboard } from '@angular/cdk/clipboard';
@@ -11,6 +11,7 @@ import { IoService } from 'src/app/service/io.service';
 import { MissingPart } from 'src/app/model/import/missingpart';
 import { OrderInWork } from 'src/app/model/import/orderinwork';
 import { OrderInwardStockMovement } from 'src/app/model/import/orderinwardstockmovement';
+import { ParserOptions } from 'xml2js';
 import { Result } from 'src/app/model/import/result';
 import { Results } from 'src/app/model/import/results';
 import { WaitingListEntry } from 'src/app/model/import/waitinglist';
@@ -29,34 +30,14 @@ export class ImportComponent implements OnInit {
   fileUploadSuccessful: boolean;
   xmlParsingSuccessful: boolean;
   readFileSuccesful: boolean;
+  @Input() xmlOptions: ParserOptions;
 
   file: File;
   parsedXml: any;
   readFileString: string;
-  jsonToXmlString: string;
-  readEqualsParsed: boolean;
-
-  importedDataKeys: string[] = [
-    'game',
-    'group',
-    'period',
-    'forecast',
-    'warehousestock',
-    'inwardstockmovement',
-    'futureinwardstockmovement',
-    'idletimecosts',
-    'waitinglistworkstations',
-    'waitingliststock',
-    'ordersinwork',
-    'completedorders',
-    'cycletimes',
-    'result',
-  ];
-  prettyprintImportedData: boolean = false;
 
   constructor(
     private readonly ioService: IoService,
-    private clipboard: Clipboard,
     private readonly dataSerivce: DataService
   ) {}
 
@@ -70,10 +51,9 @@ export class ImportComponent implements OnInit {
     this.fileUploadSuccessful = false;
     this.xmlParsingSuccessful = false;
     this.readFileSuccesful = false;
-    this.readEqualsParsed = undefined;
+
     this.parsedXml = undefined;
     this.readFileString = undefined;
-    this.jsonToXmlString = undefined;
 
     console.log('file', event.target);
     this.file = event.target.files[0];
@@ -90,12 +70,10 @@ export class ImportComponent implements OnInit {
       this.readFileSuccesful = true;
       this.readFileString = reader.result.toString();
 
-      this.parsedXml = this.ioService.parseXml(reader.result);
-      // console.log('Reader', reader.result);
+      this.parsedXml = this.ioService.parseXml(reader.result, this.xmlOptions);
       this.xmlParsingSuccessful = this.parsedXml !== undefined;
 
       if (this.xmlParsingSuccessful) this.loadData();
-      if (this.fileUploadSuccessful) this.jsonToXmlString = this.jsonToXml();
 
       //TODO: Else Fall: Fehlerbehandlung
     });
@@ -113,9 +91,6 @@ export class ImportComponent implements OnInit {
   // load-Methoden: Daten aus dem geparseten XML laden und in der Appliaktion verfügbar machen
   //-------------------------------------------------------------------------------------------
 
-  // inputData verarbeiten und in der Anwendung bereitstellen
-  // am besten über Subject, die abonniert werden können (Änderungen werden dann an alle Subscriber weitergeleitet - sehr wichtig!)
-  // in dem Sinne benötigt man das Restults Interface gar nicht
   loadData(): void {
     this.dataSerivce.resetData();
     console.log('Clear local storage');
@@ -466,146 +441,5 @@ export class ImportComponent implements OnInit {
       waitingorders: element.attr.waitingorders,
       order: element.order.map((orderEntry) => orderEntry.attr),
     };
-  }
-
-  //-----------------------------------------------------------------------
-  // validierung: json to xml
-  //-----------------------------------------------------------------------
-  jsonToXml(): string {
-    const tagHelper = new Map([
-      ['ordersinwork', 'workplace'],
-      ['inwardstockmovement', 'order'],
-      ['futureinwardstockmovement', 'order'],
-      ['waitinglistworkstations', 'workplace'],
-      ['waitingliststock', 'missingpart'],
-      ['ordersinwork', 'workplace'],
-      ['completedorders', 'order'],
-    ]);
-    const emptyTags = [
-      'mandatoryOrders',
-      'warehousestock',
-      'inwardstockmovement',
-      'futureinwardstockmovement',
-      'idletimecosts',
-      'waitinglistworkstations',
-      'waitingliststock',
-      'ordersinwork',
-      'completedorders',
-      'cycletimes',
-      'result',
-    ];
-    let tag = '<?xml version="1.0" encoding="UTF-8"?>\r\n';
-    tag += this.parseProperty(
-      this.importedData,
-      'results',
-      tagHelper,
-      emptyTags
-    );
-    return tag;
-  }
-
-  parseProperty(
-    object: any,
-    tagname: string,
-    tagHelper: Map<string, string>,
-    emptyTags: string[]
-  ) {
-    if (object === undefined || Object.keys(object).length === 0)
-      return `<${tagname}/>`; // opt: Zeilenumbruch
-    let tag = `<${tagname}`;
-    let subObjectKeys: string[] = [];
-    // Attribute
-    for (let key in object) {
-      let value = object[key];
-      // Spezialfall - Kurzschreibweise </...>
-      if (value === undefined) {
-        if (emptyTags.includes(key)) subObjectKeys.push(key);
-        continue;
-      }
-      // Spezialfall
-      if (key === 'totalstockvalue') {
-        subObjectKeys.push('totalstockvalue');
-        continue;
-      }
-      let isAttribute = typeof value !== 'object';
-      if (isAttribute) {
-        tag += ` ${key}="${
-          !Number.isNaN(value) ? value.toString().replace('.', ',') : value
-        }"`;
-      } else {
-        subObjectKeys.push(key);
-      }
-    }
-
-    // geschachtelte Tags
-    if (subObjectKeys.length > 0) {
-      tag += '>'; //
-      for (let key of subObjectKeys) {
-        let value = object[key];
-        // Spezialfall
-        if (key === 'totalstockvalue') {
-          tag += `<totalstockvalue>${value
-            .toString()
-            .replace('.', ',')}</totalstockvalue>`; // opt: Zeilenumbruch
-          continue;
-        }
-        if (tagHelper.has(key)) {
-          if (value !== undefined) {
-            tag += `<${key}>`;
-            for (let entry of value) {
-              tag += this.parseProperty(
-                entry,
-                tagHelper.get(key),
-                tagHelper,
-                emptyTags
-              );
-            }
-            tag += `</${key}>`;
-          } else {
-            tag += `<${key}/>`;
-          }
-        } else {
-          value = Array.isArray(value) ? value : [value];
-          for (let entry of value) {
-            tag += this.parseProperty(entry, key, tagHelper, emptyTags);
-          }
-        }
-      }
-      tag += `</${tagname}>`; // opt: Zeilenumbruch
-    } else {
-      tag += '/>'; // opt: Zeilenumbruch
-    }
-    return tag;
-  }
-
-  testXmlTextEquality() {
-    this.readEqualsParsed =
-      this.readFileString.length === this.jsonToXmlString.length &&
-      this.findFirstDifference(this.readFileString, this.jsonToXmlString) ===
-        undefined;
-  }
-
-  findFirstDifference(a: string, b: string) {
-    const arr1 = [...a];
-    const arr2 = [...b];
-    return arr2.find((char, i) => arr1[i] !== char);
-  }
-
-  copyText(textToCopy: string) {
-    return this.clipboard.copy(textToCopy);
-  }
-
-  copyLongText(textToCopy: string) {
-    const pending = this.clipboard.beginCopy(textToCopy);
-    let remainingAttempts = 3;
-    const attempt = () => {
-      const result = pending.copy();
-      if (!result && --remainingAttempts) {
-        setTimeout(attempt);
-      } else {
-        pending.destroy();
-      }
-    };
-    attempt();
   }
 }

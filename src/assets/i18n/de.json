@@ -1,5 +1,6 @@
 {
     "import": {
+        "title": "Datenimport",
         "fileupload": "Datei hochladen",
         "upload" : "hochladen",
         "formatJSON": "JSON formatieren",
@@ -7,7 +8,11 @@
         "value": "Wert",
         "selectFile": "Datei auswählen"
       },
+      "forecast": {
+        "title" : "Produktionsplan"
+      },
       "production": {
+        "title" : "Eigenfertigung",
         "binding_orders": "Verbindliche Aufträge",
         "planned_stock": "Geplanter Lagerbestand am Ende der Periode",
         "current_stock": "Aktueller Lagerbestand",
@@ -16,5 +21,9 @@
         "planned_production": "Geplante Produktionsaufträge",
         "product": "Produkt",
         "predecessor_waiting_list": "Warteschlange des Nachfolgers"
+      },
+      "btn": {
+        "next" : "Weiter",
+        "back" : "Zurück"
       }
 }

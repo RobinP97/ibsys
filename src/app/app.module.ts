@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
@@ -47,6 +48,7 @@ import { ProductionComponent } from './pages/production/production.component';
     NgxTranslateModule,
     MatCardModule,
     MatButtonModule,
+    MatListModule,
     MatToolbarModule,
     MatSelectModule,
     MatStepperModule,

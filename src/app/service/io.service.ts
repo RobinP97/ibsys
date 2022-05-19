@@ -33,7 +33,7 @@ export class IoService {
     valueProcessors: [this.parseNumber], // (value, name) =>  { console.log("VALUE:", value, "NAME", name); return name; }]
   };
 
-  parseXml(xml: any, xmlOptions?: ParserOptions): any {
+  parseXml(xml: any, xmlOptions?: ParserOptions): any | Error {
     const xmlParser = xmlOptions
       ? new Parser(xmlOptions)
       : new Parser(this.xmlOptions);
@@ -43,8 +43,8 @@ export class IoService {
         console.log('Parsed xml file', res);
         parsedXml = res;
       } else {
-        // TODO: Formfehler in der ui anzeigen
-        console.error('ERROR parsing xml file', xml, err);
+        // Fehler während des parsing-Vorgangs => XML-Datei ist nicht wohlgeformt!
+        throw err;
       }
     });
     console.log(parsedXml);

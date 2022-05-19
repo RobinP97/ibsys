@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 import { Article } from 'src/app/model/import/article';
-import { Clipboard } from '@angular/cdk/clipboard';
 import { CompletedOrder } from 'src/app/model/import/completedorder';
 import { Cycletimes } from 'src/app/model/import/cycletimes';
 import { DataService } from 'src/app/service/data.service';
@@ -14,6 +13,8 @@ import { OrderInwardStockMovement } from 'src/app/model/import/orderinwardstockm
 import { ParserOptions } from 'xml2js';
 import { Result } from 'src/app/model/import/result';
 import { Results } from 'src/app/model/import/results';
+import { Router } from '@angular/router';
+import { STEPS } from 'src/app/shared/production-planning-steps';
 import { WaitingListEntry } from 'src/app/model/import/waitinglist';
 import { WarehouseStock } from 'src/app/model/import/warehousestock';
 import { WorkplaceIdletimeCosts } from 'src/app/model/import/workplaceidletimecosts';
@@ -27,64 +28,85 @@ import { WorkplaceWaitingListWorkstation } from 'src/app/model/import/workplaceW
 export class ImportComponent implements OnInit {
   importedData: Results;
 
-  fileUploadSuccessful: boolean;
-  xmlParsingSuccessful: boolean;
-  readFileSuccesful: boolean;
+  @ViewChild('fileUploader') fileUploader: ElementRef;
+
+  hasUplodError: boolean = false;
+  errorMsgs: string[];
+  fileUploadSuccessful: boolean = false;
+
   @Input() xmlOptions: ParserOptions;
 
+  // ausgewählte Datei
   file: File;
-  parsedXml: any;
+  // Rohtext
   readFileString: string;
+  // geparster Rohtext als JSON-Objekt
+  parsedXml: any;
 
   constructor(
     private readonly ioService: IoService,
-    private readonly dataSerivce: DataService
+    private readonly dataSerivce: DataService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
     console.log('');
   }
 
-  // TODO: Prüfung, nur XML-Dateien
-  // TODO: Upload, nur wenn eine Datei ausgewählt wurde
-  onFileChange(event: any): void {
+  // TODO: Weiterleitung, wenn der Uplaod geklappt hat + Nachricht
+  onFileSelected(event: any): void {
     this.fileUploadSuccessful = false;
-    this.xmlParsingSuccessful = false;
-    this.readFileSuccesful = false;
+    this.hasUplodError = false;
+    this.errorMsgs = [];
 
-    this.parsedXml = undefined;
+    this.file = undefined;
     this.readFileString = undefined;
+    this.parsedXml = undefined;
 
-    console.log('file', event.target);
     this.file = event.target.files[0];
-  }
+    console.log('UPLOAD', event.target.files[0]);
 
-  upload(): void {
-    console.log('UPLOAD:', this.file);
+    // Ist die hochgeladene Datei leer?
+    if (this.file.size === 0)
+      this.addErrorMessage('import.fileupload_emptyFile');
+
+    // Wurde eine XML-Datei ausgewählt?
+    if ('text/xml' !== this.file.type)
+      this.addErrorMessage('import.fileupload_wrongFileType');
+
+    // Voraussetzung für das Parsing nicht erfüllt => Abbrechen
+    if (this.hasUplodError) return;
+
     // FileReader objects can read from a file or a blob
     const reader: FileReader = new FileReader();
     // FileReader Events:
     // load – no errors, reading complete.
     // error – error has occurred.
     reader.addEventListener('load', (e) => {
-      this.readFileSuccesful = true;
       this.readFileString = reader.result.toString();
-
-      this.parsedXml = this.ioService.parseXml(reader.result, this.xmlOptions);
-      this.xmlParsingSuccessful = this.parsedXml !== undefined;
-
-      if (this.xmlParsingSuccessful) this.loadData();
-
-      //TODO: Else Fall: Fehlerbehandlung
+      // Bei einem xml-parsing Fehler wird ein Error geworfen
+      try {
+        this.parsedXml = this.ioService.parseXml(
+          reader.result,
+          this.xmlOptions
+        );
+      } catch (e: any) {
+        console.error('ERROR occured while parsing selected file.', e);
+        this.addErrorMessage('import.fileupload_parsingError');
+      }
     });
 
-    // TODO: Fehlerbehandlung
-    reader.addEventListener('error', (err) => {
-      console.error('ERROR reading file:', reader.error);
-      this.readFileSuccesful = false;
-    });
+    // reader.addEventListener('error', (err) => {
+    //   console.error('ERROR reading file:', reader.error);
+    //   this.readFileSuccesful = false;
+    // });
 
     reader.readAsText(this.file, 'utf-8');
+  }
+
+  addErrorMessage(errorMsg: string): void {
+    this.hasUplodError = true;
+    this.errorMsgs.push(errorMsg);
   }
 
   //-------------------------------------------------------------------------------------------
@@ -92,28 +114,45 @@ export class ImportComponent implements OnInit {
   //-------------------------------------------------------------------------------------------
 
   loadData(): void {
-    this.dataSerivce.resetData();
-    console.log('Clear local storage');
+    try {
+      this.dataSerivce.resetData();
+      this.importedData = {
+        game: this.loadGame(),
+        group: this.loadGroup(),
+        period: this.loadPeriod(),
+        forecast: this.loadMandatoryOrders(),
+        warehousestock: this.loadWarehouseStock(),
+        inwardstockmovement: this.loadInwardStockMovement(),
+        futureinwardstockmovement: this.loadFutureInwardStockMovement(),
+        idletimecosts: this.loadIdleTimeCosts(),
+        waitinglistworkstations: this.loadWaitingListWorkstations(),
+        waitingliststock: this.loadWaitingListStock(),
+        ordersinwork: this.loadOrdersInWork(),
+        completedorders: this.loadCompletedOrders(),
+        cycletimes: this.loadCycleTimes(),
+        result: this.loadResult(),
+      };
 
-    // TODO: Fehler wenn this.inputData === undefined
-    this.importedData = {
-      game: this.loadGame(),
-      group: this.loadGroup(),
-      period: this.loadPeriod(),
-      forecast: this.loadMandatoryOrders(),
-      warehousestock: this.loadWarehouseStock(),
-      inwardstockmovement: this.loadInwardStockMovement(),
-      futureinwardstockmovement: this.loadFutureInwardStockMovement(),
-      idletimecosts: this.loadIdleTimeCosts(),
-      waitinglistworkstations: this.loadWaitingListWorkstations(),
-      waitingliststock: this.loadWaitingListStock(),
-      ordersinwork: this.loadOrdersInWork(),
-      completedorders: this.loadCompletedOrders(),
-      cycletimes: this.loadCycleTimes(),
-      result: this.loadResult(),
-    };
-    this.fileUploadSuccessful = true;
-    console.log('importedData', this.importedData);
+      this.fileUploadSuccessful = true;
+      console.log('importedData', this.importedData);
+      // TODO: Erfolgsanzeige wie Snackbar
+      // automatische Weiterleitung zum zweiten Schritt
+      this.router.navigate([`planning/${STEPS[1].path}`]);
+    } catch (e: unknown) {
+      console.error('Error occured while loading the data:', e);
+      this.dataSerivce.resetData();
+
+      this.importedData = undefined;
+      this.readFileString = undefined;
+      this.parsedXml = undefined;
+
+      this.fileUploadSuccessful = false;
+      this.hasUplodError = true;
+      this.errorMsgs.push('import.fileupload_loadDataError');
+
+      this.fileUploader.nativeElement.value = '';
+      console.log(typeof this.fileUploader);
+    }
   }
 
   loadGame(): number {

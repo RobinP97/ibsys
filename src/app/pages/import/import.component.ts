@@ -1,6 +1,7 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 
 import { Article } from 'src/app/model/import/article';
+import { CdkStepper } from '@angular/cdk/stepper';
 import { CompletedOrder } from 'src/app/model/import/completedorder';
 import { Cycletimes } from 'src/app/model/import/cycletimes';
 import { DataService } from 'src/app/service/data.service';
@@ -14,7 +15,6 @@ import { ParserOptions } from 'xml2js';
 import { Result } from 'src/app/model/import/result';
 import { Results } from 'src/app/model/import/results';
 import { Router } from '@angular/router';
-import { STEPS } from 'src/app/shared/production-planning-steps';
 import { WaitingListEntry } from 'src/app/model/import/waitinglist';
 import { WarehouseStock } from 'src/app/model/import/warehousestock';
 import { WorkplaceIdletimeCosts } from 'src/app/model/import/workplaceidletimecosts';
@@ -25,14 +25,14 @@ import { WorkplaceWaitingListWorkstation } from 'src/app/model/import/workplaceW
   templateUrl: './import.component.html',
   styleUrls: ['./import.component.scss'],
 })
-export class ImportComponent implements OnInit {
+export class ImportComponent {
   importedData: Results;
 
   @ViewChild('fileUploader') fileUploader: ElementRef;
 
+  fileUploadSuccessful: boolean = false;
   hasUplodError: boolean = false;
   errorMsgs: string[];
-  fileUploadSuccessful: boolean = false;
 
   @Input() xmlOptions: ParserOptions;
 
@@ -45,13 +45,9 @@ export class ImportComponent implements OnInit {
 
   constructor(
     private readonly ioService: IoService,
-    private readonly dataSerivce: DataService,
-    private readonly router: Router
+    private readonly dataService: DataService,
+    private readonly _stepper: CdkStepper
   ) {}
-
-  ngOnInit(): void {
-    console.log('');
-  }
 
   // TODO: Weiterleitung, wenn der Uplaod geklappt hat + Nachricht
   onFileSelected(event: any): void {
@@ -115,7 +111,8 @@ export class ImportComponent implements OnInit {
 
   loadData(): void {
     try {
-      this.dataSerivce.resetData();
+      this.dataService.resetData();
+      this.dataService.importFileStatus(false);
       this.importedData = {
         game: this.loadGame(),
         group: this.loadGroup(),
@@ -135,12 +132,14 @@ export class ImportComponent implements OnInit {
 
       this.fileUploadSuccessful = true;
       console.log('importedData', this.importedData);
-      // TODO: Erfolgsanzeige wie Snackbar
-      // automatische Weiterleitung zum zweiten Schritt
-      this.router.navigate([`planning/${STEPS[1].path}`]);
+      // TODO: Erfolgsanzeige Snackbar
+      // App informieren: Import erfolgreich und abgeschlossen
+      this.dataService.importFileStatus(true);
+      // Weiterleitung zum nächsten Schritt
+      this._stepper.next();
     } catch (e: unknown) {
       console.error('Error occured while loading the data:', e);
-      this.dataSerivce.resetData();
+      this.dataService.resetData();
 
       this.importedData = undefined;
       this.readFileString = undefined;
@@ -150,28 +149,28 @@ export class ImportComponent implements OnInit {
       this.hasUplodError = true;
       this.errorMsgs.push('import.fileupload_loadDataError');
 
+      this.dataService.importFileStatus(false);
       this.fileUploader.nativeElement.value = '';
-      console.log(typeof this.fileUploader);
     }
   }
 
   loadGame(): number {
     const game: number = this.parsedXml.results.attr.game;
-    this.dataSerivce.setGame(game);
+    this.dataService.setGame(game);
 
     return game;
   }
 
   loadPeriod(): number {
     const period: number = this.parsedXml.results.attr.period;
-    this.dataSerivce.setPeriod(period);
+    this.dataService.setPeriod(period);
 
     return period;
   }
 
   loadGroup(): number {
     const group: number = this.parsedXml.results.attr.group;
-    this.dataSerivce.setGroup(group);
+    this.dataService.setGroup(group);
 
     return group;
   }
@@ -179,7 +178,7 @@ export class ImportComponent implements OnInit {
   loadMandatoryOrders(): Forecast {
     const mandatoryOrdersInput = this.parsedXml.results.forecast[0].attr;
     const mandatoryOrders: Forecast = this.createForecast(mandatoryOrdersInput);
-    this.dataSerivce.setMandatoryOrders(mandatoryOrders);
+    this.dataService.setMandatoryOrders(mandatoryOrders);
 
     return mandatoryOrders;
   }
@@ -195,7 +194,7 @@ export class ImportComponent implements OnInit {
       article: articles,
       totalstockvalue: totalStockValue,
     };
-    this.dataSerivce.setWarehouseStock(warehouseStock);
+    this.dataService.setWarehouseStock(warehouseStock);
 
     return warehouseStock;
   }
@@ -204,13 +203,13 @@ export class ImportComponent implements OnInit {
     const inwardStockMovementInput =
       this.parsedXml.results.inwardstockmovement[0];
     // Check: gabe es in der letzen Periode überhaupt Materialeingänge?
-    if (typeof inwardStockMovementInput === 'string') return undefined;
+    if (typeof inwardStockMovementInput === 'string') return [];
 
     const orders: OrderInwardStockMovement[] =
       inwardStockMovementInput.order.map((element) =>
         this.createOrder(element)
       );
-    this.dataSerivce.setInwardStockMovement(orders);
+    this.dataService.setInwardStockMovement(orders);
 
     return orders;
   }
@@ -219,13 +218,13 @@ export class ImportComponent implements OnInit {
     const futureInwardStockMovementInput =
       this.parsedXml.results.futureinwardstockmovement[0];
     // Check: gibt es überhaupt zukünftige Materialeingänge?
-    if (typeof futureInwardStockMovementInput === 'string') return undefined;
+    if (typeof futureInwardStockMovementInput === 'string') return [];
 
     const orders: OrderInwardStockMovement[] =
       futureInwardStockMovementInput.order.map((element) =>
         this.createOrder(element)
       );
-    this.dataSerivce.setFutureInwardStockMovement(orders);
+    this.dataService.setFutureInwardStockMovement(orders);
 
     return orders;
   }
@@ -246,7 +245,7 @@ export class ImportComponent implements OnInit {
       workplace: idletimeCostsWorkplaces,
       sum: sum,
     };
-    this.dataSerivce.setIdleTimeCosts(idleTimeCosts);
+    this.dataService.setIdleTimeCosts(idleTimeCosts);
 
     return idleTimeCosts;
   }
@@ -255,13 +254,13 @@ export class ImportComponent implements OnInit {
     const waitinglistworkstationsInput =
       this.parsedXml.results.waitinglistworkstations[0];
     // Check: gibt es überhaupt Arbeitsplätze in der Warteschlange? Wenn nein, dann wurde <waitinglistworkstations/> als "" geparst
-    if (typeof waitinglistworkstationsInput === 'string') return undefined;
+    if (typeof waitinglistworkstationsInput === 'string') return [];
 
     const waitingListWorkplaces: WorkplaceWaitingListWorkstation[] =
       waitinglistworkstationsInput.workplace.map((element) =>
         this.createWorkplaceWaitingListStation(element)
       );
-    this.dataSerivce.setWaitingListWorkstations(waitingListWorkplaces);
+    this.dataService.setWaitingListWorkstations(waitingListWorkplaces);
 
     return waitingListWorkplaces;
   }
@@ -269,12 +268,12 @@ export class ImportComponent implements OnInit {
   loadWaitingListStock(): MissingPart[] {
     const waitingListStockInput = this.parsedXml.results.waitingliststock[0];
     // Check: gibt es überhaupt Material in der Warteschlange? Wenn nein, dann wurde <waitingliststock/> als "" geparst
-    if (typeof waitingListStockInput === 'string') return undefined;
+    if (typeof waitingListStockInput === 'string') return [];
 
     const missingParts: MissingPart[] = waitingListStockInput.missingpart.map(
       (element) => this.createMissingPart(element)
     );
-    this.dataSerivce.setWaitingListStock(missingParts);
+    this.dataService.setWaitingListStock(missingParts);
 
     return missingParts;
   }
@@ -282,12 +281,12 @@ export class ImportComponent implements OnInit {
   loadOrdersInWork(): OrderInWork[] {
     const ordersInWorkInput = this.parsedXml.results.ordersinwork[0];
     // Check: gibt es überhaupt Aufträge in der Warteschlange, die gerade bearbeitet werden?
-    if (typeof ordersInWorkInput === 'string') return undefined;
+    if (typeof ordersInWorkInput === 'string') return [];
 
     const ordersInWork: OrderInWork[] = ordersInWorkInput.workplace.map(
       (element) => this.createOrderInWork(element)
     );
-    this.dataSerivce.setOrdersInWork(ordersInWork);
+    this.dataService.setOrdersInWork(ordersInWork);
 
     return ordersInWork;
   }
@@ -295,12 +294,12 @@ export class ImportComponent implements OnInit {
   loadCompletedOrders(): CompletedOrder[] {
     const completeOrdersInput = this.parsedXml.results.completedorders[0];
     // Check: wurden in der letzen Periode überhaupt Aufträge abgeschlossen?
-    if (typeof completeOrdersInput === 'string') return undefined;
+    if (typeof completeOrdersInput === 'string') return [];
 
     const completedOrders: CompletedOrder[] = completeOrdersInput.order.map(
       (element) => this.createCompletedOrder(element)
     );
-    this.dataSerivce.setCompletedOrders(completedOrders);
+    this.dataService.setCompletedOrders(completedOrders);
 
     return completedOrders;
   }
@@ -310,7 +309,7 @@ export class ImportComponent implements OnInit {
     //TODO: was wenn der Tag leer ist?
 
     const cycleTimes: Cycletimes = this.createCycletimes(cycleTimesInput);
-    this.dataSerivce.setCycleTimes(cycleTimes);
+    this.dataService.setCycleTimes(cycleTimes);
 
     return cycleTimes;
   }
@@ -360,7 +359,7 @@ export class ImportComponent implements OnInit {
         profit: summaryInput.profit[0].attr,
       },
     };
-    this.dataSerivce.setResults(result);
+    this.dataService.setResults(result);
 
     return result;
   }

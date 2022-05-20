@@ -50,7 +50,6 @@ export class ImportComponent {
     private readonly snackbarService: SnackbarService
   ) {}
 
-  // TODO: Weiterleitung, wenn der Uplaod geklappt hat + Nachricht
   onFileSelected(event: any): void {
     this.fileUploadSuccessful = false;
     this.hasUplodError = false;

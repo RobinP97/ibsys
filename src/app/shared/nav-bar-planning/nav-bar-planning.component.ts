@@ -1,5 +1,5 @@
 import {
-  AfterContentInit,
+  AfterViewInit,
   Component,
   OnDestroy,
   OnInit,
@@ -11,6 +11,7 @@ import { DataService } from 'src/app/service/data.service';
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { STEPS } from '../production-planning-steps';
+import { SnackbarService } from 'src/app/service/snackbar.service';
 import { Step } from 'src/app/model/production/step';
 
 @Component({
@@ -18,7 +19,7 @@ import { Step } from 'src/app/model/production/step';
   styleUrls: ['./nav-bar-planning.component.scss'],
 })
 export class NavBarPlanningComponent
-  implements OnInit, AfterContentInit, OnDestroy
+  implements OnInit, AfterViewInit, OnDestroy
 {
   @ViewChild('stepper') stepper: MatStepper | undefined;
   // @ViewChildren(RouterOutlet) fooList: any;
@@ -30,8 +31,12 @@ export class NavBarPlanningComponent
 
   constructor(
     private readonly router: Router,
-    private readonly dataService: DataService
-  ) {}
+    private readonly dataService: DataService,
+    private readonly snackBarService: SnackbarService
+  ) {
+    this.completedImport = dataService.checkBrowsercache4ImportedFileData();
+    console.log('completedImport', this.completedImport);
+  }
 
   ngOnInit(): void {
     this.steps = STEPS;
@@ -41,48 +46,51 @@ export class NavBarPlanningComponent
 
     this.dataService.completedProductionPlanningStep$.subscribe({
       next: (step) => {
-        if (this.stepList)
+        if (this.stepList) {
           this.stepList._results[step.index]._completedOverride =
             step.completed;
+          // Eine Datei erfolgreich hochgeladen wurde editable auf false setzen
+          if (step.index === 0)
+            this.stepList._results[step.index]._editable = !step.completed;
+        }
+        console.log(this.stepper);
       },
     });
   }
 
-  ngAfterContentInit(): void {
-    this.dataService.importFileStatus(
-      this.dataService.checkBrowsercache4ImportedFileData()
-    );
+  ngAfterViewInit() {
+    if (this.completedImport) {
+      // Match: Path to stepper index
+      const currentUrlParts = this.router.url.split('/');
+      const lastUrlPart =
+        currentUrlParts.length > 2
+          ? currentUrlParts[currentUrlParts.length - 1]
+          : '';
+      for (let step of this.steps) {
+        if (step.path !== lastUrlPart) continue;
+        this.stepper.selectedIndex = step.index;
+        // Info falls noch Daten aus der alten Planung im Browser zur Verfügung stehen
+        if (step.index === 0) {
+          this.snackBarService.openSnackBar(
+            'import.importedDataAvailable_hint',
+            'Ok',
+            10000
+          );
+          this.dataService.importFileStatus(this.completedImport);
+        }
+        break;
+      }
+    } else {
+      this.dataService.importFileStatus(this.completedImport);
+      this.router.navigate(['planning']);
+    }
   }
 
-  // ngAfterViewInit() {
-  //   this.stepList.changes.subscribe((t: any) => {
-  //     this.ngForRendred();
-  //   });
-  // }
-
-  // ngForRendred() {
-  //   console.log('NgFor is Rendered', this.fooList);
-  // }
-
-  // move(index: number) {
-  //   if (this.stepper) {
-  //     this.stepper.selectedIndex = index;
-  //   }
-  // }
-  // next() {
-  //   if (this.stepper) {
-  //     const currentIndex = this.stepper?.selectedIndex;
-  //     const nextStep = !!this.steps ? 0 : this.steps[currentIndex + 1];
-  //     this.stepper.selectedIndex = currentIndex + 1;
-  //   }
-  // }
-
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
     this.dataService.fileUploadSuccessful$.complete();
     this.dataService.completedProductionPlanningStep$.complete();
   }
+
   selectionChanged(event: any) {
     this.selectedStepIndex = event.selectedIndex;
     const url = 'planning/' + this.steps[this.selectedStepIndex].path;

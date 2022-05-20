@@ -13,8 +13,8 @@
         "fileupload_wrongFileType": "The selected file is not a xml file. Please choose a xml file.",
         "fileupload_parsingError": "An error occured while validating the selected xml file. Please ensure that the selected xml file is well formed.",
         "fileupload_loadDataError": "An error occured while importing the selected file. Please review the selected file.",
-        "fileupload_success_snackbarMsg": "The selected xml file was imported succesfully."
-
+        "fileupload_success_snackbarMsg": "The selected xml file was imported succesfully.",
+        "importedDataAvailable_hint": "You can continue working directly with the data from your previous planning. If you select and import a new xml file, the data from your previous planning will be deleted."
     },
 
     "forecast": {

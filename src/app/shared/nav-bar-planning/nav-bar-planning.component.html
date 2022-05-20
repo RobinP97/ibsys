@@ -23,16 +23,18 @@
     <mat-step
       [label]="step.title | translate"
       #matStep
+      [editable]="i === 0 ? !completedImport : true"
+      [errorMessage]="asdfsadf"
       *ngFor="let step of steps; let i = index"
       [routerLink]="'planning/' + step.path"
     >
       <router-outlet *ngIf="i === selectedStepIndex"></router-outlet>
       <div class="btn-wrapper">
         <div>
-            <button *ngIf="i !== 0" mat-button matStepperPrevious class="btn btn-secondary">{{ "btn.back" | translate }}</button>
+            <button *ngIf="i !== 0 && i !== 1" mat-button matStepperPrevious class="btn btn-secondary">{{ "btn.back" | translate }}</button>
         </div>
         <div>
-            <button *ngIf="steps.length !== i + 1" mat-button matStepperNext class="btn btn-secondary">{{ "btn.next" | translate }}</button>
+            <button *ngIf="( i > 0 && steps.length !== i + 1) || (completedImport && i === 0)" mat-button matStepperNext class="btn btn-secondary">{{ "btn.next" | translate }}</button>
         </div>
       </div>
     </mat-step>

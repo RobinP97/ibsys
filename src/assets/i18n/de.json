@@ -13,7 +13,8 @@
         "fileupload_wrongFileType": "Die ausgewählte Datei ist keine XML-Datei. Bitte wählen Sie eine XML-Datei aus.",
         "fileupload_parsingError": "Beim Überprüfen der Datei trat ein Fehler auf. Bitte stellen Sie sicher, dass die ausgewählte XML-Datei wohl geformt ist.",
         "fileupload_loadDataError": "Das Einlesen der XML-Datei schlug fehl. Bitte überprüfen Sie die ausgewählte XML-Datei.",
-        "fileupload_success_snackbarMsg": "Das Einlesen der ausgewählten XML-Datei war erfolgreich."
+        "fileupload_success_snackbarMsg": "Das Einlesen der ausgewählten XML-Datei war erfolgreich.",
+        "importedDataAvailable_hint": "Sie können direkt mit den Daten ihrer vorherigen Planung weiterarbeiten. Wenn Sie eine neue XML-Datei auswählen und einlesen, werden die Daten ihrer vorherigen Planung gelöscht."
       },
       "forecast": {
         "title" : "Produktionsplan"

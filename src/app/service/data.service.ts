@@ -9,6 +9,7 @@ import { OrderInWork } from '../model/import/orderinwork';
 import { OrderInwardStockMovement } from '../model/import/orderinwardstockmovement';
 import { Production } from '../model/production/production';
 import { Result } from '../model/import/result';
+import { STEPS } from '../shared/production-planning-steps';
 import { Subject } from 'rxjs';
 import { WarehouseStock } from '../model/import/warehousestock';
 import { WorkplaceWaitingListWorkstation } from '../model/import/workplaceWaitingListWorkstations';
@@ -56,7 +57,13 @@ export class DataService {
   // War der Import erfolgreich
   importFileStatus(success: boolean) {
     this.fileUploadSuccessful$.next(success);
-    this.updateProductionPlanningStep(success, 0);
+    // Status completed an alle Schritte senden: 1-x auf false zurücksetzen
+    for (let step of STEPS) {
+      this.updateProductionPlanningStep(
+        step.index === 0 ? success : false,
+        step.index
+      );
+    }
   }
 
   // Setze für einen mat-step mit index=index, dessen Property completed auf true oder false

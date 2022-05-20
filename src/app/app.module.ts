@@ -16,6 +16,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavBarComponent } from './shared/nav-bar/nav-bar.component';
@@ -51,6 +52,7 @@ import { ProductionComponent } from './pages/production/production.component';
     MatListModule,
     MatToolbarModule,
     MatSelectModule,
+    MatSnackBarModule,
     MatStepperModule,
     MatInputModule,
     MatRadioModule,

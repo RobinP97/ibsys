@@ -12,7 +12,8 @@
         "fileupload_emptyFile": "Die ausgewählte Datei ist leer. Bitte wählen Sie eine andere Datei.",
         "fileupload_wrongFileType": "Die ausgewählte Datei ist keine XML-Datei. Bitte wählen Sie eine XML-Datei aus.",
         "fileupload_parsingError": "Beim Überprüfen der Datei trat ein Fehler auf. Bitte stellen Sie sicher, dass die ausgewählte XML-Datei wohl geformt ist.",
-        "fileupload_loadDataError": "Das Einlesen der XML-Datei schlug fehl. Bitte überprüfen Sie die ausgewählte XML-Datei."
+        "fileupload_loadDataError": "Das Einlesen der XML-Datei schlug fehl. Bitte überprüfen Sie die ausgewählte XML-Datei.",
+        "fileupload_success_snackbarMsg": "Das Einlesen der ausgewählten XML-Datei war erfolgreich."
       },
       "forecast": {
         "title" : "Produktionsplan"

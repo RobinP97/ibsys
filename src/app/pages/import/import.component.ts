@@ -14,7 +14,7 @@ import { OrderInwardStockMovement } from 'src/app/model/import/orderinwardstockm
 import { ParserOptions } from 'xml2js';
 import { Result } from 'src/app/model/import/result';
 import { Results } from 'src/app/model/import/results';
-import { Router } from '@angular/router';
+import { SnackbarService } from 'src/app/service/snackbar.service';
 import { WaitingListEntry } from 'src/app/model/import/waitinglist';
 import { WarehouseStock } from 'src/app/model/import/warehousestock';
 import { WorkplaceIdletimeCosts } from 'src/app/model/import/workplaceidletimecosts';
@@ -46,7 +46,8 @@ export class ImportComponent {
   constructor(
     private readonly ioService: IoService,
     private readonly dataService: DataService,
-    private readonly _stepper: CdkStepper
+    private readonly _stepper: CdkStepper,
+    private readonly snackbarService: SnackbarService
   ) {}
 
   // TODO: Weiterleitung, wenn der Uplaod geklappt hat + Nachricht
@@ -137,6 +138,9 @@ export class ImportComponent {
       this.dataService.importFileStatus(true);
       // Weiterleitung zum nächsten Schritt
       this._stepper.next();
+      this.snackbarService.openSnackBar(
+        'import.fileupload_success_snackbarMsg'
+      );
     } catch (e: unknown) {
       console.error('Error occured while loading the data:', e);
       this.dataService.resetData();

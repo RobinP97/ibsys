@@ -8,6 +8,7 @@ import { NavBarPlanningComponent } from './shared/nav-bar-planning/nav-bar-plann
 import { NgModule } from '@angular/core';
 import { OrderPlanningComponent } from './pages/order-planning/order-planning.component';
 import { ProductionComponent } from './pages/production/production.component';
+import { SequencePlanningComponent } from './pages/sequence-planning/sequence-planning.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
       { path: '', component: ImportComponent },
       { path: 'forecast', component: ForecastComponent },
       { path: 'production', component: ProductionComponent },
+      { path: 'sequencePlanning', component: SequencePlanningComponent },
       { path: 'orderPlanning', component: OrderPlanningComponent },
     ],
   },

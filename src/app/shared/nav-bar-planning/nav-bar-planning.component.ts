@@ -1,4 +1,5 @@
 import {
+  AfterContentInit,
   AfterViewInit,
   Component,
   OnDestroy,
@@ -19,7 +20,7 @@ import { Step } from 'src/app/model/production/step';
   styleUrls: ['./nav-bar-planning.component.scss'],
 })
 export class NavBarPlanningComponent
-  implements OnInit, AfterViewInit, OnDestroy
+  implements OnInit, AfterContentInit, AfterViewInit, OnDestroy
 {
   @ViewChild('stepper') stepper: MatStepper | undefined;
   // @ViewChildren(RouterOutlet) fooList: any;
@@ -58,7 +59,7 @@ export class NavBarPlanningComponent
     });
   }
 
-  ngAfterViewInit() {
+  ngAfterContentInit() {
     if (this.completedImport) {
       // Match: Path to stepper index
       const currentUrlParts = this.router.url.split('/');
@@ -68,7 +69,8 @@ export class NavBarPlanningComponent
           : '';
       for (let step of this.steps) {
         if (step.path !== lastUrlPart) continue;
-        this.stepper.selectedIndex = step.index;
+        // this.stepper.selectedIndex = step.index;
+        this.selectedStepIndex = step.index;
         // Info falls noch Daten aus der alten Planung im Browser zur Verfügung stehen
         if (step.index === 0) {
           this.snackBarService.openSnackBar(
@@ -76,14 +78,19 @@ export class NavBarPlanningComponent
             'Ok',
             10000
           );
-          this.dataService.importFileStatus(this.completedImport);
         }
         break;
       }
     } else {
-      this.dataService.importFileStatus(this.completedImport);
-      this.router.navigate(['planning']);
+      // this.router.navigate(['planning']);
+      this.selectedStepIndex = 0;
     }
+  }
+
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    this.dataService.importFileStatus(this.completedImport);
   }
 
   ngOnDestroy(): void {

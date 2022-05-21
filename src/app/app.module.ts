@@ -26,7 +26,7 @@ import { NgxTranslateModule } from './translate/translate.module';
 import { OrderPlanningComponent } from './pages/order-planning/order-planning.component';
 import { PrettyPrintPipe } from './pipes/prettyprint.pipe';
 import { ProductionComponent } from './pages/production/production.component';
-import { SequencePlanningComponent } from './sequence-planning/sequence-planning.component';
+import { SequencePlanningComponent } from './pages/sequence-planning/sequence-planning.component';
 
 @NgModule({
   declarations: [

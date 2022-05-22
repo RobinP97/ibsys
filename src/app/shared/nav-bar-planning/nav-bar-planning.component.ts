@@ -36,7 +36,6 @@ export class NavBarPlanningComponent
     private readonly snackBarService: SnackbarService
   ) {
     this.completedImport = dataService.checkBrowsercache4ImportedFileData();
-    console.log('completedImport', this.completedImport);
   }
 
   ngOnInit(): void {
@@ -54,7 +53,6 @@ export class NavBarPlanningComponent
           if (step.index === 0)
             this.stepList._results[step.index]._editable = !step.completed;
         }
-        console.log(this.stepper);
       },
     });
   }
@@ -82,8 +80,8 @@ export class NavBarPlanningComponent
         break;
       }
     } else {
-      // this.router.navigate(['planning']);
       this.selectedStepIndex = 0;
+      this.router.navigate(['planning']);
     }
   }
 

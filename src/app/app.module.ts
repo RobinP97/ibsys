@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { DebugComponent } from './pages/debug/debug.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ForecastComponent } from './pages/forecast/forecast.component';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './pages/home/home.component';
@@ -48,6 +49,7 @@ import { SequencePlanningComponent } from './pages/sequence-planning/sequence-pl
     FormsModule,
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
+    DragDropModule,
     NgxTranslateModule,
     MatCardModule,
     MatButtonModule,

@@ -1,1 +1,21 @@
-<p>sequence-planning works!</p>
+<div>
+    <div cdkDropList (cdkDropListDropped)="drop($event)">
+        <mat-card *ngFor="let productionOrder of productionOrders; ; let i = index" cdkDrag class="production-order-container">
+            <div class="production-order-data">
+                <mat-card-subtitle>Quantity: {{ productionOrder.binding_orders }}</mat-card-subtitle>
+                <mat-card-title>{{ productionOrder.category }}{{ productionOrder.id }}</mat-card-title>
+            </div>
+            <div class="production-order-action">
+                <mat-card-actions>
+                    <div>
+                        <button mat-button (click)="splitItem(productionOrder, i, amt.value)">SPLIT</button>
+                        <input  type="number" min="10" step="10" [max]="productionOrder.binding_orders - 10" [disabled]="productionOrder.binding_orders === 10" [value]="getDefaultSplitAmnt(productionOrder)" #amt>
+                    </div>
+                    <div >
+                        <button *ngIf="canDelete(productionOrder.id)" mat-button (click)="deleteItem(productionOrder, i)">DELETE</button>
+                    </div>
+                </mat-card-actions>
+            </div>
+        </mat-card>
+    </div>
+</div>

@@ -114,11 +114,11 @@ export class DataService {
     return ordersInWork;
   }
 
-  getProduction(): Production[] {
-    const production: Production[] = this.localStorageService.getItem(
-      keys.other.PRODUCTION
+  getProductionOrders(): Production[] {
+    const productionOrders: Production[] = this.localStorageService.getItem(
+      keys.other.PRODUCTIONORDERS
     );
-    return production;
+    return productionOrders;
   }
   //-------------------------------------------------------------------------------------------
   // get-Methoden: Schreibe Daten in den Browerchache und informiere die relevanten Abonnenten
@@ -234,8 +234,11 @@ export class DataService {
     );
   }
 
-  setProduction(production: Production[]) {
-    this.production$.next(production);
-    this.localStorageService.setItem(keys.other.PRODUCTION, production);
+  setProductionOrders(productionOrders: Production[]) {
+    this.production$.next(productionOrders);
+    this.localStorageService.setItem(
+      keys.other.PRODUCTIONORDERS,
+      productionOrders
+    );
   }
 }

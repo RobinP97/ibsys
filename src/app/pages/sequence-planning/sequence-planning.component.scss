@@ -1,0 +1,28 @@
+.production-order-container {
+    max-width: 400px;
+    border: 1px solid black;
+}
+
+mat-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.production-order-data {
+    flex-basis: 2;
+}
+
+input[type="number"] {
+    width: 4em;
+}
+
+.production-order-action {
+    display: flex;
+    align-items: center;
+}
+
+.mat-card-actions {
+    margin: 0 !important;
+}

@@ -1,12 +1,9 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChildren } from '@angular/core';
 
-import { CurrencyPipe } from '@angular/common';
 import { DataService } from 'src/app/service/data.service';
 import { Production } from 'src/app/model/production/production';
 import { Split } from 'src/app/model/production/split';
-import { sequence } from '@angular/animations';
-import { threadId } from 'worker_threads';
 
 @Component({
   selector: 'app-sequence-planning',
@@ -14,7 +11,7 @@ import { threadId } from 'worker_threads';
   styleUrls: ['./sequence-planning.component.scss'],
 })
 export class SequencePlanningComponent implements OnDestroy {
-  // Zur Anzeige mit eventuellen Split als neue Production Objekte
+  // Zur Anzeige mit eventuellen Split. Splits als neue Produktion Objekte
   productionOrders: Production[];
 
   constructor(private readonly dataService: DataService) {
@@ -42,6 +39,7 @@ export class SequencePlanningComponent implements OnDestroy {
         const newProductionOrder = Object.assign({}, p);
         newProductionOrder.binding_orders = s.amount;
         newProductionOrder.sequencePos = s.sequencePos;
+        newProductionOrder.splits = undefined;
         newProductionOrders.push(newProductionOrder);
       });
     });
@@ -56,13 +54,6 @@ export class SequencePlanningComponent implements OnDestroy {
         event.previousIndex,
         event.currentIndex
       );
-
-      // Positionen anpassen
-      const first = this.findProductOrderAtPos(event.previousIndex);
-      const second = this.findProductOrderAtPos(event.currentIndex);
-
-      first.sequencePos = event.currentIndex;
-      second.sequencePos = event.previousIndex;
     }
   }
 
@@ -80,8 +71,6 @@ export class SequencePlanningComponent implements OnDestroy {
     const newOrder: Production = Object.assign({}, productionOrder);
     productionOrder.binding_orders = newOrder.binding_orders - amt;
     newOrder.binding_orders = amt;
-    newOrder.sequencePos = index + 1;
-    this.updateSequencePositions(index, true);
     this.productionOrders.splice(index + 1, 0, newOrder);
   }
 
@@ -96,49 +85,38 @@ export class SequencePlanningComponent implements OnDestroy {
         p.id === productionOrder.id &&
         p.sequencePos !== productionOrder.sequencePos
     );
-    // Positionen aktualisieren
-    this.updateSequencePositions(index, false);
     // zu löschende Menge auf das erste Elemete aufaddieren
     relevantSplits[0].binding_orders += productionOrder.binding_orders;
     // Element entfernen
     this.productionOrders.splice(index, 1);
   }
 
-  // Alle sequencePos ab startExclusive
-  updateSequencePositions(startExclusive: number, inc: boolean) {
-    this.productionOrders.forEach((p) => {
-      if (p.sequencePos > startExclusive)
-        inc ? p.sequencePos++ : p.sequencePos--;
-    });
-  }
-
   ngOnDestroy(): void {
     // Called once, before the instance is destroyed.
     if (this.productionOrders) {
-      const id2Order = {};
-      // Gruppierung anhand p.id
-      this.productionOrders?.forEach((p) => {
-        const arr: Production[] = [p];
-        if (p.id in id2Order) {
-          id2Order[p.id] = [...id2Order[p.id], p];
-        } else {
-          id2Order[p.id] = [p];
-        }
-      });
+      // index auf sequencePos mappen: Position über die Komponente hinaus speichern
+      this.productionOrders.forEach((p, idx) => (p.sequencePos = idx));
 
       const productOrdersToSave = [];
-      Object.keys(id2Order).forEach((id) => {
-        const productionOrders: Production[] = id2Order[id];
-        const totalBindingOrders: number = productionOrders
+
+      const productIds: Set<number> = new Set(
+        this.productionOrders.map((p) => p.id)
+      );
+
+      productIds.forEach((id) => {
+        const productionOrdersSorted = this.productionOrders
+          .filter((p) => p.id === id)
+          .sort((a, b) => a.sequencePos - b.sequencePos);
+
+        // Menge aller Aufträge einer produkt-id aufsummieren
+        const totalBindingOrders: number = productionOrdersSorted
           ?.map((value) => value.binding_orders)
           .reduce((acc, cur) => acc + cur, 0);
-        const aggregatedProductionOrders: Production = Object.assign(
-          {},
-          productionOrders.pop()
-        );
-        aggregatedProductionOrders.binding_orders = totalBindingOrders;
-        // Verbleibende Produkte als Splits eintragen
-        const splits: Split[] | undefined = productionOrders?.map(
+        // letzter Fertigungsauftrag holen. An ihm werden die Spilkt sowie der Gesamtumfang des Auftrags abgespeichert
+        const aggregated = Object.assign({}, productionOrdersSorted.pop());
+        aggregated.binding_orders = totalBindingOrders;
+
+        const splits: Split[] | undefined = productionOrdersSorted?.map(
           (p) =>
             <Split>{
               parentId: p.id,
@@ -146,12 +124,10 @@ export class SequencePlanningComponent implements OnDestroy {
               amount: p.binding_orders,
             }
         );
-        aggregatedProductionOrders.splits = splits;
+        aggregated.splits = splits;
 
-        productOrdersToSave.push(aggregatedProductionOrders);
+        productOrdersToSave.push(aggregated);
       });
-      console.log('TO_SAVE', productOrdersToSave);
-
       if (productOrdersToSave.length !== 0) {
         this.dataService.setProductionOrders(productOrdersToSave);
       }

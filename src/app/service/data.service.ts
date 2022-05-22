@@ -84,6 +84,12 @@ export class DataService {
   //-------------------------------------------------------------------------------------------
   // get-Methoden: Holen Daten aus dem Browerchache
   //-------------------------------------------------------------------------------------------
+  getPeriod(): number {
+    const period = this.localStorageService.getItem(keys.import.PERIOD);
+    return period;
+  }
+
+
   getForcasts(): Forecast[] {
     const forecasts: Forecast[] = this.localStorageService.getItem(
       keys.other.FORECASTS

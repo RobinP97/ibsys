@@ -18,7 +18,8 @@
     },
 
     "forecast": {
-        "title" : "Production plan"
+        "title" : "Production plan",
+        "period_label": "Period"
     },
 
     "production": {
@@ -32,6 +33,11 @@
         "product": "product",        
         "predecessor_waiting_list": "queue of the follow-up product"
     },
+
+    "sequencePlanning": {
+        "title": "Sequence Planning"
+    },
+
 
     "btn": {
         "next" : "Next",

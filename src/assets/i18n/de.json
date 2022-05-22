@@ -16,9 +16,12 @@
         "fileupload_success_snackbarMsg": "Das Einlesen der ausgewählten XML-Datei war erfolgreich.",
         "importedDataAvailable_hint": "Sie können direkt mit den Daten ihrer vorherigen Planung weiterarbeiten. Wenn Sie eine neue XML-Datei auswählen und einlesen, werden die Daten ihrer vorherigen Planung gelöscht."
       },
+
       "forecast": {
-        "title" : "Produktionsplan"
+        "title" : "Produktionsplan",
+        "period_label": "Periode"
       },
+
       "production": {
         "title" : "Eigenfertigung",
         "binding_orders": "Verbindliche Aufträge",
@@ -30,6 +33,11 @@
         "product": "Produkt",
         "predecessor_waiting_list": "Warteschlange des Nachfolgers"
       },
+
+      "sequencePlanning": {
+        "title": "Reihenfolgeplanung"
+      },
+
       "btn": {
         "next" : "Weiter",
         "back" : "Zurück"

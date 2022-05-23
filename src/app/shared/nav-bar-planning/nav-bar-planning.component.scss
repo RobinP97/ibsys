@@ -2,4 +2,29 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-top: 16px;
+    margin-bottom: 8px;
 }
+
+mat-horizontal-stepper {
+    height: 100%;
+}
+
+::ng-deep .mat-step-header {
+    max-height: 72px;
+}
+
+::ng-deep .mat-horizontal-content-container {
+    height: calc(100% - 72px);
+}
+
+::ng-deep .mat-horizontal-stepper-content {
+    height: 100%;
+}
+
+// Wichtig, damit lange Tabellen nicht abgeschnitten werden
+// Angular-Default: overflow: hidden
+::ng-deep .mat-horizontal-content-container {
+    overflow: auto !important;
+}
+

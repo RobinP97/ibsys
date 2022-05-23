@@ -12,7 +12,7 @@ import { WorkplaceWaitingListWorkstation } from 'src/app/model/import/workplaceW
   templateUrl: './production.component.html',
   styleUrls: ['./production.component.scss'],
 })
-export class ProductionComponent implements OnDestroy {
+export class ProductionComponent {
   // Alle Bestellungen der Periode
   inhouse_parts: Production[];
   forecasts: Forecast[];
@@ -20,7 +20,7 @@ export class ProductionComponent implements OnDestroy {
   ordersinwork: OrderInWork[];
   waitinglistWorkstations: WorkplaceWaitingListWorkstation[];
 
-  constructor(private readonly dataSerivce: DataService) {
+  constructor(private readonly dataService: DataService) {
     // dataSerivce.forecasts$.subscribe({
     //   next: (v) => {
     //     this.forecasts = v;
@@ -49,16 +49,16 @@ export class ProductionComponent implements OnDestroy {
     //   },
     // });
     // Entweder wurde die Eigenfertigung schon einmal geplant und unter dem Schlüssel "production" abgespeichert
-    this.inhouse_parts = dataSerivce.getProduction();
+    this.inhouse_parts = dataService.getProductionOrders();
     // oder noch nicht, sodass man initial eine Zusammenstellung aus den importierten Daten und inhouse-parts.json erstellen muss
     if (!this.inhouse_parts) {
-      this.initializeInhouseParts(dataSerivce);
+      this.initializeInhouseParts(dataService);
 
       this.waitinglistWorkstations =
-        this.dataSerivce.getWaitinglistWorkstations();
-      this.forecasts = this.dataSerivce.getForcasts();
-      this.warehousestock = this.dataSerivce.getWarehouseStock();
-      this.ordersinwork = this.dataSerivce.getOrdersInWork();
+        this.dataService.getWaitinglistWorkstations();
+      this.forecasts = this.dataService.getForcasts();
+      this.warehousestock = this.dataService.getWarehouseStock();
+      this.ordersinwork = this.dataService.getOrdersInWork();
 
       this.updateArrayAfterImport();
     }
@@ -110,7 +110,7 @@ export class ProductionComponent implements OnDestroy {
     this.inhouse_parts = [];
     inhouse_part.forEach((element) => {
       const part = {} as Production;
-      part.id = element.partId;
+      part.id = parseInt(element.partId);
       part.category = element.category;
       part.binding_orders = 0;
       part.current_stock = 0;
@@ -156,6 +156,7 @@ export class ProductionComponent implements OnDestroy {
     this.updateChain(this.inhouse_parts.find((x) => x.id == 1));
     this.updateChain(this.inhouse_parts.find((x) => x.id == 2));
     this.updateChain(this.inhouse_parts.find((x) => x.id == 3));
+    this.dataService.setProductionOrders(this.inhouse_parts);
   }
 
   updateChain(
@@ -290,9 +291,13 @@ export class ProductionComponent implements OnDestroy {
       });
     }
   }
-
   ngOnDestroy(): void {
-    // TODO: Abspeichern aller Werte die geändert werden können
-    this.dataSerivce.setProduction(this.inhouse_parts);
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    console.log(this.inhouse_parts);
+
+    if (this.inhouse_parts) {
+      this.dataService.setProductionOrders(this.inhouse_parts);
+    }
   }
 }

@@ -6,11 +6,22 @@
         "formatJSON": "formatting JSON",
         "key": "key",
         "value": "value",
-        "selectFile": "select file"
+        "selectFile": "Select File",
+        "selectFile_help": "Please select a xml file.",
+        "selectedFile_name": "Selected file",
+        "fileupload_emptyFile": "The selected file is empty. Please choose another file.",
+        "fileupload_wrongFileType": "The selected file is not a xml file. Please choose a xml file.",
+        "fileupload_parsingError": "An error occured while validating the selected xml file. Please ensure that the selected xml file is well formed.",
+        "fileupload_loadDataError": "An error occured while importing the selected file. Please review the selected file.",
+        "fileupload_success_snackbarMsg": "The selected xml file was imported succesfully.",
+        "importedDataAvailable_hint": "You can continue working directly with the data from your previous planning. If you select and import a new xml file, the data from your previous planning will be deleted."
     },
+
     "forecast": {
-        "title" : "Production plan"
+        "title" : "Production plan",
+        "period_label": "Period"
     },
+
     "production": {
         "title" : "In-house production",
         "binding_orders": "binding orders",
@@ -22,6 +33,12 @@
         "product": "product",        
         "predecessor_waiting_list": "queue of the follow-up product"
     },
+
+    "sequencePlanning": {
+        "title": "Sequence Planning"
+    },
+
+
     "btn": {
         "next" : "Next",
         "back" : "Back"

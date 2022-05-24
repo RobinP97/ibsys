@@ -30,6 +30,18 @@ th {
     margin-right: auto;
 }
 
+.empty-cell-none {
+    color: white;
+    border-width: 0px;
+    border-color: black;
+    border-style: solid;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 50px;
+    background: linear-gradient(to right top, #fff 0%,#fff 49.9%,#000000    
+ 50%,#000000 51%,#fff 51.1%,#fff 100%);
+}
+
 .none {
     border-width: 0px;
     border-color: black;

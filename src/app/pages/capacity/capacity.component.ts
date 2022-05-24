@@ -73,6 +73,14 @@ export class CapacityComponent implements OnInit {
             }          
           } 
           activeWorkstation.productionTime.push(productionTime);
+          if(activeWorkstation.shifts > 3)
+          {
+            activeWorkstation.shifts = 3;
+          }
+          if(activeWorkstation.overTime > 1200)
+          {
+            activeWorkstation.overTime = 1200;
+          }          
         });
       });
       console.log(this.workstations);

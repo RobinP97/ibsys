@@ -16,6 +16,15 @@ th {
     text-align: center;
 }
 
+.empty-cell-none-notable {
+    color: white;    
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 50px;
+    background: linear-gradient(to right top, #fff 0%,#fff 49.9%,#000000    
+ 50%,#000000 51%,#fff 51.1%,#fff 100%);
+}
+
 .empty {
     background: linear-gradient(to right top, #fff 0%,#fff 49.9%,#000000    
  50%,#000000 51%,#fff 51.1%,#fff 100%);
@@ -40,6 +49,11 @@ th {
     min-width: 50px;
     background: linear-gradient(to right top, #fff 0%,#fff 49.9%,#000000    
  50%,#000000 51%,#fff 51.1%,#fff 100%);
+}
+
+.none-nontable {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .none {

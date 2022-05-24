@@ -16,6 +16,7 @@ export class CapacityComponent implements OnInit {
   constructor(
     private readonly dataSerivce: DataService
     ) {
+      let waitinglistworkstations = dataSerivce.getWaitinglistWorkstations();
       this.inhouse_parts = dataSerivce.getProduction();
       this.workstations = [];
       for (let i = 1; i < 16; i++) {
@@ -25,8 +26,25 @@ export class CapacityComponent implements OnInit {
         workstation.totalSetUpTime = 0;
         workstation.totalTime = 0;
         workstation.productionTime = [];
+        workstation.capacityNeedDeficitPriorPeriod = 0;
+        workstation.setUpTimeDeficitPriorPeriod = 0;
+        workstation.overTime = 0;
+        workstation.shifts = 1;
         this.workstations.push(workstation);
-      }
+      }      
+      const imported_parts = require('../../data/inhouse-parts.json');
+      waitinglistworkstations.forEach((waitinglist) => {
+
+        let activeWorkstation = this.findWorkstationById(waitinglist.id.toString());
+        activeWorkstation.capacityNeedDeficitPriorPeriod += waitinglist.timeneed;
+        if(waitinglist.waitinglist !== undefined)
+        {
+          waitinglist.waitinglist.forEach((waitingListEntry) => {
+            activeWorkstation.setUpTimeDeficitPriorPeriod += imported_parts.find((part) => part.partId == waitingListEntry.item).processingChain.find((chain) => chain.workstationId == activeWorkstation.id).setUpTime;     
+          });   
+        }
+      });
+
       this.inhouse_parts.forEach((inhouse_part) => {
         inhouse_part.processing_chain.forEach((processing_chain) => {
           let activeWorkstation = this.workstations.find(
@@ -39,19 +57,43 @@ export class CapacityComponent implements OnInit {
           if(productionTime.time > 0)
           {
             activeWorkstation.totalSetUpTime += processing_chain.setUpTime;
-          }
-          activeWorkstation.totalTime = activeWorkstation.totalSetUpTime + activeWorkstation.totalProductionTime;
+          }          
+          activeWorkstation.capacityNeedDeficitPriorPeriod += 0;
+          activeWorkstation.totalTime = activeWorkstation.totalSetUpTime + activeWorkstation.totalProductionTime + activeWorkstation.capacityNeedDeficitPriorPeriod + activeWorkstation.setUpTimeDeficitPriorPeriod;
+          if(activeWorkstation.totalTime >2400)
+          {
+            activeWorkstation.overTime = activeWorkstation.totalTime -2400;
+          }   
+          for (let i = activeWorkstation.totalTime; i > 3600;) {
+            activeWorkstation.shifts++;
+            i -= 2400;
+            if(i>2400)
+            {
+              activeWorkstation.overTime = i-2400;
+            }          
+          } 
           activeWorkstation.productionTime.push(productionTime);
         });
       });
       console.log(this.workstations);
    }
 
-   findWorkstationById(id: string): Workstation
+   findWorkstationAndProductionTimeById(workstationId: string,productionTimeId: number): productionTime
+   {
+    let activeWorkstation = this.workstations.find(
+      (workstation) => workstation.id == workstationId
+    );
+    return activeWorkstation.productionTime.find(
+      (productionTime) => productionTime.id == productionTimeId
+      );
+   }
+
+   findWorkstationById(workstationId: string): Workstation
    {
     return this.workstations.find(
-      (workstation) => workstation.id == id
+      (workstation) => workstation.id == workstationId
     );
+
    }
 
    findInhousePartById(id: number): Production

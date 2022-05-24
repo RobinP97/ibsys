@@ -62,6 +62,8 @@
         "set-up_time_deficit_prior_period": "set-up time deficit prior period",
         "total_capacity_need": "total capacity need",
         "shifts_and_extra_hours": "shifts and extra hours",
+        "shifts": "shifts",
+        "extra_hours": "extra hours",
         "C": "C",
         "L": "L",
         "M": "M",

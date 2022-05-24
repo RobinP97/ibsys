@@ -5,5 +5,9 @@ id: string;
 productionTime: productionTime[];
 totalSetUpTime: number;
 totalProductionTime: number;
-totalTime: number;
+totalTime: number; 
+capacityNeedDeficitPriorPeriod: number;
+setUpTimeDeficitPriorPeriod : number;
+shifts: number;
+overTime: number;
 }

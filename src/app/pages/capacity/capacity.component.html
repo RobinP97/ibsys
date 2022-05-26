@@ -1,3 +1,4 @@
+<div style="overflow-y:auto; height: 100%">
 <table class="capacity-table">
     <tr>
         <th>
@@ -3665,7 +3666,7 @@
     </tr>
     <tr>
         <td>
-            {{ "capacity.shifts" | translate }}
+            <b>{{ "capacity.shifts" | translate }}</b>
         </td>
         <td class="empty">
 
@@ -3723,7 +3724,7 @@
     </tr>
     <tr>
         <td>
-            {{ "capacity.extra_hours" | translate }}
+            <b>{{ "capacity.extra_hours" | translate }}</b>
         </td>
         <td class="empty">
 
@@ -3777,7 +3778,7 @@
         </td>
         <td>            
             <input matInput [(ngModel)]="findWorkstationById('15').overTime" type="number"  min="0" max="1200" class="matInputField"/>  
->>>>>>> f9d105a24f207e8e5a36ccd2b5c550ca4a50429b
         </td>
     </tr>
 </table>
+</div>

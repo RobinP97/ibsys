@@ -39,16 +39,16 @@
         <ng-template #elseBlock></ng-template>
      </td>
      <td>
-        <input matInput [(ngModel)]="inhouse_parts[i].planned_stock" (change)="updateAfterChange(inhouse_parts[i])" type="number"  min="0" class="matInputField"/>
+        <input matInput [(ngModel)]="inhouse_parts[i].planned_stock" (change)="updateAfterChange(inhouse_parts[i])" type="number"  min="0" pattern="/^\d+$/" class="matInputField"/>
      </td>
      <td>
-        <input matInput [(ngModel)]="inhouse_parts[i].current_stock" (change)="updateAfterChange(inhouse_parts[i])" type="number"  min="0" class="matInputField"/>
+        <input matInput [(ngModel)]="inhouse_parts[i].current_stock" (change)="updateAfterChange(inhouse_parts[i])" type="number"  min="0" pattern="/^\d+$/" class="matInputField"/>
      </td>
      <td>
-        <input matInput [(ngModel)]="inhouse_parts[i].in_queue" (change)="updateAfterChange(inhouse_parts[i])" type="number"  min="0" class="matInputField"/>
+        <input matInput [(ngModel)]="inhouse_parts[i].in_queue" (change)="updateAfterChange(inhouse_parts[i])" type="number"  min="0" pattern="/^\d+$/" class="matInputField"/>
      </td>
      <td>
-        <input matInput [(ngModel)]="inhouse_parts[i].in_process" (change)="updateAfterChange(inhouse_parts[i])" type="number" min="0" class="matInputField"/>
+        <input matInput [(ngModel)]="inhouse_parts[i].in_process" (change)="updateAfterChange(inhouse_parts[i])" type="number" min="0" pattern="/^\d+$/" class="matInputField"/>
      </td>
      <td>         
         {{ inhouse_parts[i].planned_production }}

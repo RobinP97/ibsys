@@ -19,7 +19,10 @@
 
       "forecast": {
         "title" : "Produktionsplan",
-        "period_label": "Periode"
+        "period_label": "Periode",        
+        "error": { 
+          "NonValidNumber": "Die Eingabe war keine gültige Nummer oder kleiner 0!"
+        }
       },
 
       "production": {
@@ -31,7 +34,13 @@
         "in_process": "Aufträge in Bearbeitung",
         "planned_production": "Geplante Produktionsaufträge",
         "product": "Produkt",
-        "predecessor_waiting_list": "Warteschlange des Nachfolgers"
+        "predecessor_waiting_list": "Warteschlange des Nachfolgers",
+        "error": {          
+          "planned_stock": "Geplanter Lagerbestand am Ende der Periode darf nicht kleiner 0 sein!",
+          "current_stock": "Aktueller Lagerbestand darf nicht kleiner 0 sein!",
+          "in_queue": "Aufträge in Warteschlange dürfen nicht kleiner 0 sein!",
+          "in_process": "Aufträge in Bearbeitung dürfen nicht kleiner 0 sein!"
+        }
       },
 
       "sequencePlanning": {

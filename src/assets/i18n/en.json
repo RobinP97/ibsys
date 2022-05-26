@@ -19,7 +19,10 @@
 
     "forecast": {
         "title" : "Production plan",
-        "period_label": "Period"
+        "period_label": "Period",
+        "error": { 
+            "NonValidNumber": "The input was not a valid number or smaller than 0!"
+        }
     },
 
     "production": {
@@ -31,7 +34,13 @@
         "in_process": "orders in process",
         "planned_production": "planned production orders",
         "product": "product",        
-        "predecessor_waiting_list": "queue of the follow-up product"
+        "predecessor_waiting_list": "queue of the follow-up product",
+        "error": {          
+            "planned_stock": "Planned stock at the end of the period must be bigger than 0!",
+            "current_stock": "Current stock must be bigger than 0!",
+            "in_queue": "Orders in queue must be bigger than 0!",
+            "in_process": "Orders in process must be bigger than 0!"
+          }
     },
 
     "sequencePlanning": {

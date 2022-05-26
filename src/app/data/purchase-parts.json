@@ -1,5 +1,4 @@
-{
-    "purchase-parts": [
+[
         {
             "partId": "21",
             "category": "K",
@@ -7,10 +6,10 @@
             "usage": [1,0,0],
             "startPrice": 5.00,
             "startAmount": 300,
-            "discontAmount": 300,
+            "discountAmount": 300,
             "orderCosts": 50.00,
             "replacementTime": 1.8,
-            "replacemetnTimeVariance": 0.4
+            "replacementTimeVariance": 0.4
         },
         {
             "partId": "22",
@@ -19,10 +18,10 @@
             "usage": [0,1,0],
             "startPrice": 6.50,
             "startAmount": 300,
-            "discontAmount": 300,
+            "discountAmount": 300,
             "orderCosts": 50.00,
             "replacementTime": 1.7,
-            "replacemetnTimeVariance": 0.4
+            "replacementTimeVariance": 0.4
         },
         {
             "partId": "23",
@@ -31,10 +30,10 @@
             "usage": [0,0,1],
             "startPrice": 6.50,
             "startAmount": 300,
-            "discontAmount": 300,
+            "discountAmount": 300,
             "orderCosts": 50.00,
             "replacementTime": 1.2,
-            "replacemetnTimeVariance": 0.2
+            "replacementTimeVariance": 0.2
         },
         {
             "partId": "24",
@@ -43,10 +42,10 @@
             "usage": [7,7,7],
             "startPrice": 0.06,
             "startAmount": 6100,
-            "discontAmount": 6100,
+            "discountAmount": 6100,
             "orderCosts": 100.00,
             "replacementTime": 3.2,
-            "replacemetnTimeVariance": 0.3
+            "replacementTimeVariance": 0.3
         },
         {
             "partId": "25",
@@ -55,10 +54,10 @@
             "usage": [4,4,4],
             "startPrice": 0.06,
             "startAmount": 3600,
-            "discontAmount": 3600,
+            "discountAmount": 3600,
             "orderCosts": 50.00,
             "replacementTime": 0.9,
-            "replacemetnTimeVariance": 0.2
+            "replacementTimeVariance": 0.2
         },
         {
             "partId": "27",
@@ -67,10 +66,10 @@
             "usage": [2,2,2],
             "startPrice": 0.10,
             "startAmount": 1800,
-            "discontAmount": 1800,
+            "discountAmount": 1800,
             "orderCosts": 75.00,
             "replacementTime": 0.9,
-            "replacemetnTimeVariance": 0.2
+            "replacementTimeVariance": 0.2
         },
         {
             "partId": "28",
@@ -79,10 +78,10 @@
             "usage": [4,5,6],
             "startPrice": 1.20,
             "startAmount": 4500,
-            "discontAmount": 4500,
+            "discountAmount": 4500,
             "orderCosts": 50.00,
             "replacementTime": 1.7,
-            "replacemetnTimeVariance": 0.4
+            "replacementTimeVariance": 0.4
         },
         {
             "partId": "32",
@@ -91,10 +90,10 @@
             "usage": [3,3,3],
             "startPrice": 0.75,
             "startAmount": 2700,
-            "discontAmount": 2700,
+            "discountAmount": 2700,
             "orderCosts": 50.00,
             "replacementTime": 2.1,
-            "replacemetnTimeVariance": 0.5
+            "replacementTimeVariance": 0.5
         },
         {
             "partId": "33",
@@ -103,10 +102,10 @@
             "usage": [0,0,2],
             "startPrice": 22.00,
             "startAmount": 900,
-            "discontAmount": 900,
+            "discountAmount": 900,
             "orderCosts": 75.00,
             "replacementTime": 1.9,
-            "replacemetnTimeVariance": 0.5
+            "replacementTimeVariance": 0.5
         },
         {
             "partId": "34",
@@ -115,10 +114,10 @@
             "usage": [0,0,72],
             "startPrice": 0.10,
             "startAmount": 22000,
-            "discontAmount": 22000,
+            "discountAmount": 22000,
             "orderCosts": 50.00,
             "replacementTime": 1.6,
-            "replacemetnTimeVariance": 0.3
+            "replacementTimeVariance": 0.3
         },
         {
             "partId": "35",
@@ -127,10 +126,10 @@
             "usage": [4,4,4],
             "startPrice": 1.00,
             "startAmount": 3600,
-            "discontAmount": 3600,
+            "discountAmount": 3600,
             "orderCosts": 75.00,
             "replacementTime": 2.2,
-            "replacemetnTimeVariance": 0.4
+            "replacementTimeVariance": 0.4
         },
         {
             "partId": "36",
@@ -139,10 +138,10 @@
             "usage": [1,1,1],
             "startPrice": 8.00,
             "startAmount": 900,
-            "discontAmount": 900,
+            "discountAmount": 900,
             "orderCosts": 100.00,
             "replacementTime": 1.2,
-            "replacemetnTimeVariance": 0.1
+            "replacementTimeVariance": 0.1
         },
         {
             "partId": "37",
@@ -151,10 +150,10 @@
             "usage": [1,1,1],
             "startPrice": 1.50,
             "startAmount": 900,
-            "discontAmount": 900,
+            "discountAmount": 900,
             "orderCosts": 50.00,
             "replacementTime": 1.5,
-            "replacemetnTimeVariance": 0.3
+            "replacementTimeVariance": 0.3
         },
         {
             "partId": "38",
@@ -163,10 +162,10 @@
             "usage": [1,1,1],
             "startPrice": 1.50,
             "startAmount": 300,
-            "discontAmount": 300,
+            "discountAmount": 300,
             "orderCosts": 50.00,
             "replacementTime": 1.7,
-            "replacemetnTimeVariance": 0.4
+            "replacementTimeVariance": 0.4
         },
         {
             "partId": "39",
@@ -175,10 +174,10 @@
             "usage": [2,2,2],
             "startPrice": 1.50,
             "startAmount": 900,
-            "discontAmount": 1800,
+            "discountAmount": 1800,
             "orderCosts": 75.00,
             "replacementTime": 1.5,
-            "replacemetnTimeVariance": 0.3
+            "replacementTimeVariance": 0.3
         },
         {
             "partId": "40",
@@ -187,10 +186,10 @@
             "usage": [1,1,1],
             "startPrice": 2.50,
             "startAmount": 900,
-            "discontAmount": 900,
+            "discountAmount": 900,
             "orderCosts": 50.00,
             "replacementTime": 1.7,
-            "replacemetnTimeVariance": 0.2
+            "replacementTimeVariance": 0.2
         },
         {
             "partId": "41",
@@ -199,10 +198,10 @@
             "usage": [1,1,1],
             "startPrice": 0.06,
             "startAmount": 900,
-            "discontAmount": 900,
+            "discountAmount": 900,
             "orderCosts": 50.00,
             "replacementTime": 0.9,
-            "replacemetnTimeVariance": 0.2
+            "replacementTimeVariance": 0.2
         },
         {
             "partId": "42",
@@ -211,10 +210,10 @@
             "usage": [2,2,2],
             "startPrice": 0.10,
             "startAmount": 1800,
-            "discontAmount": 1800,
+            "discountAmount": 1800,
             "orderCosts": 50.00,
             "replacementTime": 1.2,
-            "replacemetnTimeVariance": 0.3
+            "replacementTimeVariance": 0.3
         },
         {
             "partId": "43",
@@ -223,10 +222,10 @@
             "usage": [1,1,1],
             "startPrice": 5.00,
             "startAmount": 1900,
-            "discontAmount": 1900,
+            "discountAmount": 1900,
             "orderCosts": 75.00,
             "replacementTime": 2.0,
-            "replacemetnTimeVariance": 0.5
+            "replacementTimeVariance": 0.5
         },
         {
             "partId": "44",
@@ -235,10 +234,10 @@
             "usage": [3,3,3],
             "startPrice": 0.50,
             "startAmount": 2700,
-            "discontAmount": 900,
+            "discountAmount": 900,
             "orderCosts": 50.00,
             "replacementTime": 1.0,
-            "replacemetnTimeVariance": 0.2
+            "replacementTimeVariance": 0.2
         },
         {
             "partId": "45",
@@ -247,10 +246,10 @@
             "usage": [1,1,1],
             "startPrice": 0.06,
             "startAmount": 900,
-            "discontAmount": 900,
+            "discountAmount": 900,
             "orderCosts": 50.00,
             "replacementTime": 1.7,
-            "replacemetnTimeVariance": 0.3
+            "replacementTimeVariance": 0.3
         },
         {
             "partId": "46",
@@ -259,10 +258,10 @@
             "usage": [1,1,1],
             "startPrice": 0.10,
             "startAmount": 900,
-            "discontAmount": 900,
+            "discountAmount": 900,
             "orderCosts": 50.00,
             "replacementTime": 0.9,
-            "replacemetnTimeVariance": 0.3
+            "replacementTimeVariance": 0.3
         },
         {
             "partId": "47",
@@ -271,10 +270,10 @@
             "usage": [1,1,1],
             "startPrice": 3.50,
             "startAmount": 900,
-            "discontAmount": 900,
+            "discountAmount": 900,
             "orderCosts": 50.00,
             "replacementTime": 1.41,
-            "replacemetnTimeVariance": 0.1
+            "replacementTimeVariance": 0.1
         },
         {
             "partId": "48",
@@ -283,10 +282,10 @@
             "usage": [2,2,2],
             "startPrice": 1.50,
             "startAmount": 1800,
-            "discontAmount": 1800,
+            "discountAmount": 1800,
             "orderCosts": 75.00,
             "replacementTime": 1.0,
-            "replacemetnTimeVariance": 0.2
+            "replacementTimeVariance": 0.2
         },
         {
             "partId": "52",
@@ -295,10 +294,10 @@
             "usage": [2,0,0],
             "startPrice": 22.00,
             "startAmount": 600,
-            "discontAmount": 600,
+            "discountAmount": 600,
             "orderCosts": 50.00,
             "replacementTime": 1.6,
-            "replacemetnTimeVariance": 0.4
+            "replacementTimeVariance": 0.4
         },
         {
             "partId": "53",
@@ -307,10 +306,10 @@
             "usage": [72,0,0],
             "startPrice": 0.10,
             "startAmount": 22000,
-            "discontAmount": 22000,
+            "discountAmount": 22000,
             "orderCosts": 50.00,
             "replacementTime": 1.6,
-            "replacemetnTimeVariance": 0.2
+            "replacementTimeVariance": 0.2
         },
         {
             "partId": "57",
@@ -319,10 +318,10 @@
             "usage": [0,2,0],
             "startPrice": 22.00,
             "startAmount": 600,
-            "discontAmount": 600,
+            "discountAmount": 600,
             "orderCosts": 50.00,
             "replacementTime": 1.7,
-            "replacemetnTimeVariance": 0.3
+            "replacementTimeVariance": 0.3
         },
         {
             "partId": "58",
@@ -331,10 +330,10 @@
             "usage": [0,72,0],
             "startPrice": 0.10,
             "startAmount": 22000,
-            "discontAmount": 22000,
+            "discountAmount": 22000,
             "orderCosts": 50.00,
             "replacementTime": 1.6,
-            "replacemetnTimeVariance": 0.5
+            "replacementTimeVariance": 0.5
         },
         {
             "partId": "59",
@@ -343,10 +342,9 @@
             "usage": [2,2,2],
             "startPrice": 0.15,
             "startAmount": 1800,
-            "discontAmount": 1800,
+            "discountAmount": 1800,
             "orderCosts": 50.00,
             "replacementTime": 0.7,
-            "replacemetnTimeVariance": 0.2
+            "replacementTimeVariance": 0.2
         }
-    ]
-}
+]

@@ -1,3 +1,5 @@
+import { processingChain } from "./processing_chain";
+
 export interface Production {
   id: number;
   category: string;
@@ -9,4 +11,5 @@ export interface Production {
   planned_production: number;
   elements: number[];
   predecessor_waiting_list: number;
+  processing_chain: processingChain[];
 }

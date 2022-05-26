@@ -1,13 +1,24 @@
 {
     "import": {
+        "title": "Datenimport",
         "fileupload": "Datei hochladen",
         "upload" : "hochladen",
         "formatJSON": "JSON formatieren",
         "key": "Schlüssel",
         "value": "Wert",
-        "selectFile": "Datei auswählen"
+        "selectFile": "Datei auswählen",
+        "selectFile_help": "Bitte wählen Sie eine XML-Datei aus.",
+        "selectedFile_name": "Ausgewählte Datei",
+        "fileupload_emptyFile": "Die ausgewählte Datei ist leer. Bitte wählen Sie eine andere Datei.",
+        "fileupload_wrongFileType": "Die ausgewählte Datei ist keine XML-Datei. Bitte wählen Sie eine XML-Datei aus.",
+        "fileupload_parsingError": "Beim Überprüfen der Datei trat ein Fehler auf. Bitte stellen Sie sicher, dass die ausgewählte XML-Datei wohl geformt ist.",
+        "fileupload_loadDataError": "Das Einlesen der XML-Datei schlug fehl. Bitte überprüfen Sie die ausgewählte XML-Datei."
+      },
+      "forecast": {
+        "title" : "Produktionsplan"
       },
       "production": {
+        "title" : "Eigenfertigung",
         "binding_orders": "Verbindliche Aufträge",
         "planned_stock": "Geplanter Lagerbestand am Ende der Periode",
         "current_stock": "Aktueller Lagerbestand",
@@ -16,6 +27,10 @@
         "planned_production": "Geplante Produktionsaufträge",
         "product": "Produkt",
         "predecessor_waiting_list": "Warteschlange des Nachfolgers"
+      },
+      "btn": {
+        "next" : "Weiter",
+        "back" : "Zurück"
       },
       "capacity": {
         "period": "Periode...",
@@ -41,7 +56,8 @@
         "capacity_need_deficit_prior_period": "Kap. bed. (Rückstand Vorperiode)",
         "set-up_time_deficit_prior_period": "Rüstzeit (Rückstand Vorperiode)",
         "total_capacity_need": "Gesamt-Kapazizätsbedarf",
-        "shifts_and_extra_hours": "Schichten und Überstunden",
+        "shifts": "Schichten",
+        "extra_hours": "Überstunden",
         "C": "K",
         "L": "D",
         "M": "H",

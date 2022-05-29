@@ -1,0 +1,68 @@
+<div
+    class="no-productionorders-wrapper"
+    *ngIf="productionOrders.length === 0; else showorderlist"
+>
+<mat-icon>
+  content_paste_off
+</mat-icon>
+ {{ "sequencePlanning..error.no_orders" | translate }}
+</div>
+<ng-template #showorderlist>
+<div cdkDropListGroup class="productionorders-wrapper">
+    <div *ngFor="let col of colCount" class="list-container">
+        <div
+            cdkDropList
+            [cdkDropListData]="getProductionOrdersToDisplay(col)"
+            class="example-list"
+            [id]="col.toString()"
+            (cdkDropListDropped)="drop($event)"
+        >
+            <div class="box-head primary">
+                <span class="col-number">{{ "sequencePlanning.header_label_number" | translate }}</span>
+                <span class="col-order">{{ "sequencePlanning.header_label_product" | translate }}</span>
+                <span class="col-quantity">{{ "sequencePlanning.header_label_quantity" | translate }}</span>
+                <span class="col-actions">{{ "sequencePlanning.header_label_actions" | translate }}</span>
+            </div>
+            <div *ngFor="let productionOrder of getProductionOrdersToDisplay(col); let idx = index" cdkDrag class="item-box">
+                <span class="col-number">{{ idx }}</span>
+                <span class="col-order">{{ productionOrder.category }}{{ productionOrder.id }}</span>
+                <span class="col-quantity">{{productionOrder.binding_orders}}</span>
+                <span class="col-actions">
+                    <form style="display: initial">
+                    <input  
+                        type="number" 
+                        min="10" 
+                        step="10" 
+                        max="{{ productionOrder.binding_orders - 10 }}" 
+                        [disabled]="canInput(productionOrder)" 
+                        [value]="getDefaultSplitAmount(productionOrder)"
+                        #amt
+                        (input)="split.disabled=!canSplit(productionOrder, amt.value)"
+                        onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                    >                
+                    <button
+                        #split
+                        mat-icon-button 
+                        class="split-btn" 
+                        (click)="splitItem(productionOrder, idx, col, amt.value)" 
+                        [disabled]="!canSplit(productionOrder, amt.value)"
+                    >
+                        <mat-icon> call_split</mat-icon>
+                    </button>
+                    <button
+                        mat-icon-button
+                        class="split-btn" 
+                        [disabled]="!canDelete(productionOrder.id)" 
+                        mat-button (click)="deleteItem(productionOrder, idx, col)"
+                    >
+                     <mat-icon>delete</mat-icon>
+                    </button>
+                </form>
+                </span>
+
+            </div>
+        </div>
+    </div>
+</div>
+</ng-template>
+  

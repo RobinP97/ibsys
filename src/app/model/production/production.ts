@@ -1,3 +1,5 @@
+import { Split } from './split';
+
 export interface Production {
   id: number;
   category: string;
@@ -9,4 +11,6 @@ export interface Production {
   planned_production: number;
   elements: number[];
   predecessor_waiting_list: number;
+  sequencePos: number;
+  splits: Split[];
 }

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 
 import { Article } from 'src/app/model/import/article';
-import { Clipboard } from '@angular/cdk/clipboard';
+import { CdkStepper } from '@angular/cdk/stepper';
 import { CompletedOrder } from 'src/app/model/import/completedorder';
 import { Cycletimes } from 'src/app/model/import/cycletimes';
 import { DataService } from 'src/app/service/data.service';
@@ -11,8 +11,10 @@ import { IoService } from 'src/app/service/io.service';
 import { MissingPart } from 'src/app/model/import/missingpart';
 import { OrderInWork } from 'src/app/model/import/orderinwork';
 import { OrderInwardStockMovement } from 'src/app/model/import/orderinwardstockmovement';
+import { ParserOptions } from 'xml2js';
 import { Result } from 'src/app/model/import/result';
 import { Results } from 'src/app/model/import/results';
+import { SnackbarService } from 'src/app/service/snackbar.service';
 import { WaitingListEntry } from 'src/app/model/import/waitinglist';
 import { WarehouseStock } from 'src/app/model/import/warehousestock';
 import { WorkplaceIdletimeCosts } from 'src/app/model/import/workplaceidletimecosts';
@@ -23,141 +25,155 @@ import { WorkplaceWaitingListWorkstation } from 'src/app/model/import/workplaceW
   templateUrl: './import.component.html',
   styleUrls: ['./import.component.scss'],
 })
-export class ImportComponent implements OnInit {
+export class ImportComponent {
   importedData: Results;
 
-  fileUploadSuccessful: boolean;
-  xmlParsingSuccessful: boolean;
-  readFileSuccesful: boolean;
+  @ViewChild('fileUploader') fileUploader: ElementRef;
 
+  fileUploadSuccessful: boolean = false;
+  hasUplodError: boolean = false;
+  errorMsgs: string[];
+
+  @Input() xmlOptions: ParserOptions;
+
+  // ausgewählte Datei
   file: File;
-  parsedXml: any;
+  // Rohtext
   readFileString: string;
-  jsonToXmlString: string;
-  readEqualsParsed: boolean;
-
-  importedDataKeys: string[] = [
-    'game',
-    'group',
-    'period',
-    'forecast',
-    'warehousestock',
-    'inwardstockmovement',
-    'futureinwardstockmovement',
-    'idletimecosts',
-    'waitinglistworkstations',
-    'waitingliststock',
-    'ordersinwork',
-    'completedorders',
-    'cycletimes',
-    'result',
-  ];
-  prettyprintImportedData: boolean = false;
+  // geparster Rohtext als JSON-Objekt
+  parsedXml: any;
 
   constructor(
     private readonly ioService: IoService,
-    private clipboard: Clipboard,
-    private readonly dataSerivce: DataService
+    private readonly dataService: DataService,
+    private readonly _stepper: CdkStepper,
+    private readonly snackbarService: SnackbarService
   ) {}
 
-  ngOnInit(): void {
-    console.log('');
-  }
-
-  // TODO: Prüfung, nur XML-Dateien
-  // TODO: Upload, nur wenn eine Datei ausgewählt wurde
-  onFileChange(event: any): void {
+  onFileSelected(event: any): void {
     this.fileUploadSuccessful = false;
-    this.xmlParsingSuccessful = false;
-    this.readFileSuccesful = false;
-    this.readEqualsParsed = undefined;
-    this.parsedXml = undefined;
+    this.hasUplodError = false;
+    this.errorMsgs = [];
+
+    this.file = undefined;
     this.readFileString = undefined;
-    this.jsonToXmlString = undefined;
+    this.parsedXml = undefined;
 
-    console.log('file', event.target);
     this.file = event.target.files[0];
-  }
+    console.log('UPLOAD', event.target.files[0]);
 
-  upload(): void {
-    console.log('UPLOAD:', this.file);
+    // Ist die hochgeladene Datei leer?
+    if (this.file.size === 0)
+      this.addErrorMessage('import.fileupload_emptyFile');
+
+    // Wurde eine XML-Datei ausgewählt?
+    if ('text/xml' !== this.file.type)
+      this.addErrorMessage('import.fileupload_wrongFileType');
+
+    // Voraussetzung für das Parsing nicht erfüllt => Abbrechen
+    if (this.hasUplodError) return;
+
     // FileReader objects can read from a file or a blob
     const reader: FileReader = new FileReader();
     // FileReader Events:
     // load – no errors, reading complete.
     // error – error has occurred.
     reader.addEventListener('load', (e) => {
-      this.readFileSuccesful = true;
       this.readFileString = reader.result.toString();
-
-      this.parsedXml = this.ioService.parseXml(reader.result);
-      // console.log('Reader', reader.result);
-      this.xmlParsingSuccessful = this.parsedXml !== undefined;
-
-      if (this.xmlParsingSuccessful) this.loadData();
-      if (this.fileUploadSuccessful) this.jsonToXmlString = this.jsonToXml();
-
-      //TODO: Else Fall: Fehlerbehandlung
+      // Bei einem xml-parsing Fehler wird ein Error geworfen
+      try {
+        this.parsedXml = this.ioService.parseXml(
+          reader.result,
+          this.xmlOptions
+        );
+      } catch (e: any) {
+        console.error('ERROR occured while parsing selected file.', e);
+        this.addErrorMessage('import.fileupload_parsingError');
+      }
     });
 
-    // TODO: Fehlerbehandlung
-    reader.addEventListener('error', (err) => {
-      console.error('ERROR reading file:', reader.error);
-      this.readFileSuccesful = false;
-    });
+    // reader.addEventListener('error', (err) => {
+    //   console.error('ERROR reading file:', reader.error);
+    //   this.readFileSuccesful = false;
+    // });
 
     reader.readAsText(this.file, 'utf-8');
+  }
+
+  addErrorMessage(errorMsg: string): void {
+    this.hasUplodError = true;
+    this.errorMsgs.push(errorMsg);
   }
 
   //-------------------------------------------------------------------------------------------
   // load-Methoden: Daten aus dem geparseten XML laden und in der Appliaktion verfügbar machen
   //-------------------------------------------------------------------------------------------
 
-  // inputData verarbeiten und in der Anwendung bereitstellen
-  // am besten über Subject, die abonniert werden können (Änderungen werden dann an alle Subscriber weitergeleitet - sehr wichtig!)
-  // in dem Sinne benötigt man das Restults Interface gar nicht
   loadData(): void {
-    this.dataSerivce.resetData();
-    console.log('Clear local storage');
+    try {
+      this.dataService.resetData();
+      this.dataService.importFileStatus(false);
+      this.importedData = {
+        game: this.loadGame(),
+        group: this.loadGroup(),
+        period: this.loadPeriod(),
+        forecast: this.loadMandatoryOrders(),
+        warehousestock: this.loadWarehouseStock(),
+        inwardstockmovement: this.loadInwardStockMovement(),
+        futureinwardstockmovement: this.loadFutureInwardStockMovement(),
+        idletimecosts: this.loadIdleTimeCosts(),
+        waitinglistworkstations: this.loadWaitingListWorkstations(),
+        waitingliststock: this.loadWaitingListStock(),
+        ordersinwork: this.loadOrdersInWork(),
+        completedorders: this.loadCompletedOrders(),
+        cycletimes: this.loadCycleTimes(),
+        result: this.loadResult(),
+      };
 
-    // TODO: Fehler wenn this.inputData === undefined
-    this.importedData = {
-      game: this.loadGame(),
-      group: this.loadGroup(),
-      period: this.loadPeriod(),
-      forecast: this.loadMandatoryOrders(),
-      warehousestock: this.loadWarehouseStock(),
-      inwardstockmovement: this.loadInwardStockMovement(),
-      futureinwardstockmovement: this.loadFutureInwardStockMovement(),
-      idletimecosts: this.loadIdleTimeCosts(),
-      waitinglistworkstations: this.loadWaitingListWorkstations(),
-      waitingliststock: this.loadWaitingListStock(),
-      ordersinwork: this.loadOrdersInWork(),
-      completedorders: this.loadCompletedOrders(),
-      cycletimes: this.loadCycleTimes(),
-      result: this.loadResult(),
-    };
-    this.fileUploadSuccessful = true;
-    console.log('importedData', this.importedData);
+      this.fileUploadSuccessful = true;
+      console.log('importedData', this.importedData);
+      // TODO: Erfolgsanzeige Snackbar
+      // App informieren: Import erfolgreich und abgeschlossen
+      this.dataService.importFileStatus(true);
+      // Weiterleitung zum nächsten Schritt
+      this._stepper.next();
+      this.snackbarService.openSnackBar(
+        'import.fileupload_success_snackbarMsg'
+      );
+    } catch (e: unknown) {
+      console.error('Error occured while loading the data:', e);
+      this.dataService.resetData();
+
+      this.importedData = undefined;
+      this.readFileString = undefined;
+      this.parsedXml = undefined;
+
+      this.fileUploadSuccessful = false;
+      this.hasUplodError = true;
+      this.errorMsgs.push('import.fileupload_loadDataError');
+
+      this.dataService.importFileStatus(false);
+      this.fileUploader.nativeElement.value = '';
+    }
   }
 
   loadGame(): number {
     const game: number = this.parsedXml.results.attr.game;
-    this.dataSerivce.setGame(game);
+    this.dataService.setGame(game);
 
     return game;
   }
 
   loadPeriod(): number {
     const period: number = this.parsedXml.results.attr.period;
-    this.dataSerivce.setPeriod(period);
+    this.dataService.setPeriod(period);
 
     return period;
   }
 
   loadGroup(): number {
     const group: number = this.parsedXml.results.attr.group;
-    this.dataSerivce.setGroup(group);
+    this.dataService.setGroup(group);
 
     return group;
   }
@@ -165,7 +181,7 @@ export class ImportComponent implements OnInit {
   loadMandatoryOrders(): Forecast {
     const mandatoryOrdersInput = this.parsedXml.results.forecast[0].attr;
     const mandatoryOrders: Forecast = this.createForecast(mandatoryOrdersInput);
-    this.dataSerivce.setMandatoryOrders(mandatoryOrders);
+    this.dataService.setMandatoryOrders(mandatoryOrders);
 
     return mandatoryOrders;
   }
@@ -181,7 +197,7 @@ export class ImportComponent implements OnInit {
       article: articles,
       totalstockvalue: totalStockValue,
     };
-    this.dataSerivce.setWarehouseStock(warehouseStock);
+    this.dataService.setWarehouseStock(warehouseStock);
 
     return warehouseStock;
   }
@@ -190,13 +206,13 @@ export class ImportComponent implements OnInit {
     const inwardStockMovementInput =
       this.parsedXml.results.inwardstockmovement[0];
     // Check: gabe es in der letzen Periode überhaupt Materialeingänge?
-    if (typeof inwardStockMovementInput === 'string') return undefined;
+    if (typeof inwardStockMovementInput === 'string') return [];
 
     const orders: OrderInwardStockMovement[] =
       inwardStockMovementInput.order.map((element) =>
         this.createOrder(element)
       );
-    this.dataSerivce.setInwardStockMovement(orders);
+    this.dataService.setInwardStockMovement(orders);
 
     return orders;
   }
@@ -205,13 +221,13 @@ export class ImportComponent implements OnInit {
     const futureInwardStockMovementInput =
       this.parsedXml.results.futureinwardstockmovement[0];
     // Check: gibt es überhaupt zukünftige Materialeingänge?
-    if (typeof futureInwardStockMovementInput === 'string') return undefined;
+    if (typeof futureInwardStockMovementInput === 'string') return [];
 
     const orders: OrderInwardStockMovement[] =
       futureInwardStockMovementInput.order.map((element) =>
         this.createOrder(element)
       );
-    this.dataSerivce.setFutureInwardStockMovement(orders);
+    this.dataService.setFutureInwardStockMovement(orders);
 
     return orders;
   }
@@ -232,7 +248,7 @@ export class ImportComponent implements OnInit {
       workplace: idletimeCostsWorkplaces,
       sum: sum,
     };
-    this.dataSerivce.setIdleTimeCosts(idleTimeCosts);
+    this.dataService.setIdleTimeCosts(idleTimeCosts);
 
     return idleTimeCosts;
   }
@@ -241,13 +257,13 @@ export class ImportComponent implements OnInit {
     const waitinglistworkstationsInput =
       this.parsedXml.results.waitinglistworkstations[0];
     // Check: gibt es überhaupt Arbeitsplätze in der Warteschlange? Wenn nein, dann wurde <waitinglistworkstations/> als "" geparst
-    if (typeof waitinglistworkstationsInput === 'string') return undefined;
+    if (typeof waitinglistworkstationsInput === 'string') return [];
 
     const waitingListWorkplaces: WorkplaceWaitingListWorkstation[] =
       waitinglistworkstationsInput.workplace.map((element) =>
         this.createWorkplaceWaitingListStation(element)
       );
-    this.dataSerivce.setWaitingListWorkstations(waitingListWorkplaces);
+    this.dataService.setWaitingListWorkstations(waitingListWorkplaces);
 
     return waitingListWorkplaces;
   }
@@ -255,12 +271,12 @@ export class ImportComponent implements OnInit {
   loadWaitingListStock(): MissingPart[] {
     const waitingListStockInput = this.parsedXml.results.waitingliststock[0];
     // Check: gibt es überhaupt Material in der Warteschlange? Wenn nein, dann wurde <waitingliststock/> als "" geparst
-    if (typeof waitingListStockInput === 'string') return undefined;
+    if (typeof waitingListStockInput === 'string') return [];
 
     const missingParts: MissingPart[] = waitingListStockInput.missingpart.map(
       (element) => this.createMissingPart(element)
     );
-    this.dataSerivce.setWaitingListStock(missingParts);
+    this.dataService.setWaitingListStock(missingParts);
 
     return missingParts;
   }
@@ -268,12 +284,12 @@ export class ImportComponent implements OnInit {
   loadOrdersInWork(): OrderInWork[] {
     const ordersInWorkInput = this.parsedXml.results.ordersinwork[0];
     // Check: gibt es überhaupt Aufträge in der Warteschlange, die gerade bearbeitet werden?
-    if (typeof ordersInWorkInput === 'string') return undefined;
+    if (typeof ordersInWorkInput === 'string') return [];
 
     const ordersInWork: OrderInWork[] = ordersInWorkInput.workplace.map(
       (element) => this.createOrderInWork(element)
     );
-    this.dataSerivce.setOrdersInWork(ordersInWork);
+    this.dataService.setOrdersInWork(ordersInWork);
 
     return ordersInWork;
   }
@@ -281,12 +297,12 @@ export class ImportComponent implements OnInit {
   loadCompletedOrders(): CompletedOrder[] {
     const completeOrdersInput = this.parsedXml.results.completedorders[0];
     // Check: wurden in der letzen Periode überhaupt Aufträge abgeschlossen?
-    if (typeof completeOrdersInput === 'string') return undefined;
+    if (typeof completeOrdersInput === 'string') return [];
 
     const completedOrders: CompletedOrder[] = completeOrdersInput.order.map(
       (element) => this.createCompletedOrder(element)
     );
-    this.dataSerivce.setCompletedOrders(completedOrders);
+    this.dataService.setCompletedOrders(completedOrders);
 
     return completedOrders;
   }
@@ -296,7 +312,7 @@ export class ImportComponent implements OnInit {
     //TODO: was wenn der Tag leer ist?
 
     const cycleTimes: Cycletimes = this.createCycletimes(cycleTimesInput);
-    this.dataSerivce.setCycleTimes(cycleTimes);
+    this.dataService.setCycleTimes(cycleTimes);
 
     return cycleTimes;
   }
@@ -346,7 +362,7 @@ export class ImportComponent implements OnInit {
         profit: summaryInput.profit[0].attr,
       },
     };
-    this.dataSerivce.setResults(result);
+    this.dataService.setResults(result);
 
     return result;
   }
@@ -466,146 +482,5 @@ export class ImportComponent implements OnInit {
       waitingorders: element.attr.waitingorders,
       order: element.order.map((orderEntry) => orderEntry.attr),
     };
-  }
-
-  //-----------------------------------------------------------------------
-  // validierung: json to xml
-  //-----------------------------------------------------------------------
-  jsonToXml(): string {
-    const tagHelper = new Map([
-      ['ordersinwork', 'workplace'],
-      ['inwardstockmovement', 'order'],
-      ['futureinwardstockmovement', 'order'],
-      ['waitinglistworkstations', 'workplace'],
-      ['waitingliststock', 'missingpart'],
-      ['ordersinwork', 'workplace'],
-      ['completedorders', 'order'],
-    ]);
-    const emptyTags = [
-      'mandatoryOrders',
-      'warehousestock',
-      'inwardstockmovement',
-      'futureinwardstockmovement',
-      'idletimecosts',
-      'waitinglistworkstations',
-      'waitingliststock',
-      'ordersinwork',
-      'completedorders',
-      'cycletimes',
-      'result',
-    ];
-    let tag = '<?xml version="1.0" encoding="UTF-8"?>\r\n';
-    tag += this.parseProperty(
-      this.importedData,
-      'results',
-      tagHelper,
-      emptyTags
-    );
-    return tag;
-  }
-
-  parseProperty(
-    object: any,
-    tagname: string,
-    tagHelper: Map<string, string>,
-    emptyTags: string[]
-  ) {
-    if (object === undefined || Object.keys(object).length === 0)
-      return `<${tagname}/>`; // opt: Zeilenumbruch
-    let tag = `<${tagname}`;
-    let subObjectKeys: string[] = [];
-    // Attribute
-    for (let key in object) {
-      let value = object[key];
-      // Spezialfall - Kurzschreibweise </...>
-      if (value === undefined) {
-        if (emptyTags.includes(key)) subObjectKeys.push(key);
-        continue;
-      }
-      // Spezialfall
-      if (key === 'totalstockvalue') {
-        subObjectKeys.push('totalstockvalue');
-        continue;
-      }
-      let isAttribute = typeof value !== 'object';
-      if (isAttribute) {
-        tag += ` ${key}="${
-          !Number.isNaN(value) ? value.toString().replace('.', ',') : value
-        }"`;
-      } else {
-        subObjectKeys.push(key);
-      }
-    }
-
-    // geschachtelte Tags
-    if (subObjectKeys.length > 0) {
-      tag += '>'; //
-      for (let key of subObjectKeys) {
-        let value = object[key];
-        // Spezialfall
-        if (key === 'totalstockvalue') {
-          tag += `<totalstockvalue>${value
-            .toString()
-            .replace('.', ',')}</totalstockvalue>`; // opt: Zeilenumbruch
-          continue;
-        }
-        if (tagHelper.has(key)) {
-          if (value !== undefined) {
-            tag += `<${key}>`;
-            for (let entry of value) {
-              tag += this.parseProperty(
-                entry,
-                tagHelper.get(key),
-                tagHelper,
-                emptyTags
-              );
-            }
-            tag += `</${key}>`;
-          } else {
-            tag += `<${key}/>`;
-          }
-        } else {
-          value = Array.isArray(value) ? value : [value];
-          for (let entry of value) {
-            tag += this.parseProperty(entry, key, tagHelper, emptyTags);
-          }
-        }
-      }
-      tag += `</${tagname}>`; // opt: Zeilenumbruch
-    } else {
-      tag += '/>'; // opt: Zeilenumbruch
-    }
-    return tag;
-  }
-
-  testXmlTextEquality() {
-    this.readEqualsParsed =
-      this.readFileString.length === this.jsonToXmlString.length &&
-      this.findFirstDifference(this.readFileString, this.jsonToXmlString) ===
-        undefined;
-  }
-
-  findFirstDifference(a: string, b: string) {
-    const arr1 = [...a];
-    const arr2 = [...b];
-    return arr2.find((char, i) => arr1[i] !== char);
-  }
-
-  copyText(textToCopy: string) {
-    return this.clipboard.copy(textToCopy);
-  }
-
-  copyLongText(textToCopy: string) {
-    const pending = this.clipboard.beginCopy(textToCopy);
-    let remainingAttempts = 3;
-    const attempt = () => {
-      const result = pending.copy();
-      if (!result && --remainingAttempts) {
-        setTimeout(attempt);
-      } else {
-        pending.destroy();
-      }
-    };
-    attempt();
   }
 }

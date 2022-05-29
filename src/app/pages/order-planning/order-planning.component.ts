@@ -5,16 +5,14 @@ import { Forecast } from 'src/app/model/import/forecast';
 import { WarehouseStock } from 'src/app/model/import/warehousestock';
 import { orderTypes, TypeMapping } from 'src/app/model/order-planning/orderTypeEnum';
 
-
 @Component({
   selector: 'app-order-planning',
   templateUrl: './order-planning.component.html',
-  styleUrls: ['./order-planning.component.scss']
+  styleUrls: ['./order-planning.component.scss'],
 })
 export class OrderPlanningComponent implements OnInit { 
   public TypeMapping = TypeMapping;
   public orderTypes = Object.values(orderTypes);
-
   purchase_parts: OrderPlanning[];
   forecasts: Forecast[];
   warehousestock: WarehouseStock;
@@ -34,7 +32,8 @@ export class OrderPlanningComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  loadDataFromJson(): void{
+
+  loadDataFromJson(): void {
     const purchase_part = require('../../data/purchase-parts.json');
     this.purchase_parts = [];
     purchase_part.forEach((element) => {
@@ -52,23 +51,23 @@ export class OrderPlanningComponent implements OnInit {
       part.orderQuantity = 0;
       part.orderType = orderTypes.none;
       this.purchase_parts.push(part);
-    })
+    });
   }
 
-  calculateDemand(): void{
+  calculateDemand(): void {
     this.purchase_parts.forEach((element) => {
       this.forecasts.forEach((forecast) => {
-      let demand = 0;
-      demand += forecast.p1 * element.usage[0];
-      demand += forecast.p2 * element.usage[1];
-      demand += forecast.p3 * element.usage[2];
-      element.demand.push(demand);
-    });
+        let demand = 0;
+        demand += forecast.p1 * element.usage[0];
+        demand += forecast.p2 * element.usage[1];
+        demand += forecast.p3 * element.usage[2];
+        element.demand.push(demand);
+      });
     });
   }
 
-  updateWareHouse(): void{
-    if(this.warehousestock !== undefined) {
+  updateWareHouse(): void {
+    if (this.warehousestock !== undefined) {
       this.purchase_parts.forEach((element) => {
       let article = this.warehousestock.article.find((art) => art.id == element.id);
       element.current_stock = article.amount;

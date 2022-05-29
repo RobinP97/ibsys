@@ -6,13 +6,14 @@ import { OrderInWork } from 'src/app/model/import/orderinwork';
 import { Production } from 'src/app/model/production/production';
 import { WarehouseStock } from 'src/app/model/import/warehousestock';
 import { WorkplaceWaitingListWorkstation } from 'src/app/model/import/workplaceWaitingListWorkstations';
+import { SnackbarService } from 'src/app/service/snackbar.service';
 
 @Component({
   selector: 'app-production',
   templateUrl: './production.component.html',
   styleUrls: ['./production.component.scss'],
 })
-export class ProductionComponent implements OnDestroy {
+export class ProductionComponent {
   // Alle Bestellungen der Periode
   inhouse_parts: Production[];
   forecasts: Forecast[];
@@ -20,7 +21,8 @@ export class ProductionComponent implements OnDestroy {
   ordersinwork: OrderInWork[];
   waitinglistWorkstations: WorkplaceWaitingListWorkstation[];
 
-  constructor(private readonly dataSerivce: DataService) {
+  constructor(private readonly dataService: DataService, 
+    private readonly snackBarService: SnackbarService) {
     // dataSerivce.forecasts$.subscribe({
     //   next: (v) => {
     //     this.forecasts = v;
@@ -48,15 +50,20 @@ export class ProductionComponent implements OnDestroy {
     //     this.updateArrayAfterImport();
     //   },
     // });
-    this.initializeInhouseParts(dataSerivce);
+    // Entweder wurde die Eigenfertigung schon einmal geplant und unter dem Schlüssel "production" abgespeichert
+    this.inhouse_parts = dataService.getProductionOrders();
+    // oder noch nicht, sodass man initial eine Zusammenstellung aus den importierten Daten und inhouse-parts.json erstellen muss
+    if (!this.inhouse_parts) {
+      this.initializeInhouseParts(dataService);
 
-    this.waitinglistWorkstations =
-      this.dataSerivce.getWaitinglistWorkstations();
-    this.forecasts = this.dataSerivce.getForcasts();
-    this.warehousestock = this.dataSerivce.getWarehouseStock();
-    this.ordersinwork = this.dataSerivce.getOrdersInWork();
+      this.waitinglistWorkstations =
+        this.dataService.getWaitinglistWorkstations();
+      this.forecasts = this.dataService.getForcasts();
+      this.warehousestock = this.dataService.getWarehouseStock();
+      this.ordersinwork = this.dataService.getOrdersInWork();
 
-    this.updateArrayAfterImport();
+      this.updateArrayAfterImport();
+    }
   }
 
   setWaitingListWorkstations() {
@@ -105,7 +112,7 @@ export class ProductionComponent implements OnDestroy {
     this.inhouse_parts = [];
     inhouse_part.forEach((element) => {
       const part = {} as Production;
-      part.id = element.partId;
+      part.id = parseInt(element.partId);
       part.category = element.category;
       part.binding_orders = 0;
       part.current_stock = 0;
@@ -144,12 +151,46 @@ export class ProductionComponent implements OnDestroy {
   }
 
   updateAfterChange(inhouse_part) {
-    // TODO: Bei Ändeurngen in der Spalte "Verbindliche Aufträge" klappt das >ktualisieren für alle E-Produkte noch nicht. Grund ist der reset der binding orders
+    // TODO: Bei Ändeurngen in der Spalte "Verbindliche Aufträge" klappt das aktualisieren für alle E-Produkte noch nicht. Grund ist der reset der binding orders
     // Lsg: Vielleicht einfache keine Eingabemöglichkeit für die verbindlichen Aufträge
+    // TODO: @robin welche spalten sol der User überhaupt editieren können. Alles was der USer ändern kann müssen wir abspeichern und einlesen...
     this.resetBindingOrders();
     this.updateChain(this.inhouse_parts.find((x) => x.id == 1));
     this.updateChain(this.inhouse_parts.find((x) => x.id == 2));
     this.updateChain(this.inhouse_parts.find((x) => x.id == 3));
+    this.dataService.setProductionOrders(this.inhouse_parts);
+  }
+
+  checkPartIsNotNegative(part: Production){
+    if(part.in_process < 0 ||  isNaN(part.in_process) || part.in_process == null)
+    {
+      this.warnUserNegativeNumber(part.in_process ,"in_process");
+      part.in_process = 0;
+    }
+    if(part.in_queue < 0 ||  isNaN(part.in_queue) || part.in_queue == null)
+    {
+      this.warnUserNegativeNumber(part.in_queue ,"in_queue");
+      part.in_queue = 0;
+    }
+    if(part.planned_stock < 0 ||  isNaN(part.planned_stock) || part.planned_stock == null)
+    {
+      this.warnUserNegativeNumber(part.planned_stock ,"planned_stock");
+      part.planned_stock = 0;
+    }
+    if(part.current_stock < 0 ||  isNaN(part.current_stock) || part.current_stock == null)
+    {
+      this.warnUserNegativeNumber(part.current_stock ,"current_stock");
+      part.current_stock = 0;
+    }
+  }
+
+  warnUserNegativeNumber(num: number, Attribute: string)
+  { 
+    this.snackBarService.openSnackBar(
+    'production.error.'+Attribute,
+    'Ok',
+    10000
+  );
   }
 
   updateChain(
@@ -164,6 +205,7 @@ export class ProductionComponent implements OnDestroy {
     if (typeof predecessor_waiting_list !== 'undefined') {
       part.predecessor_waiting_list = predecessor_waiting_list;
     }
+    this.checkPartIsNotNegative(part);
     planned =
       part.binding_orders +
       part.predecessor_waiting_list +
@@ -284,8 +326,13 @@ export class ProductionComponent implements OnDestroy {
       });
     }
   }
-
   ngOnDestroy(): void {
-    this.dataSerivce.setProduction(this.inhouse_parts);
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    console.log(this.inhouse_parts);
+
+    if (this.inhouse_parts) {
+      this.dataService.setProductionOrders(this.inhouse_parts);
+    }
   }
 }

@@ -1,8 +1,9 @@
+<!--
 <div class="importField">
   <div>
     <label for="formFile" class="form-label">{{ "import.fileupload" | translate }}</label>
     <label class="btn btn-primary">
-      <i class="fa fa-image"></i>{{ "import.selectFile" | translate }}<input type="file"  id="formFile" class="form-control" style="display: none;" name="image" (change)="onFileChange($event)">
+      <i></i>{{ "import.selectFile" | translate }}<input type="file"  id="formFile" class="form-control" style="display: none;" name="image" (change)="onFileChange($event)">
     </label>
     <button (click)="upload()" class="btn btn-primary">
       {{ "import.upload" | translate }}
@@ -10,40 +11,46 @@
   </div>
 
   <div *ngIf="fileUploadSuccessful">
-  <h2>Anzeige nachdem die Datei erfolgreich hochgeladen wurde!</h2>
-  <h3>Hinweise: Die nachfolgenden Anzeigen werden bald in eine separate Komponente für Debugzwecke ausgelagert</h3>
-  <div>
-    <h2>JSON-OBjekt in XML-Text umwandeln und mit dem Text aus dem Originalinput vergleichen</h2>
-    <button (click)="testXmlTextEquality()" id="compareBtn">Vergleichen</button>
-    <div>
-      <div *ngIf="readEqualsParsed">
-        <h4>Resultat: OK :)</h4>
-        <p>Hurra, super Arbeit! Das umgewandelte JSON-Objekt entspricht zeichengenau dem Originalinput.</p>
-      </div>
-      <div *ngIf="readEqualsParsed !== undefinded && !readEqualsParsed">
-        <h4>Resultat: Fehler :(</h4>
-        <p>Schade, der Vergleich schlug fehl. Zur besseren Übersicht der Unterschiede nutze ein Text-Vergleich-Tool <a href="https://www.diffchecker.com/diff">Text-Vergleich-Tool</a></p>
+    <h2>Anzeige nachdem die Datei erfolgreich hochgeladen wurde!</h2>
+  </div>
+</div>
+-->
+
+
+<input 
+  type="file" 
+  class="file-input" 
+  required accept=".xml" 
+  mat-mini-fab color="primary" 
+  (change)="onFileSelected($event)" 
+  #fileUploader
+>
+<div class="wrapper">
+  <div class="dialog-wrapper">
+    <div class="btns-wrapper mat-elevation-z8">
+      <div class="file-select-wrapper btn-wrapper">
         <div>
-          <p>Kopiere Originaltext in die Zwischenablage:</p><button class="btn btn-primary" (click)="copyLongText(readFileString)">Kopieren</button>
-          <p>Kopiere Text des umgewandelten JSON-OBjekts in die Zwischenablage:</p><button class="btn btn-primary" (click)="copyLongText(jsonToXmlString)">Kopieren</button>
+          <p id="selected-file-name">{{ file ? ("import.selectedFile_name" | translate) + ": " + file?.name : "import.selectFile_help" | translate }}</p>
         </div>
+        <button mat-button color="primary"  class="select-btn" (click)="fileUploader.click()">
+            <mat-icon>attach_file</mat-icon>
+            {{ "import.selectFile" | translate }}
+        </button>
+      </div>
+      <div class="file-upload-wrapper btn-wrapper">
+        <button mat-fab color="primary" class="upload-btn" (click)="loadData()" [disabled]="!parsedXml || fileUploadSuccessful">
+              <mat-icon>upload</mat-icon>
+        </button>
       </div>
     </div>
   </div>
-  <h2>Übersicht: Importierte Daten</h2>
-  <button (click)="prettyprintImportedData=!prettyprintImportedData">{{ "import.formatJSON" | translate }}</button>
-   <table>
-     <tr>
-       <th class="json-overview-col-1">{{ "import.key" | translate }}</th>
-       <th class="json-overview-col-2">{{ "import.value" | translate }}</th>
-     </tr>
-    <tr *ngFor="let key of importedDataKeys">
-      <td class="json-overview-col-1">{{key}}</td>
-      <td class="json-overview-col-2" *ngIf="prettyprintImportedData" [innerHTML]="importedData[key] | prettyprint"></td>
-      <td class="json-overview-col-2" *ngIf="!prettyprintImportedData" [innerHTML]="importedData[key] | json"></td>
-    </tr>
-   </table>
+  <div class="error-wrapper">
+    <mat-list *ngIf="hasUplodError" class="upload-messages-wrapper">
+      <mat-list-item *ngFor="let msg of errorMsgs">
+        <mat-icon mat-list-icon color="warn">error</mat-icon>
+        <div mat-line class="upload-message-error">{{msg | translate}}</div>
+      </mat-list-item>
+    </mat-list>
   </div>
 </div>
-
 

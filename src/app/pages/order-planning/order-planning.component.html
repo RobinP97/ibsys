@@ -44,7 +44,7 @@
             <mat-label>{{ "orderPlanning.orderType"  | translate }}</mat-label>
             <mat-select [(ngModel)] = "purchase_part.orderType" [compareWith]="objectComparisonFunction">
                 <mat-option *ngFor="let orderType of orderTypes" [value]="orderType">
-                {{ TypeMapping[orderType] }}
+                {{ TypeMapping[orderType] || translate }}
                 </mat-option>
             </mat-select>
           </mat-form-field>

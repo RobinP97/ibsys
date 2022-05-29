@@ -16,5 +16,19 @@
         "planned_production": "Geplante Produktionsaufträge",
         "product": "Produkt",
         "predecessor_waiting_list": "Warteschlange des Nachfolgers"
-      }
+      },
+      "orderPlanning": {
+        "id" : "Teilnummer",
+        "deliveryTime": "Lieferzeit",
+        "deviation": "Abweichung",
+        "safeDeliveryTime": "Sichere Lieferzeit",
+        "discontQuantity": "Diskontmenge",
+        "stock": "Lagerbestand",
+        "neededTillReplaced": "Bedarf bis zur sicheren Lieferung",
+        "orderQuantity": "Bestellmenge",
+        "orderType": "Bestellart",
+        "none": "Keine",
+        "normal": "Normal",
+        "fast": "Eil"
+        }
 }

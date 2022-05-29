@@ -7,6 +7,7 @@ import { ImportComponent } from './pages/import/import.component';
 import { NavBarPlanningComponent } from './pages/nav-bar-planning/nav-bar-planning.component';
 import { NgModule } from '@angular/core';
 import { ProductionComponent } from './pages/production/production.component';
+import { OrderPlanningComponent } from './pages/order-planning/order-planning.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
       { path: '', component: ImportComponent },
       { path: 'forecast', component: ForecastComponent },
       { path: 'production', component: ProductionComponent },
+      { path: 'order-planning', component: OrderPlanningComponent}
     ],
   },
 ];

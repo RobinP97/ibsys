@@ -6,13 +6,48 @@
         <th>{{ "orderPlanning.safeDeliveryTime" | translate }}</th>
         <th>{{ "orderPlanning.discontQuantity" | translate }}</th>
         <th>{{ "orderPlanning.stock" | translate }}</th>
+        <th>{{ "orderPlanning.neededTillReplaced" | translate }}</th>
+        <th>{{ "orderPlanning.orderQuantity"  | translate }}</th>
+        <th>{{ "orderPlanning.orderType"  | translate }}</th>
     </tr>
-    <tr>
-        <td>1</td>
-        <td>2.3</td>
-        <td>0.3</td>
-        <td>2.6</td>
-        <td>2000</td>
-        <td>2000</td>
+    <tr [value] = "purchase_parts" *ngFor = "let purchase_part of purchase_parts; let i=index; trackByIndex">
+        <td>
+            {{ (purchase_part.category + purchase_part.id)}}  
+        </td>
+        <td>
+            {{ purchase_part.replacementTime }}
+        </td>
+        <td>
+            {{ purchase_part.replacementTimeVariance }}
+        </td>
+        <td>
+            {{ purchase_part.replacementTimeAndVariance }}
+        </td>
+        <td>
+            {{ purchase_part.discountAmount }}
+        </td>
+        <td>
+            <mat-form-field appearance="fill">
+            <input matInput [(ngModel)] = "purchase_part.current_stock"/>
+        </mat-form-field>
+        </td>
+        <td>
+            {{ purchase_part.neededTillReplaced }}
+        </td>
+        <td>
+            <mat-form-field appearance="fill">
+            <input matInput [(ngModel)] = "purchase_part.orderQuantity"/>
+            </mat-form-field>
+        </td>
+        <td>
+            <mat-form-field appearance="fill">
+            <mat-label>{{ "orderPlanning.orderType"  | translate }}</mat-label>
+            <mat-select [(ngModel)] = "purchase_part.orderType" [compareWith]="objectComparisonFunction">
+                <mat-option *ngFor="let orderType of orderTypes" [value]="orderType">
+                {{ TypeMapping[orderType] }}
+                </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
     </tr>
 </table>

@@ -6,6 +6,7 @@ import { OrderInWork } from 'src/app/model/import/orderinwork';
 import { Production } from 'src/app/model/production/production';
 import { WarehouseStock } from 'src/app/model/import/warehousestock';
 import { WorkplaceWaitingListWorkstation } from 'src/app/model/import/workplaceWaitingListWorkstations';
+import { SnackbarService } from 'src/app/service/snackbar.service';
 
 @Component({
   selector: 'app-production',
@@ -20,7 +21,8 @@ export class ProductionComponent {
   ordersinwork: OrderInWork[];
   waitinglistWorkstations: WorkplaceWaitingListWorkstation[];
 
-  constructor(private readonly dataService: DataService) {
+  constructor(private readonly dataService: DataService, 
+    private readonly snackBarService: SnackbarService) {
     // dataSerivce.forecasts$.subscribe({
     //   next: (v) => {
     //     this.forecasts = v;
@@ -159,6 +161,38 @@ export class ProductionComponent {
     this.dataService.setProductionOrders(this.inhouse_parts);
   }
 
+  checkPartIsNotNegative(part: Production){
+    if(part.in_process < 0 ||  isNaN(part.in_process) || part.in_process == null)
+    {
+      this.warnUserNegativeNumber(part.in_process ,"in_process");
+      part.in_process = 0;
+    }
+    if(part.in_queue < 0 ||  isNaN(part.in_queue) || part.in_queue == null)
+    {
+      this.warnUserNegativeNumber(part.in_queue ,"in_queue");
+      part.in_queue = 0;
+    }
+    if(part.planned_stock < 0 ||  isNaN(part.planned_stock) || part.planned_stock == null)
+    {
+      this.warnUserNegativeNumber(part.planned_stock ,"planned_stock");
+      part.planned_stock = 0;
+    }
+    if(part.current_stock < 0 ||  isNaN(part.current_stock) || part.current_stock == null)
+    {
+      this.warnUserNegativeNumber(part.current_stock ,"current_stock");
+      part.current_stock = 0;
+    }
+  }
+
+  warnUserNegativeNumber(num: number, Attribute: string)
+  { 
+    this.snackBarService.openSnackBar(
+    'production.error.'+Attribute,
+    'Ok',
+    10000
+  );
+  }
+
   updateChain(
     part: Production,
     binding_orders?: number,
@@ -171,6 +205,7 @@ export class ProductionComponent {
     if (typeof predecessor_waiting_list !== 'undefined') {
       part.predecessor_waiting_list = predecessor_waiting_list;
     }
+    this.checkPartIsNotNegative(part);
     planned =
       part.binding_orders +
       part.predecessor_waiting_list +

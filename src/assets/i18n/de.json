@@ -19,7 +19,10 @@
 
       "forecast": {
         "title" : "Produktionsplan",
-        "period_label": "Periode"
+        "period_label": "Periode",        
+        "error": { 
+          "NonValidNumber": "Die Eingabe war keine gültige Nummer oder kleiner 0!"
+        }
       },
 
       "production": {
@@ -31,11 +34,38 @@
         "in_process": "Aufträge in Bearbeitung",
         "planned_production": "Geplante Produktionsaufträge",
         "product": "Produkt",
-        "predecessor_waiting_list": "Warteschlange des Nachfolgers"
+        "predecessor_waiting_list": "Warteschlange des Nachfolgers",
+        "error": {          
+          "planned_stock": "Geplanter Lagerbestand am Ende der Periode darf nicht kleiner 0 sein!",
+          "current_stock": "Aktueller Lagerbestand darf nicht kleiner 0 sein!",
+          "in_queue": "Aufträge in Warteschlange dürfen nicht kleiner 0 sein!",
+          "in_process": "Aufträge in Bearbeitung dürfen nicht kleiner 0 sein!"
+        }
+      },
+      "orderPlanning": {
+        "id" : "Teilnummer",
+        "deliveryTime": "Lieferzeit",
+        "deviation": "Abweichung",
+        "safeDeliveryTime": "Sichere Lieferzeit",
+        "discontQuantity": "Diskontmenge",
+        "stock": "Lagerbestand",
+        "neededTillReplaced": "Bedarf bis zur sicheren Lieferung",
+        "orderQuantity": "Bestellmenge",
+        "orderType": "Bestellart",
+        "none": "Keine",
+        "normal": "Normal",
+        "fast": "Eil"
       },
 
       "sequencePlanning": {
-        "title": "Reihenfolgeplanung"
+        "title": "Reihenfolgeplanung",
+        "header_label_number": "Nr.",
+        "header_label_product": "Produkt",
+        "header_label_quantity": "Menge",
+        "header_label_actions": "Aktionen",
+        "error": {
+          "no_orders": "Es konnten keine Fertigungsaufträge für die Reihenfolgeplanung gefunden werden."
+        }
       },
 
       "btn": {

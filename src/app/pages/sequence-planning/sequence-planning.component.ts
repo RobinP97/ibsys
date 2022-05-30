@@ -1,7 +1,12 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { Component, OnDestroy, OnInit, ViewChildren } from '@angular/core';
 
 import { DataService } from 'src/app/service/data.service';
+import { MAX_ORDERS } from 'src/app/shared/constants';
 import { Production } from 'src/app/model/production/production';
 import { Split } from 'src/app/model/production/split';
 
@@ -11,25 +16,21 @@ import { Split } from 'src/app/model/production/split';
   styleUrls: ['./sequence-planning.component.scss'],
 })
 export class SequencePlanningComponent implements OnDestroy {
+  ITEM_PER_LIST = 15;
+
   // Zur Anzeige mit eventuellen Split. Splits als neue Produktion Objekte
   productionOrders: Production[];
 
+  // Wv Listen a 15 Items sollen angezeigt werden
+  colCount: number[];
+
   constructor(private readonly dataService: DataService) {
     this.productionOrders = this.dataService.getProductionOrders();
-    this.initializeProductionOrderPositions();
-    this.resolveSplitsToProductionOrders();
+    this.initializeProductionOrderSequence();
+    this.setColumnCount();
   }
 
-  initializeProductionOrderPositions() {
-    console.log(this.productionOrders);
-    this.productionOrders.forEach((p, idx) => {
-      if (p.sequencePos === undefined) {
-        p.sequencePos = idx;
-      }
-    });
-  }
-
-  resolveSplitsToProductionOrders() {
+  initializeProductionOrderSequence() {
     const newProductionOrders: Production[] = [];
     this.productionOrders.forEach((p) => {
       p.splits?.forEach((s) => {
@@ -47,48 +48,108 @@ export class SequencePlanningComponent implements OnDestroy {
     this.productionOrders.sort((a, b) => a.sequencePos - b.sequencePos);
   }
 
-  drop(event: CdkDragDrop<string[]>) {
-    if (event.currentIndex !== event.previousIndex) {
-      moveItemInArray(
-        this.productionOrders,
-        event.previousIndex,
-        event.currentIndex
-      );
-    }
+  //------------------------------------
+  // Getter/ Setter
+  //------------------------------------
+
+  getNumOfColumns() {
+    return this.colCount;
+  }
+
+  setColumnCount() {
+    this.colCount = Array.from(
+      Array(Math.ceil(this.productionOrders.length / this.ITEM_PER_LIST)).keys()
+    );
+  }
+
+  getProductionOrdersToDisplay(col) {
+    return [...this.productionOrders].slice(
+      col * this.ITEM_PER_LIST,
+      (col + 1) * this.ITEM_PER_LIST
+    );
   }
 
   findProductOrderAtPos(pos: number): Production | undefined {
     return this.productionOrders.find((p) => p.sequencePos === pos);
   }
 
-  getDefaultSplitAmnt(productionOrder: Production): number {
+  getDefaultSplitAmount(productionOrder: Production): number {
     return Math.floor(productionOrder.binding_orders / 20) * 10;
   }
 
-  splitItem(productionOrder: Production, index: number, amtStr: string): void {
-    const amt: number = parseInt(amtStr);
-    // Anzeige anpassen => Dummy productionorder erstellen
-    const newOrder: Production = Object.assign({}, productionOrder);
-    productionOrder.binding_orders = newOrder.binding_orders - amt;
-    newOrder.binding_orders = amt;
-    this.productionOrders.splice(index + 1, 0, newOrder);
+  //------------------------------------
+  // Validators
+  //------------------------------------
+
+  canSplit(productionOrder: Production, amount: number) {
+    return (
+      +amount >= 10 &&
+      amount &&
+      +amount % 10 === 0 &&
+      productionOrder.binding_orders >= 20 &&
+      productionOrder.binding_orders - 10 >= +amount &&
+      this.productionOrders.length < MAX_ORDERS
+    );
+  }
+
+  canInput(productionOrder: Production) {
+    return productionOrder.binding_orders < 20;
   }
 
   canDelete(id: number) {
     return this.productionOrders.filter((p) => p.id === id).length > 1;
   }
 
-  deleteItem(productionOrder: Production, index: number): void {
-    // TODO: Positionen updaten
-    const relevantSplits: Production[] = this.productionOrders.filter(
-      (p) =>
-        p.id === productionOrder.id &&
-        p.sequencePos !== productionOrder.sequencePos
+  //------------------------------------
+  // Aktionen
+  //------------------------------------
+
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        this.productionOrders,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      transferArrayItem(
+        this.productionOrders,
+        this.productionOrders,
+        event.previousIndex + this.ITEM_PER_LIST * +event.previousContainer.id,
+        event.currentIndex + this.ITEM_PER_LIST * +event.container.id
+      );
+    }
+  }
+
+  splitItem(
+    productionOrder: Production,
+    index: number,
+    col: number,
+    amtStr: string
+  ): void {
+    const amt: number = parseInt(amtStr);
+    // Anzeige anpassen => Dummy productionorder erstellen
+    const newOrder: Production = Object.assign({}, productionOrder);
+    productionOrder.binding_orders = newOrder.binding_orders - amt;
+    newOrder.binding_orders = amt;
+    this.productionOrders.splice(
+      index + 1 + this.ITEM_PER_LIST * col,
+      0,
+      newOrder
     );
-    // zu löschende Menge auf das erste Elemete aufaddieren
-    relevantSplits[0].binding_orders += productionOrder.binding_orders;
+    this.setColumnCount();
+  }
+
+  deleteItem(productionOrder: Production, index: number, col: number): void {
+    const relevantSplits: Production[] = this.productionOrders.filter(
+      (p, idx) =>
+        p.id === productionOrder.id && idx !== index + col * this.ITEM_PER_LIST
+    );
+    // zu löschende Menge auf das letzte Elemete aufaddieren
+    relevantSplits.pop().binding_orders += productionOrder.binding_orders;
     // Element entfernen
-    this.productionOrders.splice(index, 1);
+    this.productionOrders.splice(index + col * this.ITEM_PER_LIST, 1);
+    this.setColumnCount();
   }
 
   ngOnDestroy(): void {
@@ -108,15 +169,15 @@ export class SequencePlanningComponent implements OnDestroy {
           .filter((p) => p.id === id)
           .sort((a, b) => a.sequencePos - b.sequencePos);
 
-        // Menge aller Aufträge einer produkt-id aufsummieren
+        // Menge aller Aufträge zu einer produkt-id aufsummieren
         const totalBindingOrders: number = productionOrdersSorted
-          ?.map((value) => value.binding_orders)
+          .map((value) => value.binding_orders)
           .reduce((acc, cur) => acc + cur, 0);
-        // letzter Fertigungsauftrag holen. An ihm werden die Spilkt sowie der Gesamtumfang des Auftrags abgespeichert
-        const aggregated = Object.assign({}, productionOrdersSorted.pop());
-        aggregated.binding_orders = totalBindingOrders;
+        // letzter Fertigungsauftrag: An ihm werden die Spilts sowie der Gesamtumfang des Auftrags abgespeichert
+        const aggregatedOrder = Object.assign({}, productionOrdersSorted.pop());
+        aggregatedOrder.binding_orders = totalBindingOrders;
 
-        const splits: Split[] | undefined = productionOrdersSorted?.map(
+        const splits: Split[] | undefined = productionOrdersSorted.map(
           (p) =>
             <Split>{
               parentId: p.id,
@@ -124,9 +185,9 @@ export class SequencePlanningComponent implements OnDestroy {
               amount: p.binding_orders,
             }
         );
-        aggregated.splits = splits;
+        aggregatedOrder.splits = splits;
 
-        productOrdersToSave.push(aggregated);
+        productOrdersToSave.push(aggregatedOrder);
       });
       if (productOrdersToSave.length !== 0) {
         this.dataService.setProductionOrders(productOrdersToSave);

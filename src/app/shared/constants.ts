@@ -20,3 +20,5 @@ export const localStorageKeys = {
     PRODUCTIONORDERS: 'productionorders',
   },
 };
+
+export const MAX_ORDERS = 45;

@@ -43,6 +43,7 @@
         }
       },
       "orderPlanning": {
+        "title" : "Eigenfertigung",
         "id" : "Teilnummer",
         "deliveryTime": "Lieferzeit",
         "deviation": "Abweichung",

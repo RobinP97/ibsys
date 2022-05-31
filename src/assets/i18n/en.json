@@ -1,78 +1,75 @@
 {
-    "import": {
-        "title": "Data import",
-        "fileupload": "upload file",
-        "upload": "upload", 
-        "formatJSON": "formatting JSON",
-        "key": "key",
-        "value": "value",
-        "selectFile": "Select File",
-        "selectFile_help": "Please select a xml file.",
-        "selectedFile_name": "Selected file",
-        "fileupload_emptyFile": "The selected file is empty. Please choose another file.",
-        "fileupload_wrongFileType": "The selected file is not a xml file. Please choose a xml file.",
-        "fileupload_parsingError": "An error occured while validating the selected xml file. Please ensure that the selected xml file is well formed.",
-        "fileupload_loadDataError": "An error occured while importing the selected file. Please review the selected file.",
-        "fileupload_success_snackbarMsg": "The selected xml file was imported succesfully.",
-        "importedDataAvailable_hint": "You can continue working directly with the data from your previous planning. If you select and import a new xml file, the data from your previous planning will be deleted."
-    },
-
-    "forecast": {
-        "title" : "Production plan",
-        "period_label": "Period",
-        "error": { 
-            "NonValidNumber": "The input was not a valid number or smaller than 0!"
-        }
-    },
-
-    "production": {
-        "title" : "In-house production",
-        "binding_orders": "binding orders",
-        "planned_stock": "planned stock at the end of the period",
-        "current_stock": "current stock",
-        "in_queue": "orders in queue",
-        "in_process": "orders in process",
-        "planned_production": "planned production orders",
-        "product": "product",        
-        "predecessor_waiting_list": "queue of the follow-up product",
-        "error": {          
-            "planned_stock": "Planned stock at the end of the period must be bigger than 0!",
-            "current_stock": "Current stock must be bigger than 0!",
-            "in_queue": "Orders in queue must be bigger than 0!",
-            "in_process": "Orders in process must be bigger than 0!"
-          }
-      },
-      
-      "orderPlanning": {
-        "title" : "Order Planning",
-        "id" : "partnumber",
-        "deliveryTime": "deliverytime",
-        "deviation": "deviation",
-        "safeDeliveryTime": "safe delivery time",
-        "discontQuantity": "discontquantity",
-        "stock": "stock",
-        "neededTillReplaced": "demand till replaced",
-        "orderQuantity": "order quantity",
-        "orderType": "order type",
-        "none": "none",
-        "normal": "normal",
-        "fast": "fast"
-      },
-
-    "sequencePlanning": {
-        "title": "Sequence Planning",
-        "header_label_number": "No.",
-        "header_label_product": "Product",
-        "header_label_quantity": "Amount",
-        "header_label_actions": "Actions",
-        "error": {
-            "no_orders": "No production orders could be found for sequence planning."
-        }
-    },
-
-
-    "btn": {
-        "next" : "Next",
-        "back" : "Back"
+  "home": {
+    "button": "Start planning"
+  },
+  "import": {
+    "title": "Data import",
+    "fileupload": "upload file",
+    "upload": "upload",
+    "formatJSON": "formatting JSON",
+    "key": "key",
+    "value": "value",
+    "selectFile": "Select File",
+    "selectFile_help": "Please select a xml file.",
+    "selectedFile_name": "Selected file",
+    "fileupload_emptyFile": "The selected file is empty. Please choose another file.",
+    "fileupload_wrongFileType": "The selected file is not a xml file. Please choose a xml file.",
+    "fileupload_parsingError": "An error occured while validating the selected xml file. Please ensure that the selected xml file is well formed.",
+    "fileupload_loadDataError": "An error occured while importing the selected file. Please review the selected file.",
+    "fileupload_success_snackbarMsg": "The selected xml file was imported succesfully.",
+    "importedDataAvailable_hint": "You can continue working directly with the data from your previous planning. If you select and import a new xml file, the data from your previous planning will be deleted."
+  },
+  "forecast": {
+    "title": "Production plan",
+    "period_label": "Period",
+    "error": {
+      "NonValidNumber": "The input was not a valid number or smaller than 0!"
     }
+  },
+  "production": {
+    "title": "In-house production",
+    "binding_orders": "binding orders",
+    "planned_stock": "planned stock at the end of the period",
+    "current_stock": "current stock",
+    "in_queue": "orders in queue",
+    "in_process": "orders in process",
+    "planned_production": "planned production orders",
+    "product": "product",
+    "predecessor_waiting_list": "queue of the follow-up product",
+    "error": {
+      "planned_stock": "Planned stock at the end of the period must be bigger than 0!",
+      "current_stock": "Current stock must be bigger than 0!",
+      "in_queue": "Orders in queue must be bigger than 0!",
+      "in_process": "Orders in process must be bigger than 0!"
+    }
+  },
+  "orderPlanning": {
+    "title": "Order Planning",
+    "id": "partnumber",
+    "deliveryTime": "deliverytime",
+    "deviation": "deviation",
+    "safeDeliveryTime": "safe delivery time",
+    "discontQuantity": "discontquantity",
+    "stock": "stock",
+    "neededTillReplaced": "demand till replaced",
+    "orderQuantity": "order quantity",
+    "orderType": "order type",
+    "none": "none",
+    "normal": "normal",
+    "fast": "fast"
+  },
+  "sequencePlanning": {
+    "title": "Sequence Planning",
+    "header_label_number": "No.",
+    "header_label_product": "Product",
+    "header_label_quantity": "Amount",
+    "header_label_actions": "Actions",
+    "error": {
+      "no_orders": "No production orders could be found for sequence planning."
+    }
+  },
+  "btn": {
+    "next": "Next",
+    "back": "Back"
+  }
 }

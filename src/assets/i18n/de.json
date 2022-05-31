@@ -1,76 +1,75 @@
 {
-    "import": {
-        "title": "Datenimport",
-        "fileupload": "Datei hochladen",
-        "upload" : "hochladen",
-        "formatJSON": "JSON formatieren",
-        "key": "Schlüssel",
-        "value": "Wert",
-        "selectFile": "Datei auswählen",
-        "selectFile_help": "Bitte wählen Sie eine XML-Datei aus.",
-        "selectedFile_name": "Ausgewählte Datei",
-        "fileupload_emptyFile": "Die ausgewählte Datei ist leer. Bitte wählen Sie eine andere Datei.",
-        "fileupload_wrongFileType": "Die ausgewählte Datei ist keine XML-Datei. Bitte wählen Sie eine XML-Datei aus.",
-        "fileupload_parsingError": "Beim Überprüfen der Datei trat ein Fehler auf. Bitte stellen Sie sicher, dass die ausgewählte XML-Datei wohl geformt ist.",
-        "fileupload_loadDataError": "Das Einlesen der XML-Datei schlug fehl. Bitte überprüfen Sie die ausgewählte XML-Datei.",
-        "fileupload_success_snackbarMsg": "Das Einlesen der ausgewählten XML-Datei war erfolgreich.",
-        "importedDataAvailable_hint": "Sie können direkt mit den Daten ihrer vorherigen Planung weiterarbeiten. Wenn Sie eine neue XML-Datei auswählen und einlesen, werden die Daten ihrer vorherigen Planung gelöscht."
-      },
-
-      "forecast": {
-        "title" : "Produktionsplan",
-        "period_label": "Periode",        
-        "error": { 
-          "NonValidNumber": "Die Eingabe war keine gültige Nummer oder kleiner 0!"
-        }
-      },
-
-      "production": {
-        "title" : "Eigenfertigung",
-        "binding_orders": "Verbindliche Aufträge",
-        "planned_stock": "Geplanter Lagerbestand am Ende der Periode",
-        "current_stock": "Aktueller Lagerbestand",
-        "in_queue": "Aufträge in Warteschlange",
-        "in_process": "Aufträge in Bearbeitung",
-        "planned_production": "Geplante Produktionsaufträge",
-        "product": "Produkt",
-        "predecessor_waiting_list": "Warteschlange des Nachfolgers",
-        "error": {          
-          "planned_stock": "Geplanter Lagerbestand am Ende der Periode darf nicht kleiner 0 sein!",
-          "current_stock": "Aktueller Lagerbestand darf nicht kleiner 0 sein!",
-          "in_queue": "Aufträge in Warteschlange dürfen nicht kleiner 0 sein!",
-          "in_process": "Aufträge in Bearbeitung dürfen nicht kleiner 0 sein!"
-        }
-      },
-      "orderPlanning": {
-        "title" : "Eigenfertigung",
-        "id" : "Teilnummer",
-        "deliveryTime": "Lieferzeit",
-        "deviation": "Abweichung",
-        "safeDeliveryTime": "Sichere Lieferzeit",
-        "discontQuantity": "Diskontmenge",
-        "stock": "Lagerbestand",
-        "neededTillReplaced": "Bedarf bis zur sicheren Lieferung",
-        "orderQuantity": "Bestellmenge",
-        "orderType": "Bestellart",
-        "none": "Keine",
-        "normal": "Normal",
-        "fast": "Eil"
-      },
-
-      "sequencePlanning": {
-        "title": "Reihenfolgeplanung",
-        "header_label_number": "Nr.",
-        "header_label_product": "Produkt",
-        "header_label_quantity": "Menge",
-        "header_label_actions": "Aktionen",
-        "error": {
-          "no_orders": "Es konnten keine Fertigungsaufträge für die Reihenfolgeplanung gefunden werden."
-        }
-      },
-
-      "btn": {
-        "next" : "Weiter",
-        "back" : "Zurück"
-      }
+  "home": {
+    "button": "Planung starten"
+  },
+  "import": {
+    "title": "Datenimport",
+    "fileupload": "Datei hochladen",
+    "upload": "hochladen",
+    "formatJSON": "JSON formatieren",
+    "key": "Schlüssel",
+    "value": "Wert",
+    "selectFile": "Datei auswählen",
+    "selectFile_help": "Bitte wählen Sie eine XML-Datei aus.",
+    "selectedFile_name": "Ausgewählte Datei",
+    "fileupload_emptyFile": "Die ausgewählte Datei ist leer. Bitte wählen Sie eine andere Datei.",
+    "fileupload_wrongFileType": "Die ausgewählte Datei ist keine XML-Datei. Bitte wählen Sie eine XML-Datei aus.",
+    "fileupload_parsingError": "Beim Überprüfen der Datei trat ein Fehler auf. Bitte stellen Sie sicher, dass die ausgewählte XML-Datei wohl geformt ist.",
+    "fileupload_loadDataError": "Das Einlesen der XML-Datei schlug fehl. Bitte überprüfen Sie die ausgewählte XML-Datei.",
+    "fileupload_success_snackbarMsg": "Das Einlesen der ausgewählten XML-Datei war erfolgreich.",
+    "importedDataAvailable_hint": "Sie können direkt mit den Daten ihrer vorherigen Planung weiterarbeiten. Wenn Sie eine neue XML-Datei auswählen und einlesen, werden die Daten ihrer vorherigen Planung gelöscht."
+  },
+  "forecast": {
+    "title": "Produktionsplan",
+    "period_label": "Periode",
+    "error": {
+      "NonValidNumber": "Die Eingabe war keine gültige Nummer oder kleiner 0!"
+    }
+  },
+  "production": {
+    "title": "Eigenfertigung",
+    "binding_orders": "Verbindliche Aufträge",
+    "planned_stock": "Geplanter Lagerbestand am Ende der Periode",
+    "current_stock": "Aktueller Lagerbestand",
+    "in_queue": "Aufträge in Warteschlange",
+    "in_process": "Aufträge in Bearbeitung",
+    "planned_production": "Geplante Produktionsaufträge",
+    "product": "Produkt",
+    "predecessor_waiting_list": "Warteschlange des Nachfolgers",
+    "error": {
+      "planned_stock": "Geplanter Lagerbestand am Ende der Periode darf nicht kleiner 0 sein!",
+      "current_stock": "Aktueller Lagerbestand darf nicht kleiner 0 sein!",
+      "in_queue": "Aufträge in Warteschlange dürfen nicht kleiner 0 sein!",
+      "in_process": "Aufträge in Bearbeitung dürfen nicht kleiner 0 sein!"
+    }
+  },
+  "orderPlanning": {
+    "title": "Eigenfertigung",
+    "id": "Teilnummer",
+    "deliveryTime": "Lieferzeit",
+    "deviation": "Abweichung",
+    "safeDeliveryTime": "Sichere Lieferzeit",
+    "discontQuantity": "Diskontmenge",
+    "stock": "Lagerbestand",
+    "neededTillReplaced": "Bedarf bis zur sicheren Lieferung",
+    "orderQuantity": "Bestellmenge",
+    "orderType": "Bestellart",
+    "none": "Keine",
+    "normal": "Normal",
+    "fast": "Eil"
+  },
+  "sequencePlanning": {
+    "title": "Reihenfolgeplanung",
+    "header_label_number": "Nr.",
+    "header_label_product": "Produkt",
+    "header_label_quantity": "Menge",
+    "header_label_actions": "Aktionen",
+    "error": {
+      "no_orders": "Es konnten keine Fertigungsaufträge für die Reihenfolgeplanung gefunden werden."
+    }
+  },
+  "btn": {
+    "next": "Weiter",
+    "back": "Zurück"
+  }
 }

@@ -58,5 +58,6 @@ export class DirectsalesComponent implements OnInit, OnDestroy {
 
   saveDirectsales() {
     this.dataSerivce.setDirectSales(this.directsales);
+    this.dataSerivce.setForecastsAndDirectSales();
   }
 }

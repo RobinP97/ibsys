@@ -55,17 +55,17 @@ export class ProductionComponent {
     // Entweder wurde die Eigenfertigung schon einmal geplant und unter dem Schlüssel "production" abgespeichert
     this.inhouse_parts = dataService.getProductionOrders();
     // oder noch nicht, sodass man initial eine Zusammenstellung aus den importierten Daten und inhouse-parts.json erstellen muss
-    if (!this.inhouse_parts) {
+    //if (!this.inhouse_parts) { inhouse_parts müssen geupdatet werden wenn vor und zurück gesprungen wird!
       this.initializeInhouseParts(dataService);
 
       this.waitinglistWorkstations =
         this.dataService.getWaitinglistWorkstations();
-      this.forecasts = this.dataService.getForcasts();
+      this.forecasts = this.dataService.getForecastsAndDirectSales();
       this.warehousestock = this.dataService.getWarehouseStock();
       this.ordersinwork = this.dataService.getOrdersInWork();
 
       this.updateArrayAfterImport();
-    }
+    //}
   }
 
   setWaitingListWorkstations() {

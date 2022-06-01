@@ -22,7 +22,7 @@ export class OrderPlanningComponent implements OnInit {
 
   constructor(private readonly dataSerivce: DataService) {
     this.loadDataFromJson();
-    this.forecasts = dataSerivce.getForcasts();
+    this.forecasts = dataSerivce.getForecastsAndDirectSales();
     this.calculateDemand();
     this.warehousestock = this.dataSerivce.getWarehouseStock();
     this.updateWareHouse();

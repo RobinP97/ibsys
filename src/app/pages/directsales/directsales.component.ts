@@ -17,7 +17,8 @@ export class DirectsalesComponent implements OnInit, OnDestroy {
     private readonly snackBarService: SnackbarService
   ) {
     this.directsales = this.dataSerivce.getDirectSales();
-    // Property werden automatisch gesetzt wenn der Nuter eine Eingabe tätigt
+    if (Object.keys(this.directsales).length === 0)
+      this.directsales = { p1: 0, p2: 0, p3: 0 };
     // this.directsales.p1 = 0;
     // this.directsales.p2 = 0;
     // this.directsales.p3 = 0;
@@ -56,8 +57,6 @@ export class DirectsalesComponent implements OnInit, OnDestroy {
   }
 
   saveDirectsales() {
-    console.log(this.directsales);
-    
     this.dataSerivce.setDirectSales(this.directsales);
   }
 }

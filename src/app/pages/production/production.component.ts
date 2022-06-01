@@ -7,6 +7,7 @@ import { Production } from 'src/app/model/production/production';
 import { SnackbarService } from 'src/app/service/snackbar.service';
 import { WarehouseStock } from 'src/app/model/import/warehousestock';
 import { WorkplaceWaitingListWorkstation } from 'src/app/model/import/workplaceWaitingListWorkstations';
+import { processingChain } from 'src/app/model/production/processing_chain';
 
 @Component({
   selector: 'app-production',
@@ -124,8 +125,20 @@ export class ProductionComponent {
       part.predecessor_waiting_list = 0;
       part.in_process = 0;
       part.elements = element.elements;
+      part.processing_chain = [];
+      element.processingChain.forEach((chainPart) => {
+
+        let chain = {} as processingChain;
+        chain.setUpTime = chainPart.setUpTime;
+        chain.productionTime = chainPart.productionTime;
+        chain.workstationId = chainPart.workstationId;
+        part.processing_chain.push(chain);
+                
+      }
+      );
       this.inhouse_parts.push(part);
     });
+    console.log(this.inhouse_parts);
   }
 
   updateArrayAfterImport() {

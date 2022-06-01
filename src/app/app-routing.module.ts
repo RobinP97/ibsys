@@ -6,6 +6,7 @@ import { ForecastComponent } from './pages/forecast/forecast.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ImportComponent } from './pages/import/import.component';
 import { NavBarPlanningComponent } from './shared/nav-bar-planning/nav-bar-planning.component';
+import { CapacityComponent } from './pages/capacity/capacity.component';
 import { NgModule } from '@angular/core';
 import { OrderPlanningComponent } from './pages/order-planning/order-planning.component';
 import { ProductionComponent } from './pages/production/production.component';
@@ -26,6 +27,7 @@ const routes: Routes = [
       { path: 'order-planning', component: OrderPlanningComponent },
       { path: 'sequencePlanning', component: SequencePlanningComponent },
       { path: 'orderPlanning', component: OrderPlanningComponent },
+      { path: 'capacity', component: CapacityComponent },
     ],
   },
 ];

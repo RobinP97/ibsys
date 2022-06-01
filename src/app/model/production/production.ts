@@ -1,4 +1,5 @@
 import { Split } from './split';
+import { processingChain } from "./processing_chain";
 
 export interface Production {
   id: number;
@@ -13,4 +14,5 @@ export interface Production {
   predecessor_waiting_list: number;
   sequencePos: number;
   splits: Split[];
+  processing_chain: processingChain[];
 }

@@ -7,4 +7,5 @@ export const STEPS: Step[] = [
   { title: 'production.title', index: 3, path: 'production' },
   { title: 'sequencePlanning.title', index: 4, path: 'sequencePlanning' },
   { title: 'orderPlanning.title', index: 5, path: 'orderPlanning' },
+  { title: 'capacity.title', index: 6, path: 'capacity' },
 ];

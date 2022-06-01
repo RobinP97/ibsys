@@ -1,6 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 
 import { DebugComponent } from './pages/debug/debug.component';
+import { DirectsalesComponent } from './pages/directsales/directsales.component';
 import { ForecastComponent } from './pages/forecast/forecast.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ImportComponent } from './pages/import/import.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
     children: [
       { path: '', component: ImportComponent },
       { path: 'forecast', component: ForecastComponent },
+      { path: 'directsales', component: DirectsalesComponent },
       { path: 'production', component: ProductionComponent },
       { path: 'order-planning', component: OrderPlanningComponent },
       { path: 'sequencePlanning', component: SequencePlanningComponent },

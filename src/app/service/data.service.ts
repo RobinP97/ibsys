@@ -25,6 +25,7 @@ export class DataService {
 
   mandatoryOrders$ = new Subject<Forecast>();
   forecasts$ = new Subject<Forecast[]>();
+  directsales$ = new Subject<Forecast>();
   warehouseStock$ = new Subject<WarehouseStock>();
   inwardStockMovement$ = new Subject<OrderInwardStockMovement[]>();
   futureInwardStockMovement$ = new Subject<OrderInwardStockMovement[]>();
@@ -97,6 +98,13 @@ export class DataService {
     return forecasts === undefined
       ? ([{}, {}, {}, {}] as Forecast[])
       : forecasts;
+  }
+
+  getDirectSales(): Forecast {
+    const directsales: Forecast = this.localStorageService.getItem(
+      keys.other.DIRECTSALES
+    );
+    return directsales === undefined ? ({} as Forecast) : directsales;
   }
 
   getWaitinglistWorkstations(): WorkplaceWaitingListWorkstation[] {
@@ -236,6 +244,29 @@ export class DataService {
     this.localStorageService.setItem(
       keys.import.MANDATORYORDERS,
       mandatoryOrder
+    );
+    this.setForecastsAndDirectSales();
+  }
+
+  setDirectSales(directsales: Forecast) {
+    this.directsales$.next(directsales);
+    this.localStorageService.setItem(keys.other.DIRECTSALES, directsales);
+    this.setForecastsAndDirectSales();
+  }
+
+  setForecastsAndDirectSales() {
+    const forecasts = this.getForcasts();
+    const directsales = this.getDirectSales();
+    const combined = [...forecasts];
+
+    // ?? => Nullish coalescing operator
+    combined[0]['p1'] += directsales?.p1 ?? 0;
+    combined[0]['p2'] += directsales?.p2 ?? 0;
+    combined[0]['p3'] += directsales?.p3 ?? 0;
+
+    this.localStorageService.setItem(
+      keys.other.FORECASTANDDIRECTSALES,
+      combined
     );
   }
 

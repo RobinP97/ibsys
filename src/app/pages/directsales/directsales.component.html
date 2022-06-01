@@ -1,24 +1,26 @@
-<table>
-    <tr>        
-        <th>
-            P1
-        </th>
-        <th>
-            P2
-        </th>
-        <th>
-            P3
-        </th>
-    </tr>
-    <tr>
-        <td>
-            <input matInput [(ngModel)]="directsales.p1" type="number"  min="0" (change)="onChange()" class="matInputField"/>   
-        </td>
-        <td>
-            <input matInput [(ngModel)]="directsales.p2" type="number"  min="0" (change)="onChange()" class="matInputField"/>   
-        </td>
-        <td>
-            <input matInput [(ngModel)]="directsales.p3" type="number"  min="0" (change)="onChange()" class="matInputField"/>   
-        </td>
-    </tr>
-</table>
+<div class="tbl-wrapper">
+    <table class="mat-elevation-z8">
+        <tr>        
+            <th>
+                P1
+            </th>
+            <th>
+                P2
+            </th>
+            <th>
+                P3
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <input matInput [(ngModel)]="directsales.p1" type="number"  min="0" (change)="onChange()" class="matInputField"/>   
+            </td>
+            <td>
+                <input matInput [(ngModel)]="directsales.p2" type="number"  min="0" (change)="onChange()" class="matInputField"/>   
+            </td>
+            <td>
+                <input matInput [(ngModel)]="directsales.p3" type="number"  min="0" (change)="onChange()" class="matInputField"/>   
+            </td>
+        </tr>
+    </table>
+</div>

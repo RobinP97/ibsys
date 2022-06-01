@@ -1,0 +1,38 @@
+.tbl-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    width: 100%;
+}
+
+table {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th {
+    font-size: large;
+    padding: 10px;
+}
+
+td {
+    font-size: large;
+    padding: 10px;
+
+}
+
+td > .matInputField {
+    min-width: 50px;
+    max-width: 75px;
+    min-height: 30px;
+    max-height: 30px;
+    //border-left: 1px solid black;
+}
+
+
+.mat-form-field {
+    max-width: 35%;
+    min-width: 25%;
+}

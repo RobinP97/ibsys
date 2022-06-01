@@ -18,6 +18,8 @@ export const localStorageKeys = {
   other: {
     FORECASTS: 'forecasts',
     PRODUCTIONORDERS: 'productionorders',
+    FORECASTANDDIRECTSALES: 'forecastanddirectsales',
+    DIRECTSALES: 'directsales',
   },
 };
 

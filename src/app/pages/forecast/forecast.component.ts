@@ -82,6 +82,7 @@ export class ForecastComponent implements OnInit, OnDestroy {
       this.forecastP3,
       this.forecastP4,
     ]);
+
     this.updateForecasts(this.dataSerivce.getForcasts());
   }
 

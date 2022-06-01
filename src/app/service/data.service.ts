@@ -107,6 +107,13 @@ export class DataService {
     return directsales === undefined ? ({} as Forecast) : directsales;
   }
 
+  getForecastsAndDirectSales() {
+    const combined = this.localStorageService.getItem(
+      keys.other.FORECASTANDDIRECTSALES
+    );
+    return combined;
+  }
+
   getWaitinglistWorkstations(): WorkplaceWaitingListWorkstation[] {
     const waitinglistWorkStation: WorkplaceWaitingListWorkstation[] =
       this.localStorageService.getItem(keys.import.WAITINGLISTWORKSTATIONS);

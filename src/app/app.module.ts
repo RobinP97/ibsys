@@ -31,6 +31,7 @@ import { OrderPlanningComponent } from './pages/order-planning/order-planning.co
 import { PrettyPrintPipe } from './pipes/prettyprint.pipe';
 import { ProductionComponent } from './pages/production/production.component';
 import { SequencePlanningComponent } from './pages/sequence-planning/sequence-planning.component';
+import { CapacityComponent } from './pages/capacity/capacity.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { SequencePlanningComponent } from './pages/sequence-planning/sequence-pl
     OrderPlanningComponent,
     SequencePlanningComponent,
     DirectsalesComponent,
+    CapacityComponent,
   ],
   imports: [
     AppRoutingModule,

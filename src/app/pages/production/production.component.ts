@@ -7,6 +7,7 @@ import { Production } from 'src/app/model/production/production';
 import { SnackbarService } from 'src/app/service/snackbar.service';
 import { WarehouseStock } from 'src/app/model/import/warehousestock';
 import { WorkplaceWaitingListWorkstation } from 'src/app/model/import/workplaceWaitingListWorkstations';
+import { processingChain } from 'src/app/model/production/processing_chain';
 
 @Component({
   selector: 'app-production',
@@ -55,17 +56,17 @@ export class ProductionComponent {
     // Entweder wurde die Eigenfertigung schon einmal geplant und unter dem Schlüssel "production" abgespeichert
     this.inhouse_parts = dataService.getProductionOrders();
     // oder noch nicht, sodass man initial eine Zusammenstellung aus den importierten Daten und inhouse-parts.json erstellen muss
-    if (!this.inhouse_parts) {
+    //if (!this.inhouse_parts) { inhouse_parts müssen geupdatet werden wenn vor und zurück gesprungen wird!
       this.initializeInhouseParts(dataService);
 
       this.waitinglistWorkstations =
         this.dataService.getWaitinglistWorkstations();
-      this.forecasts = this.dataService.getForcasts();
+      this.forecasts = this.dataService.getForecastsAndDirectSales();
       this.warehousestock = this.dataService.getWarehouseStock();
       this.ordersinwork = this.dataService.getOrdersInWork();
 
       this.updateArrayAfterImport();
-    }
+    //}
   }
 
   setWaitingListWorkstations() {
@@ -124,8 +125,20 @@ export class ProductionComponent {
       part.predecessor_waiting_list = 0;
       part.in_process = 0;
       part.elements = element.elements;
+      part.processing_chain = [];
+      element.processingChain.forEach((chainPart) => {
+
+        let chain = {} as processingChain;
+        chain.setUpTime = chainPart.setUpTime;
+        chain.productionTime = chainPart.productionTime;
+        chain.workstationId = chainPart.workstationId;
+        part.processing_chain.push(chain);
+                
+      }
+      );
       this.inhouse_parts.push(part);
     });
+    console.log(this.inhouse_parts);
   }
 
   updateArrayAfterImport() {

@@ -31,7 +31,7 @@
        {{inhouse_part.category + inhouse_part.id}}
     </td>
     <td>
-        <input matInput [(ngModel)]="inhouse_parts[i].binding_orders"  (change)="updateAfterChange(inhouse_parts[i])" type="number" min="0" class="matInputField"/>
+        {{ inhouse_parts[i].binding_orders }}
      </td>
      <td>
         <div *ngIf="inhouse_parts[i].predecessor_waiting_list > 0; then thenBlock else elseBlock"></div>
@@ -39,19 +39,19 @@
         <ng-template #elseBlock></ng-template>
      </td>
      <td>
-        <input matInput [(ngModel)]="inhouse_parts[i].planned_stock" (change)="updateAfterChange(inhouse_parts[i])" type="number"  min="0" class="matInputField"/>
+        <input matInput [(ngModel)]="inhouse_parts[i].planned_stock" (change)="updateAfterChange(inhouse_parts[i])" type="number"  min="0" pattern="/^\d+$/" class="matInputField"/>
      </td>
      <td>
-        <input matInput [(ngModel)]="inhouse_parts[i].current_stock" (change)="updateAfterChange(inhouse_parts[i])" type="number"  min="0" class="matInputField"/>
+        <input matInput [(ngModel)]="inhouse_parts[i].current_stock" (change)="updateAfterChange(inhouse_parts[i])" type="number"  min="0" pattern="/^\d+$/" class="matInputField"/>
      </td>
      <td>
-        <input matInput [(ngModel)]="inhouse_parts[i].in_queue" (change)="updateAfterChange(inhouse_parts[i])" type="number"  min="0" class="matInputField"/>
+        <input matInput [(ngModel)]="inhouse_parts[i].in_queue" (change)="updateAfterChange(inhouse_parts[i])" type="number"  min="0" pattern="/^\d+$/" class="matInputField"/>
      </td>
      <td>
-        <input matInput [(ngModel)]="inhouse_parts[i].in_process" (change)="updateAfterChange(inhouse_parts[i])" type="number" min="0" class="matInputField"/>
+        <input matInput [(ngModel)]="inhouse_parts[i].in_process" (change)="updateAfterChange(inhouse_parts[i])" type="number" min="0" pattern="/^\d+$/" class="matInputField"/>
      </td>
-     <td>
-        <input matInput [(ngModel)]="inhouse_parts[i].planned_production" (change)="updateAfterChange(inhouse_parts[i])" type="number" min="0" class="matInputField"/>
+     <td>         
+        {{ inhouse_parts[i].planned_production }}
      </td>
     <tr>
 </table>

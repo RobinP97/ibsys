@@ -1,0 +1,22 @@
+<p>nav-bar-planning works!</p>
+<p>Muss selbstverständlich noch schöner aussehen :)</p>
+<div style="border: 2px solid black; max-width: 500px;">
+    <p>Schritte der Planung könnte man als Stepper aus Angular Material umsetzen</p>
+    <div id="mynavbar">  
+        <ul class="nav navbar-nav">    
+            <li routerLinkActive="active">      
+                <a routerLink='/planning' class="link">Import</a>    
+            </li>   
+            <li routerLinkActive="active">      
+                <a routerLink='/planning/forecast' class="link">Produktionsplanung</a>    
+            </li>    
+            <li routerLinkActive="active">     
+                <a routerLink='/planning/production' class="link">Eigenfertigung</a>   
+            </li> 
+            <li routerLinkActive="active">     
+                <a routerLink='/planning/capacity' class="link">Kapazitätsplanung</a>   
+            </li> 
+        </ul>
+    </div>
+</div>
+<router-outlet></router-outlet>

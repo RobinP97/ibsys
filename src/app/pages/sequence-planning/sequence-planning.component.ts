@@ -152,6 +152,11 @@ export class SequencePlanningComponent implements OnDestroy {
     this.setColumnCount();
   }
 
+  reset() {
+    this.productionOrders = this.dataService.getProductionOrders();
+    this.setColumnCount();
+  }
+
   ngOnDestroy(): void {
     // Called once, before the instance is destroyed.
     if (this.productionOrders) {

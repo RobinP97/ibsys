@@ -63,6 +63,7 @@
         "header_label_product": "Produkt",
         "header_label_quantity": "Menge",
         "header_label_actions": "Aktionen",
+        "reset_btn_label": "Ausgangszustand wiederherstellen",
         "error": {
           "no_orders": "Es konnten keine Fertigungsaufträge für die Reihenfolgeplanung gefunden werden."
         }

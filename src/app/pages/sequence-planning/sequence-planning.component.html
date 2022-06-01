@@ -8,6 +8,12 @@
  {{ "sequencePlanning..error.no_orders" | translate }}
 </div>
 <ng-template #showorderlist>
+    <button mat-icon-button color="primary" [matMenuTriggerFor]="menu" class="menu"><mat-icon>menu</mat-icon></button>
+    <mat-menu #menu="matMenu">
+        <button
+        (click)="reset()"
+        mat-menu-item>{{ "sequencePlanning.reset_btn_label" | translate }}</button>
+      </mat-menu>
 <div cdkDropListGroup class="productionorders-wrapper">
     <div *ngFor="let col of colCount" class="list-container">
         <div
@@ -59,10 +65,10 @@
                     </button>
                 </form>
                 </span>
-
             </div>
         </div>
     </div>
 </div>
 </ng-template>
+
   

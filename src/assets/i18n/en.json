@@ -64,6 +64,7 @@
         "header_label_product": "Product",
         "header_label_quantity": "Amount",
         "header_label_actions": "Actions",
+        "reset_btn_label": "Recover to initial state",
         "error": {
             "no_orders": "No production orders could be found for sequence planning."
         }

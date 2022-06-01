@@ -90,9 +90,12 @@ input[type="number"] {
 */
 
 // NEW
+.menu {
+    float: right;
+}
 
 .no-productionorders-wrapper, .productionorders-wrapper {
-    min-width: 1100px;
+    //min-width: 1100px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -101,7 +104,7 @@ input[type="number"] {
 
 @media screen and (max-width: 1100px) {
     .no-productionorders-wrapper, .productionorders-wrapper {
-        width: 100%;
+        min-height: 400px;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;

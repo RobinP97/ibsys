@@ -28,6 +28,7 @@ $ibsys-theme: mat-light-theme((
   )
 ));
 
+
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
@@ -44,3 +45,10 @@ $ibsys-theme: mat-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+input[type="number"] {
+  width: 4em;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+

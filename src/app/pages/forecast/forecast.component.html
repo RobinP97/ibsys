@@ -68,6 +68,20 @@
         </td>        
         <td>
             <input matInput class="md-table" type="number" [(ngModel)]="forecastP4.p3" (change)="checkIfNumberIsValid(forecastP4, forecastP4.p3)"/> 
+            <!-- <div class="input-wrapper">
+                <mat-form-field>
+                    <input 
+                    matInput 
+                    class="md-table" 
+                    min="0" 
+                    max="1000" 
+                    step="10" 
+                    type="number"
+                    #input
+                    (onkeypress)="setNewValue($event)"
+                    [value]="forecastP4.p3"/>
+                </mat-form-field>
+            </div> -->
         </td>
     </tr>
     
@@ -77,7 +91,7 @@
     <mat-divider style="margin-top: 12px; margin-bottom: 12px;"></mat-divider>
 </div>
 <!-- Tabelle als mat-table -->
-
+<!--
 <table mat-table [dataSource]="forecasts"  class="mat-elevation-z8 forecast-table" (change)="saveForecasts()">
     <ng-container matColumnDef="period">
         <th mat-header-cell *matHeaderCellDef></th>
@@ -118,3 +132,4 @@
 
       
 </table>
+-->

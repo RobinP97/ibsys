@@ -89,7 +89,6 @@ export class DataService {
     return period;
   }
 
-
   getForcasts(): Forecast[] {
     const forecasts: Forecast[] = this.localStorageService.getItem(
       keys.other.FORECASTS

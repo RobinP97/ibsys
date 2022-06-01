@@ -4,9 +4,9 @@ import { DataService } from 'src/app/service/data.service';
 import { Forecast } from 'src/app/model/import/forecast';
 import { OrderInWork } from 'src/app/model/import/orderinwork';
 import { Production } from 'src/app/model/production/production';
+import { SnackbarService } from 'src/app/service/snackbar.service';
 import { WarehouseStock } from 'src/app/model/import/warehousestock';
 import { WorkplaceWaitingListWorkstation } from 'src/app/model/import/workplaceWaitingListWorkstations';
-import { SnackbarService } from 'src/app/service/snackbar.service';
 
 @Component({
   selector: 'app-production',
@@ -21,8 +21,10 @@ export class ProductionComponent {
   ordersinwork: OrderInWork[];
   waitinglistWorkstations: WorkplaceWaitingListWorkstation[];
 
-  constructor(private readonly dataService: DataService, 
-    private readonly snackBarService: SnackbarService) {
+  constructor(
+    private readonly dataService: DataService,
+    private readonly snackBarService: SnackbarService
+  ) {
     // dataSerivce.forecasts$.subscribe({
     //   next: (v) => {
     //     this.forecasts = v;
@@ -161,36 +163,43 @@ export class ProductionComponent {
     this.dataService.setProductionOrders(this.inhouse_parts);
   }
 
-  checkPartIsNotNegative(part: Production){
-    if(part.in_process < 0 ||  isNaN(part.in_process) || part.in_process == null)
-    {
-      this.warnUserNegativeNumber(part.in_process ,"in_process");
+  checkPartIsNotNegative(part: Production) {
+    if (
+      part.in_process < 0 ||
+      isNaN(part.in_process) ||
+      part.in_process == null
+    ) {
+      this.warnUserNegativeNumber(part.in_process, 'in_process');
       part.in_process = 0;
     }
-    if(part.in_queue < 0 ||  isNaN(part.in_queue) || part.in_queue == null)
-    {
-      this.warnUserNegativeNumber(part.in_queue ,"in_queue");
+    if (part.in_queue < 0 || isNaN(part.in_queue) || part.in_queue == null) {
+      this.warnUserNegativeNumber(part.in_queue, 'in_queue');
       part.in_queue = 0;
     }
-    if(part.planned_stock < 0 ||  isNaN(part.planned_stock) || part.planned_stock == null)
-    {
-      this.warnUserNegativeNumber(part.planned_stock ,"planned_stock");
+    if (
+      part.planned_stock < 0 ||
+      isNaN(part.planned_stock) ||
+      part.planned_stock == null
+    ) {
+      this.warnUserNegativeNumber(part.planned_stock, 'planned_stock');
       part.planned_stock = 0;
     }
-    if(part.current_stock < 0 ||  isNaN(part.current_stock) || part.current_stock == null)
-    {
-      this.warnUserNegativeNumber(part.current_stock ,"current_stock");
+    if (
+      part.current_stock < 0 ||
+      isNaN(part.current_stock) ||
+      part.current_stock == null
+    ) {
+      this.warnUserNegativeNumber(part.current_stock, 'current_stock');
       part.current_stock = 0;
     }
   }
 
-  warnUserNegativeNumber(num: number, Attribute: string)
-  { 
+  warnUserNegativeNumber(num: number, Attribute: string) {
     this.snackBarService.openSnackBar(
-    'production.error.'+Attribute,
-    'Ok',
-    10000
-  );
+      'production.error.' + Attribute,
+      'Ok',
+      10000
+    );
   }
 
   updateChain(

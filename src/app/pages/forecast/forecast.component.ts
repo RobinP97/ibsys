@@ -1,9 +1,9 @@
-import { isNull } from '@angular/compiler/src/output/output_ast';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { DataService } from 'src/app/service/data.service';
-import { SnackbarService } from 'src/app/service/snackbar.service';
 import { Forecast } from '../../model/import/forecast';
+import { SnackbarService } from 'src/app/service/snackbar.service';
+import { isNull } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-forecast',
@@ -18,10 +18,13 @@ export class ForecastComponent implements OnInit, OnDestroy {
   forecasts: Forecast[];
   period: number;
 
-  columnsToDisplay = ['period', 'p1', 'p2', 'p3'];
+  columnsToDisplay = ['productIds', 'period0', 'period1', 'period2', 'period3'];
+  rowsToDisplay = ['P1', 'P2', 'P3'];
 
-  constructor(private readonly dataSerivce: DataService,
-    private readonly snackBarService: SnackbarService) {
+  constructor(
+    private readonly dataSerivce: DataService,
+    private readonly snackBarService: SnackbarService
+  ) {
     // Wenn der Import vor dem Erstellen der Forecast Komponenten erfolgt, muss mit dem lokalen Browsercqache gearbeitet werden
     this.updateForecasts(this.dataSerivce.getForcasts());
     // dataSerivce.forecasts$.subscribe({ next: (f) => this.updateForecasts(f) });
@@ -35,39 +38,31 @@ export class ForecastComponent implements OnInit, OnDestroy {
     // });
 
     this.period = this.dataSerivce.getPeriod();
+    console.log(this.period);
+
     // dataSerivce.period$.subscribe({
     //   next: (v) => (this.period = v),
     // });
   }
-  
-  checkIfNumberIsValid(forecast: Forecast, forecastNumber: number){
+
+  checkIfNumberIsValid(forecast: Forecast, forecastNumber: number) {
     console.log(forecastNumber);
-    if(forecastNumber < 0 ||  isNaN(forecastNumber) || forecastNumber == null)
-    {
-      if(forecast.p1 < 0 ||  isNaN(forecast.p1) || forecast.p1 == null)
-      {
+    if (forecastNumber < 0 || isNaN(forecastNumber) || forecastNumber == null) {
+      if (forecast.p1 < 0 || isNaN(forecast.p1) || forecast.p1 == null) {
         forecast.p1 = 0;
       }
-      if(forecast.p2 < 0 || isNaN(forecast.p2) || forecast.p2 == null)
-      {
+      if (forecast.p2 < 0 || isNaN(forecast.p2) || forecast.p2 == null) {
         forecast.p2 = 0;
       }
-      if(forecast.p3 < 0 || isNaN(forecast.p3) || forecast.p3 == null)
-      {
+      if (forecast.p3 < 0 || isNaN(forecast.p3) || forecast.p3 == null) {
         forecast.p3 = 0;
-      }      
-    this.triggerWarningForNonValidNumber();
+      }
+      this.triggerWarningForNonValidNumber();
     }
   }
 
-  triggerWarningForNonValidNumber()
-  {
-    this.snackBarService.openSnackBar(
-    'forecast.error.NonValidNumber',
-    'Ok',
-    10000
-  );
-    
+  triggerWarningForNonValidNumber() {
+    this.snackBarService.openSnackBar('sdf', 'Ok', 4000);
   }
 
   ngOnDestroy(): void {

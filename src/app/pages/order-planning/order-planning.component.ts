@@ -3,35 +3,33 @@ import { DataService } from 'src/app/service/data.service';
 import { OrderPlanning } from 'src/app/model/order-planning/order-planning';
 import { Forecast } from 'src/app/model/import/forecast';
 import { WarehouseStock } from 'src/app/model/import/warehousestock';
-import { orderTypes, TypeMapping } from 'src/app/model/order-planning/orderTypeEnum';
+import {
+  TypeMapping,
+  orderTypes,
+} from 'src/app/model/order-planning/orderTypeEnum';
 
 @Component({
   selector: 'app-order-planning',
   templateUrl: './order-planning.component.html',
   styleUrls: ['./order-planning.component.scss'],
 })
-export class OrderPlanningComponent implements OnInit { 
+export class OrderPlanningComponent implements OnInit {
   public TypeMapping = TypeMapping;
   public orderTypes = Object.values(orderTypes);
   purchase_parts: OrderPlanning[];
   forecasts: Forecast[];
   warehousestock: WarehouseStock;
 
-
-  constructor(
-    private readonly dataSerivce: DataService
-    ) { 
-      this.loadDataFromJson();
-      this.forecasts = dataSerivce.getForcasts();
-      this.calculateDemand();
-      this.warehousestock = this.dataSerivce.getWarehouseStock();
-      this.updateWareHouse();
-      this.calculateNeededTillReplaced();
-    }
-
-  ngOnInit(): void {
+  constructor(private readonly dataSerivce: DataService) {
+    this.loadDataFromJson();
+    this.forecasts = dataSerivce.getForcasts();
+    this.calculateDemand();
+    this.warehousestock = this.dataSerivce.getWarehouseStock();
+    this.updateWareHouse();
+    this.calculateNeededTillReplaced();
   }
 
+  ngOnInit(): void {}
 
   loadDataFromJson(): void {
     const purchase_part = require('../../data/purchase-parts.json');
@@ -43,9 +41,11 @@ export class OrderPlanningComponent implements OnInit {
       part.discountAmount = element.discountAmount;
       part.replacementTime = element.replacementTime;
       part.replacementTimeVariance = element.replacementTimeVariance;
-      part.replacementTimeAndVariance = Math.round((element.replacementTime + element.replacementTimeVariance) * 100) / 100;
-      part.neededTillReplaced = 
-      part.usage = element.usage;
+      part.replacementTimeAndVariance =
+        Math.round(
+          (element.replacementTime + element.replacementTimeVariance) * 100
+        ) / 100;
+      part.neededTillReplaced = part.usage = element.usage;
       part.current_stock = 0;
       part.demand = [];
       part.orderQuantity = 0;
@@ -69,8 +69,10 @@ export class OrderPlanningComponent implements OnInit {
   updateWareHouse(): void {
     if (this.warehousestock !== undefined) {
       this.purchase_parts.forEach((element) => {
-      let article = this.warehousestock.article.find((art) => art.id == element.id);
-      element.current_stock = article.amount;
+        let article = this.warehousestock.article.find(
+          (art) => art.id == element.id
+        );
+        element.current_stock = article.amount;
       });
     }
   }
@@ -79,41 +81,34 @@ export class OrderPlanningComponent implements OnInit {
     return index;
   }
 
-  calculateNeededTillReplaced(): void{
+  calculateNeededTillReplaced(): void {
     this.purchase_parts.forEach((element) => {
       let needed = 0;
-      [0,1,2,3].forEach((index) => {
-       // replaceTime =2.2
-      if (element.replacementTimeAndVariance >= index + 1 ){
-        if(element.demand.length > index)
-        {
-          if(isNaN(element.demand[index]))
-          {
-
-          }
-          else{
-            needed = element.demand[index] + needed;
+      [0, 1, 2, 3].forEach((index) => {
+        // replaceTime =2.2
+        if (element.replacementTimeAndVariance >= index + 1) {
+          if (element.demand.length > index) {
+            if (isNaN(element.demand[index])) {
+            } else {
+              needed = element.demand[index] + needed;
+            }
           }
         }
-      } 
-      })
+      });
       let round = Math.floor(element.replacementTimeAndVariance);
-      if(isNaN(element.demand[round]))
-      {
-
-      } 
-      else{
-        needed += (element.replacementTimeAndVariance - round) * element.demand[round];
-      }  
+      if (isNaN(element.demand[round])) {
+      } else {
+        needed +=
+          (element.replacementTimeAndVariance - round) * element.demand[round];
+      }
       element.neededTillReplaced = Math.round(needed);
-      element.differenceTillReplacedAndStock = element.neededTillReplaced - element.current_stock;
+      element.differenceTillReplacedAndStock =
+        element.neededTillReplaced - element.current_stock;
       this.calculateOrderQuantityAndType(element);
     });
   }
-  calculateOrderQuantityAndType(purchase_part: OrderPlanning)
-  {
-    if(purchase_part.differenceTillReplacedAndStock > 0)
-    {
+  calculateOrderQuantityAndType(purchase_part: OrderPlanning) {
+    if (purchase_part.differenceTillReplacedAndStock > 0) {
       purchase_part.orderQuantity = purchase_part.discountAmount;
       purchase_part.orderType = orderTypes.fast;
     }

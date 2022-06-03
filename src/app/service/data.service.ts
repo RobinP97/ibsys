@@ -98,6 +98,13 @@ export class DataService {
     return forecasts === undefined
       ? ([{}, {}, {}, {}] as Forecast[])
       : forecasts;
+    }
+
+  getMandatoryOrders(): Forecast {
+    const mandatoryOrders = this.localStorageService.getItem(
+      keys.import.MANDATORYORDERS
+    );
+    return mandatoryOrders;
   }
 
   getDirectSales(): Forecast {
@@ -140,6 +147,29 @@ export class DataService {
     );
     return productionOrders;
   }
+
+  getProductionOrdersWithResolvedSplits(): Production[] {
+    const productionOrders: Production[] = this.localStorageService.getItem(
+      keys.other.PRODUCTIONORDERS
+    );
+    const resolvedProductionOrders: Production[] = [];
+    productionOrders.forEach((p) => {
+      p.splits?.forEach((s) => {
+        // Verbindliche Auftrage - Splitmenge
+        p.binding_orders = p.binding_orders - s.amount;
+        // Split als neuer Auftrag für die Anzeige
+        const resolvedSplit = Object.assign({}, p);
+        resolvedSplit.binding_orders = s.amount;
+        resolvedSplit.sequencePos = s.sequencePos;
+        resolvedSplit.splits = undefined;
+        resolvedProductionOrders.push(resolvedSplit);
+      });
+    });
+    productionOrders.push(...resolvedProductionOrders);
+    productionOrders.sort((a, b) => a.sequencePos - b.sequencePos);
+    return productionOrders;
+  }
+
   //-------------------------------------------------------------------------------------------
   // get-Methoden: Schreibe Daten in den Browerchache und informiere die relevanten Abonnenten
   //-------------------------------------------------------------------------------------------

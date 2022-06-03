@@ -25,6 +25,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "bootstrap": "^4.5.3",
+    "file-saver": "^2.0.5",
     "ngx-bootstrap": "^7.1.2",
     "rxjs": "~6.6.0",
     "stream": "^0.0.2",

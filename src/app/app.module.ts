@@ -3,9 +3,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { CapacityComponent } from './pages/capacity/capacity.component';
 import { DebugComponent } from './pages/debug/debug.component';
 import { DirectsalesComponent } from './pages/directsales/directsales.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ExportComponent } from './pages/export/export.component';
 import { ForecastComponent } from './pages/forecast/forecast.component';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './pages/home/home.component';
@@ -31,7 +33,6 @@ import { OrderPlanningComponent } from './pages/order-planning/order-planning.co
 import { PrettyPrintPipe } from './pipes/prettyprint.pipe';
 import { ProductionComponent } from './pages/production/production.component';
 import { SequencePlanningComponent } from './pages/sequence-planning/sequence-planning.component';
-import { CapacityComponent } from './pages/capacity/capacity.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { CapacityComponent } from './pages/capacity/capacity.component';
     ImportComponent,
     PrettyPrintPipe,
     NavBarComponent,
+    ExportComponent,
     ForecastComponent,
     ProductionComponent,
     HomeComponent,
@@ -48,6 +50,7 @@ import { CapacityComponent } from './pages/capacity/capacity.component';
     SequencePlanningComponent,
     DirectsalesComponent,
     CapacityComponent,
+    ExportComponent,
   ],
   imports: [
     AppRoutingModule,

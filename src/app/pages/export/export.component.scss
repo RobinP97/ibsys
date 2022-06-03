@@ -1,0 +1,76 @@
+@import 'src/styles.scss';
+
+// .list-entry-wrapper {
+//     display: flex;
+//     width: 100%;
+//     justify-content: space-between;
+
+// }
+
+// .list-entry-wrapper > div {
+//     margin-left: 16px;
+//     margin-right: 16px;
+//     margin-top: 4px;
+//     margin-bottom: 4px;
+// }
+
+.row-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    min-width: 350px;
+    margin: 16px 0;
+}
+
+th {
+    background-color:  mat-color($ibsys-primary);
+    
+}
+
+td {
+    text-align: center;
+}
+
+::ng-deep thead > tr > th.mat-header-cell {
+    color: white !important;
+    font-size: medium !important;
+    text-align: center !important;
+    padding: 4px 4px !important;
+} 
+
+// ::ng-deep mat-list-item, .mat-list-item-content {
+//     max-height: 25px;
+//     margin-top: 4px;
+//     margin-bottom: 4px;
+
+// }
+
+// div > mat-divider {
+//     margin-top: 16px;
+//     margin-bottom: 16px;
+// }
+
+// :ng-deep .mat-list-base, .mat-list-item, .mat-list-base, .mat-list-option {
+//     max-height: 25px;
+// }
+
+// .mat-list-content-wrapper {
+//     display: flex;
+//     flex-direction: column;
+// }
+
+table.mat-table {
+    width: 100%;
+}
+
+.tbl-wrapper {
+    margin-left: 16px;
+    margin-right: 16px;
+    min-width: 300px;
+}
+
+.download-btn {
+    position: fixed;
+    right: 2em;
+    bottom: 1em;
+}

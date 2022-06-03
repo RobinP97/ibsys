@@ -1,1 +1,258 @@
-<p>export works!</p>
+<!-- <div>
+    <mat-list>
+        <div class="mat-list-content-wrapper">
+            <div class="list12">
+                <div>
+                    <div mat-subheader>Verbindliche Aufträge</div>
+                    <mat-list-item>
+                        <div class="list-entry-wrapper">
+                            <div>Produkt</div>
+                            <div>Auftragsmenge</div>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <div class="list-entry-wrapper">
+                            <div mat-line>P1</div>
+                            <div>{{ mandatoryOrders.p1 }} Stück</div>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <div class="list-entry-wrapper">
+                            <div mat-line>P2</div>
+                            <div> {{ mandatoryOrders.p2 }} Stück</div>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <div class="list-entry-wrapper">
+                            <div mat-line>P3</div>
+                            <div> {{ mandatoryOrders.p3 }} Stück</div>
+                        </div>
+                    </mat-list-item>
+                </div>
+                <div>
+                    <div mat-subheader>Direktverkauf</div>
+                    <mat-list-item>
+                        <div class="list-entry-wrapper">
+                            <div>Produkt</div>
+                            <div>Auftragsmenge</div>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <div class="list-entry-wrapper">
+                            <div mat-line>P1</div>
+                            <div> {{ directSales.p1 }} Stück</div>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <div class="list-entry-wrapper">
+                            <div mat-line>P2</div>
+                            <div> {{ directSales.p2 }} Stück</div>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <div class="list-entry-wrapper">
+                            <div mat-line>P3</div>
+                            <div> {{ directSales.p3 }} Stück</div>
+                        </div>
+                    </mat-list-item>
+                </div>
+            </div>
+            <div>
+                <mat-divider></mat-divider>
+            </div>
+            <div class="list12">
+                <div>
+                    <div mat-subheader>Produktionsplan</div>
+                    <mat-list-item>
+                        <div class="list-entry-wrapper">
+                            <div>Auftragsnummer</div>
+                            <div>Erzeugnis</div>
+                            <div>Auftragsmenge</div>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item *ngFor="let productionOrder of productionOrders; let i = index">
+                        <div class="list-entry-wrapper">
+                            <div mat-line>{{i + 1}}.</div>
+                            <div mat-line>{{ productionOrder.category }}{{ productionOrder.id }} </div>
+                            <div mat-line>{{ productionOrder.binding_orders }} Stück</div>
+                        </div>
+                    </mat-list-item>
+                </div>
+                <div>
+                    <div mat-subheader>Bestellplan</div>
+                    <mat-list-item>
+                        <div class="list-entry-wrapper">
+                            <div>Kaufteil</div>
+                            <div>Auftragsnummer</div>
+                            <div>Besttellmodus</div>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item *ngFor="let productionOrder of productionOrders; let i = index">
+                        <div class="list-entry-wrapper">
+                            <div mat-line>{{i + 1}}.</div>
+                            <div mat-line>{{ productionOrder.category }}{{ productionOrder.id }} </div>
+                            <div mat-line>{{ productionOrder.binding_orders }} Stück</div>
+                        </div>
+                    </mat-list-item>
+                </div>
+                <div>
+                    <div mat-subheader>Kapazitätsplanung</div>
+                    <mat-list-item>
+                        <div class="list-entry-wrapper">
+                            <div>Arbeitsplatz</div>
+                            <div>Schichten</div>
+                            <div>Überzeiten</div>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item *ngFor="let workstation of workstations; let i = index">
+                        <div class="list-entry-wrapper">
+                            <div mat-line>{{workstation.id}}</div>
+                            <div mat-line>{{ workstation.shifts }} </div>
+                            <div mat-line>{{ workstation.overTime }} Minuten</div>
+                        </div>
+                    </mat-list-item>
+                </div>
+            </div>
+        </div>
+    </mat-list>
+    <div>
+        <button class="btn btn-primary" (click)="exportData()">Export</button>
+    </div>
+</div> -->
+<div>
+    <div class="row-wrapper">
+
+        <!-- Produktionsplanung  -->
+        <div class="tbl-wrapper">
+            <h2>Produktionsplanung</h2>
+            <table mat-table [dataSource]="getObjectKeys(mandatoryOrders)" class="mat-elevation-z8">      
+                <!-- Article Number Column  -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>Produktnummer</th>
+                    <td mat-cell *matCellDef="let key"> {{ key | uppercase }} </td>
+                </ng-container>
+                <!-- Position Column -->
+                <ng-container matColumnDef="orderQuantity">
+                    <th mat-header-cell *matHeaderCellDef>Auftragsmenge</th>
+                    <td mat-cell *matCellDef="let key"> {{ mandatoryOrders[key] }} </td>
+                </ng-container>
+            
+                <tr mat-header-row *matHeaderRowDef="['id', 'orderQuantity']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['id', 'orderQuantity'];"></tr>
+            </table>
+        </div>
+
+        <!-- Direktverkauf -->
+        <div class="tbl-wrapper">
+            <h2>Direktverkauf</h2>
+            <table mat-table [dataSource]="getObjectKeys(directSales)" class="mat-elevation-z8">   
+
+                <!-- Article Number Column  -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>Produktnummer</th>
+                    <td mat-cell *matCellDef="let key"> {{ key | uppercase }} </td>
+                </ng-container>
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="orderQuantity">
+                    <th mat-header-cell *matHeaderCellDef>Auftragsmenge</th>
+                    <td mat-cell *matCellDef="let key"> {{ mandatoryOrders[key] }} </td>
+                </ng-container>
+            
+                <tr mat-header-row *matHeaderRowDef="['id', 'orderQuantity']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['id', 'orderQuantity'];"></tr>
+            </table>
+        </div>
+    </div>
+
+    <div>
+        <mat-divider></mat-divider>
+    </div>
+
+    <div class="row-wrapper">
+
+        <!-- Bestellplanung -->
+        <div class="tbl-wrapper">
+            <h2>Bestellplanung</h2>
+            <table mat-table [dataSource]="orders" class="mat-elevation-z8"> 
+
+                <!-- Article Number Column  -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>Artikelnummer</th>
+                    <td mat-cell *matCellDef="let order">{{ order.category }}{{ order.id }}</td>
+                </ng-container>
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="orderQuantity">
+                    <th mat-header-cell *matHeaderCellDef>Bestellmenge</th>
+                    <td mat-cell *matCellDef="let order">{{ order.orderQuantity }}</td>
+                </ng-container> 
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="orderType">
+                    <th mat-header-cell *matHeaderCellDef>Bestellmodus</th>
+                    <td mat-cell *matCellDef="let order"> {{ order.orderType }} </td>
+                </ng-container>
+            
+                <tr mat-header-row *matHeaderRowDef="['id', 'orderQuantity', 'orderType']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['id', 'orderQuantity', 'orderType'];"></tr>
+            </table>
+        </div>
+
+        <!-- Eigenfertigung -->
+        <div class="tbl-wrapper">
+            <h2>Eigenfertigung</h2>
+            <table mat-table [dataSource]="productionOrders" class="mat-elevation-z8"> 
+
+                <!-- Article Number Column  -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>Artikelnummer</th>
+                    <td mat-cell *matCellDef="let productionOrder"> {{ productionOrder.category }}{{ productionOrder.id }} </td>
+                </ng-container>
+
+                <!-- Order Quantity Column -->
+                <ng-container matColumnDef="orderQuantity">
+                    <th mat-header-cell *matHeaderCellDef>Auftragsmenge</th>
+                    <td mat-cell *matCellDef="let productionOrder"> {{ productionOrder.binding_orders }} </td>
+                </ng-container> 
+            
+                <tr mat-header-row *matHeaderRowDef="['id', 'orderQuantity']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['id', 'orderQuantity'];"></tr>
+            </table>
+        </div>
+
+        <!-- Kapazitätsplanung -->
+        <div class="tbl-wrapper">
+            <h2>Kapazitätsplanung</h2>
+            <table mat-table [dataSource]="workstations" class="mat-elevation-z8"> 
+
+                <!-- Article Number Column  -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>Arbeitsplatz</th>
+                    <td mat-cell *matCellDef="let workstation">{{ workstation.id }}</td>
+                </ng-container>
+
+                <!-- Shifts Column -->
+                <ng-container matColumnDef="shifts">
+                    <th mat-header-cell *matHeaderCellDef>Schichten</th>
+                    <td mat-cell *matCellDef="let workstation">{{ workstation.shifts }}</td>
+                </ng-container> 
+
+                <!-- Overtime Column -->
+                <ng-container matColumnDef="overtime">
+                    <th mat-header-cell *matHeaderCellDef>Überzeiten</th>
+                    <td mat-cell *matCellDef="let workstation">{{ workstation.overTime }} Minuten</td>
+                </ng-container> 
+            
+                <tr class="primary" mat-header-row *matHeaderRowDef="['id', 'shifts', 'overtime']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['id', 'shifts', 'overtime'];"></tr>
+            </table>
+        </div>
+    </div>
+    <div>
+        <button mat-fab color="primary" class="download-btn" (click)="exportData()">
+            <mat-icon>download</mat-icon>
+          </button>
+    </div>
+</div>
+

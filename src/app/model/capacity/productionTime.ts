@@ -1,4 +1,4 @@
-export interface  productionTime{
-    id: number;
-    time: number;
+export interface productionTime {
+  id: number;
+  time: number;
 }

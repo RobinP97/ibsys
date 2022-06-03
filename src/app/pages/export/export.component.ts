@@ -12,7 +12,7 @@ import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-export',
   templateUrl: './export.component.html',
-  styleUrls: ['./export.component.scss']
+  styleUrls: ['./export.component.scss'],
 })
 export class ExportComponent implements OnInit {
   mandatoryOrders: Forecast;
@@ -21,7 +21,7 @@ export class ExportComponent implements OnInit {
   productionOrders: Production[];
   workstations: Workstation[];
 
-  constructor(private readonly dataService: DataService) { 
+  constructor(private readonly dataService: DataService) {
     this.mandatoryOrders = dataService.getMandatoryOrders();
     this.directSales = dataService.getDirectSales();
     this.productionOrders = dataService.getProductionOrdersWithResolvedSplits();
@@ -41,7 +41,7 @@ export class ExportComponent implements OnInit {
         differenceTillReplacedAndStock: 2,
         orderQuantity: 400,
         orderType: orderTypes.fast,
-      }
+      },
     ];
     this.workstations = [
       {
@@ -121,5 +121,4 @@ export class ExportComponent implements OnInit {
     const blob = new Blob([xml], { type: 'text/xml;charset=utf-8' });
     saveAs(blob, 'output' + '.xml');
   }
-
 }

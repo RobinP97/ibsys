@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from 'src/app/service/data.service';
-import { OrderPlanning } from 'src/app/model/order-planning/order-planning';
-import { Forecast } from 'src/app/model/import/forecast';
-import { WarehouseStock } from 'src/app/model/import/warehousestock';
 import {
   TypeMapping,
   orderTypes,
 } from 'src/app/model/order-planning/orderTypeEnum';
+
+import { DataService } from 'src/app/service/data.service';
+import { Forecast } from 'src/app/model/import/forecast';
+import { OrderPlanning } from 'src/app/model/order-planning/order-planning';
+import { WarehouseStock } from 'src/app/model/import/warehousestock';
 
 @Component({
   selector: 'app-order-planning',

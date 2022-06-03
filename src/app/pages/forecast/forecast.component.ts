@@ -62,7 +62,11 @@ export class ForecastComponent implements OnInit, OnDestroy {
   }
 
   triggerWarningForNonValidNumber() {
-    this.snackBarService.openSnackBar('forecast.error.NonValidNumber', 'Ok', 4000);
+    this.snackBarService.openSnackBar(
+      'forecast.error.NonValidNumber',
+      'Ok',
+      4000
+    );
   }
 
   ngOnDestroy(): void {

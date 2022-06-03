@@ -1,5 +1,5 @@
 import { Split } from './split';
-import { processingChain } from "./processing_chain";
+import { processingChain } from './processing_chain';
 
 export interface Production {
   id: number;

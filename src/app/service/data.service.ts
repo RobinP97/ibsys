@@ -98,7 +98,7 @@ export class DataService {
     return forecasts === undefined
       ? ([{}, {}, {}, {}] as Forecast[])
       : forecasts;
-    }
+  }
 
   getMandatoryOrders(): Forecast {
     const mandatoryOrders = this.localStorageService.getItem(

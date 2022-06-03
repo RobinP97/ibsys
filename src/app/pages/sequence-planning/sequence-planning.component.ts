@@ -25,28 +25,30 @@ export class SequencePlanningComponent implements OnDestroy {
   colCount: number[];
 
   constructor(private readonly dataService: DataService) {
-    this.productionOrders = this.dataService.getProductionOrders();
-    this.initializeProductionOrderSequence();
+    // this.productionOrders = this.dataService.getProductionOrders();
+    this.productionOrders =
+      this.dataService.getProductionOrdersWithResolvedSplits();
+    // this.initializeProductionOrderSequence();
     this.setColumnCount();
   }
 
-  initializeProductionOrderSequence() {
-    const newProductionOrders: Production[] = [];
-    this.productionOrders.forEach((p) => {
-      p.splits?.forEach((s) => {
-        // Verbindliche Auftrage - Splitmenge
-        p.binding_orders = p.binding_orders - s.amount;
-        // Split als neuer Auftrag für die Anzeige
-        const newProductionOrder = Object.assign({}, p);
-        newProductionOrder.binding_orders = s.amount;
-        newProductionOrder.sequencePos = s.sequencePos;
-        newProductionOrder.splits = undefined;
-        newProductionOrders.push(newProductionOrder);
-      });
-    });
-    this.productionOrders.push(...newProductionOrders);
-    this.productionOrders.sort((a, b) => a.sequencePos - b.sequencePos);
-  }
+  // initializeProductionOrderSequence() {
+  //   const newProductionOrders: Production[] = [];
+  //   this.productionOrders.forEach((p) => {
+  //     p.splits?.forEach((s) => {
+  //       // Verbindliche Auftrage - Splitmenge
+  //       p.binding_orders = p.binding_orders - s.amount;
+  //       // Split als neuer Auftrag für die Anzeige
+  //       const newProductionOrder = Object.assign({}, p);
+  //       newProductionOrder.binding_orders = s.amount;
+  //       newProductionOrder.sequencePos = s.sequencePos;
+  //       newProductionOrder.splits = undefined;
+  //       newProductionOrders.push(newProductionOrder);
+  //     });
+  //   });
+  //   this.productionOrders.push(...newProductionOrders);
+  //   this.productionOrders.sort((a, b) => a.sequencePos - b.sequencePos);
+  // }
 
   //------------------------------------
   // Getter/ Setter

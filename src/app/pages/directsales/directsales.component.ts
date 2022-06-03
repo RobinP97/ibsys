@@ -43,6 +43,7 @@ export class DirectsalesComponent implements OnInit, OnDestroy {
       isNaN(forecastNumber) ||
       forecastNumber == null
     ) {
+      this.triggerWarningForNonValidNumber();
       return 0;
     }
     return forecastNumber;

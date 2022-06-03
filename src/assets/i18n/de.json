@@ -131,6 +131,15 @@
     "I56": "E56",
     "P1": "P1",
     "P2": "P2",
-    "P3": "P3"
+    "P3": "P3",
+    "error": {
+      "NonValidShiftNumber": "Es sind nur eine (1), zwei (2) oder drei (3) Schichten zulässig.",
+      "NonValidOvertimeNumber": "Überstunden müssen zwischen 0 und 1200 liegen."
+    }
+  },
+  "directSales": {
+    "error": {
+      "NonValidNumber": "Die Eingabe war keine gültige Nummer oder kleiner 0!"
+    }
   }
 }

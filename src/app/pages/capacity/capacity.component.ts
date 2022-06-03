@@ -3,6 +3,7 @@ import { productionTime } from 'src/app/model/capacity/productionTime';
 import { Workstation } from 'src/app/model/capacity/workstation';
 import { Production } from 'src/app/model/production/production';
 import { DataService } from 'src/app/service/data.service';
+import { SnackbarService } from 'src/app/service/snackbar.service';
 
 @Component({
   selector: 'app-capacity',
@@ -14,7 +15,8 @@ export class CapacityComponent implements OnInit {
   inhouse_parts: Production[];
   workstations: Workstation[];
   constructor(
-    private readonly dataSerivce: DataService
+    private readonly dataSerivce: DataService,
+    private readonly snackBarService: SnackbarService
     ) {
       let waitinglistworkstations = dataSerivce.getWaitinglistWorkstations();
       this.inhouse_parts = dataSerivce.getProductionOrders();
@@ -115,4 +117,47 @@ export class CapacityComponent implements OnInit {
 
   }
 
+  onChangeWorkstation(workstation: Workstation) { 
+    if (
+    workstation.shifts < 1 ||
+    typeof workstation.shifts == undefined ||
+    isNaN(workstation.shifts) ||
+    workstation.shifts == null ||
+    workstation.shifts > 3
+  )
+  {
+    this.triggerWarningForNonValidShiftNumber();
+    workstation.shifts = 1;
+  }
+  }
+
+  onChangeWorkstationOvertime(workstation: Workstation) { 
+    if (
+    workstation.overTime < 0 ||
+    typeof workstation.overTime == undefined ||
+    isNaN(workstation.overTime) ||
+    workstation.overTime == null ||
+    workstation.overTime > 1200
+  )
+  {
+    this.triggerWarningForNonValidOvertimeNumber();
+    workstation.overTime = 0;
+  }
+  }
+
+  triggerWarningForNonValidShiftNumber() {
+    this.snackBarService.openSnackBar(
+      'capacity.error.NonValidShiftNumber',
+      'Ok',
+      10000
+    );
+  }
+
+  triggerWarningForNonValidOvertimeNumber() {
+    this.snackBarService.openSnackBar(
+      'capacity.error.NonValidOvertimeNumber',
+      'Ok',
+      10000
+    );
+  }
 }

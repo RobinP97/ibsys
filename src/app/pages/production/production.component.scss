@@ -1,4 +1,5 @@
 @import "../../../color-definitions";
+@import "../../../styles.scss";
 .production-table{
     margin-left: auto;
     margin-right: auto;
@@ -9,6 +10,9 @@ th {
     border-style: solid;
     margin-left: auto;
     margin-right: auto;
+    background: mat-color($ibsys-primary);
+    color: white !important;
+    font-size: medium !important;
 }
 td {
     border-width: 0px  2px  1px  2px;
@@ -21,4 +25,21 @@ td {
 .matInputField{
     height: 100%;
     width: 100%;
+}
+
+.table-wrapper{
+    display: flex;
+    justify-content: center;
+}
+
+::ng-deep th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+    padding: 0 4px !important;
+}
+
+::ng-deep th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+    padding: 0 4px !important;
+}
+
+::ng-deep th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+    padding: 0 4px !important;
 }

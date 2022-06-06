@@ -1,28 +1,21 @@
 <div class="tbl-wrapper">
     <table mat-table [dataSource]="purchase_parts" class="mat-elevation-z8">
 
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-  
-    <!-- Position Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>{{ "orderPlanning.id" | translate }}</th>
       <td mat-cell *matCellDef="let purchase_part">{{ (purchase_part.category + purchase_part.id)}}</td>
     </ng-container>
   
-    <!-- Name Column -->
     <ng-container matColumnDef="deliveryTime">
       <th mat-header-cell *matHeaderCellDef>{{ "orderPlanning.deliveryTime" | translate }}</th>
       <td mat-cell *matCellDef="let purchase_part">{{ purchase_part.replacementTime }}</td>
     </ng-container>
   
-    <!-- Weight Column -->
     <ng-container matColumnDef="deviation">
       <th mat-header-cell *matHeaderCellDef>{{ "orderPlanning.deviation" | translate }}</th>
       <td mat-cell *matCellDef="let purchase_part">{{ purchase_part.replacementTimeVariance }}</td>
     </ng-container>
   
-    <!-- Symbol Column -->
     <ng-container matColumnDef="safeDeliveryTime">
       <th mat-header-cell *matHeaderCellDef>{{ "orderPlanning.safeDeliveryTime" | translate }}</th>
       <td mat-cell *matCellDef="let purchase_part">{{ purchase_part.replacementTimeAndVariance }}</td>
@@ -78,7 +71,7 @@
   
 
 
-<table class="order-planning-table">
+<!-- <table class="order-planning-table">
     <tr>
         <th>{{ "orderPlanning.id" | translate }}</th>
         <th>{{ "orderPlanning.deliveryTime" | translate }}</th>
@@ -130,4 +123,4 @@
           </mat-form-field>
         </td>
     </tr>
-</table>
+</table> -->

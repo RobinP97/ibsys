@@ -28,6 +28,7 @@
   },
   "production": {
     "title": "In-house production",
+    "tooltip": "Binding orders are calculated as follows: Binding orders +  queue of the follow-up product +  planned stock at the end of the period  -  current stock -  orders in queue -  orders in process. This sum is arrived at as follows:",
     "binding_orders": "binding orders",
     "planned_stock": "planned stock at the end of the period",
     "current_stock": "current stock",

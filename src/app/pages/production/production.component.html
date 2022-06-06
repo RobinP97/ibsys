@@ -14,7 +14,7 @@
           <th mat-header-cell *matHeaderCellDef> {{ "production.predecessor_waiting_list" | translate }}</th>
           <td mat-cell *matCellDef="let inhouse_part">
             <div *ngIf="inhouse_part.predecessor_waiting_list > 0; then thenBlock else elseBlock"></div>
-            <ng-template #thenBlock>{{ inhouse_part.predecessor_waiting_list }}</ng-template>
+            <ng-template #thenBlock>{{inhouse_part.predecessor_waiting_list}}</ng-template>
             <ng-template #elseBlock></ng-template>       
           </td>
         </ng-container>
@@ -41,7 +41,8 @@
     
         <ng-container matColumnDef="planned_production">
             <th mat-header-cell *matHeaderCellDef> {{ "production.planned_production" | translate }} </th>
-            <td mat-cell *matCellDef="let inhouse_part"> {{ inhouse_part.planned_production }} </td>
+            <td mat-cell *matCellDef="let inhouse_part" title='{{ "production.tooltip" | translate }} 
+            {{ inhouse_part.binding_orders }} + {{ inhouse_part.predecessor_waiting_list }} + {{ inhouse_part.planned_stock }} - {{ inhouse_part.current_stock }} - {{ inhouse_part.in_queue }} - {{ inhouse_part.in_process }} = {{ inhouse_part.planned_production }}'> {{ inhouse_part.planned_production }} </td>
         </ng-container>
       
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -78,12 +78,6 @@ export class CapacityComponent implements OnInit {
           if(activeWorkstation.shifts*2400<activeWorkstation.totalTime)
           {
             activeWorkstation.overTime = activeWorkstation.totalTime - (activeWorkstation.shifts*2400);
-            if(activeWorkstation.id == "7")
-            {
-              console.log("succes")
-              console.log(activeWorkstation.totalTime)
-              console.log((activeWorkstation.shifts*2400));
-            }
           }
           else{
             activeWorkstation.overTime = 0;

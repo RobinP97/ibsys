@@ -20,6 +20,17 @@ export class OrderPlanningComponent implements OnInit {
   purchase_parts: OrderPlanning[];
   forecasts: Forecast[];
   warehousestock: WarehouseStock;
+  displayedColumns: Array<string> = [
+    'id',
+    'deliveryTime',
+    'deviation',
+    'safeDeliveryTime',
+    'discontQuantity',
+    'stock',
+    'neededTillReplaced',
+    'orderQuantity',
+    'orderType',
+  ];
 
   constructor(private readonly dataSerivce: DataService) {
     this.loadDataFromJson();

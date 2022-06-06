@@ -44,7 +44,7 @@
     }
   },
   "orderPlanning": {
-    "title": "Eigenfertigung",
+    "title": "Bestellplanung",
     "id": "Teilnummer",
     "deliveryTime": "Lieferzeit",
     "deviation": "Abweichung",

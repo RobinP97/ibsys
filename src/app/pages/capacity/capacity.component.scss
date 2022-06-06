@@ -1,16 +1,49 @@
 @import "../../../color-definitions";
+@import 'src/styles.scss';
+
 .capacity-table{
     margin-left: auto;
     margin-right: auto;
 }
+
 th {
-    border-width: 1px  2px  2px  2px;
+    padding: 10px;
+    border: 1px;
+    border-style: solid;
     border-color: black;
+    background: mat-color($ibsys-primary);
+    color: white !important;
+    font-size: medium !important;
+    border-width: 0px 2px 1px 2px;
+    border-color: black;
+    border-bottom-color: black;
     border-style: solid;
     margin-left: auto;
     margin-right: auto;
     min-width: 50px;
 }
+
+td {
+    font-size: large;
+    padding: 10px;
+    border-width: 0px 2px 1px 2px;
+    border-color: black;
+    border-bottom-color: black;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+    border-style: solid;
+    // border-bottom-width: 1px;
+    // border-bottom-style: solid;
+    // border-bottom-color: rgba(0, 0, 0, 0.12);
+
+}
+
+// td {
+//     border-width: 0px  2px  1px  2px;
+//     border-color: black;
+//     border-style: solid;
+//     margin-left: auto;
+//     margin-right: auto;
+// }
 
 .center {
     text-align: center;
@@ -58,13 +91,6 @@ th {
 
 .none {
     border-width: 0px;
-    border-color: black;
-    border-style: solid;
-    margin-left: auto;
-    margin-right: auto;
-}
-td {
-    border-width: 0px  2px  1px  2px;
     border-color: black;
     border-style: solid;
     margin-left: auto;

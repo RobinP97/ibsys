@@ -21,6 +21,7 @@ export class ProductionComponent {
   warehousestock: WarehouseStock;
   ordersinwork: OrderInWork[];
   waitinglistWorkstations: WorkplaceWaitingListWorkstation[];
+  displayedColumns: Array<String> = ['id','binding_orders','predecessor_waiting_list', 'planned_stock', 'current_stock', 'in_queue', 'in_process', 'planned_production']
 
   constructor(
     private readonly dataService: DataService,

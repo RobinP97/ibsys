@@ -1,4 +1,58 @@
-<table class="production-table">
+<div class="table-wrapper">
+    <table mat-table [dataSource]="inhouse_parts" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> {{ "production.product" | translate }} </th>
+          <td mat-cell *matCellDef="let inhouse_part"> {{inhouse_part.category + inhouse_part.id}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="binding_orders">
+          <th mat-header-cell *matHeaderCellDef> {{ "production.binding_orders" | translate }} </th>
+          <td mat-cell *matCellDef="let inhouse_part"> {{ inhouse_part.binding_orders }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="predecessor_waiting_list">
+          <th mat-header-cell *matHeaderCellDef> {{ "production.predecessor_waiting_list" | translate }}</th>
+          <td mat-cell *matCellDef="let inhouse_part">
+            <div *ngIf="inhouse_part.predecessor_waiting_list > 0; then thenBlock else elseBlock"></div>
+            <ng-template #thenBlock>{{inhouse_parts[i].predecessor_waiting_list}}</ng-template>
+            <ng-template #elseBlock></ng-template>       
+          </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="planned_stock">
+          <th mat-header-cell *matHeaderCellDef> {{ "production.planned_stock" | translate }} </th>
+          <td mat-cell *matCellDef="let inhouse_part"> {{ inhouse_part.planned_stock }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="current_stock">
+            <th mat-header-cell *matHeaderCellDef> {{ "production.current_stock" | translate }} </th>
+            <td mat-cell *matCellDef="let inhouse_part"> {{ inhouse_part.current_stock }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="in_queue">
+            <th mat-header-cell *matHeaderCellDef> {{ "production.in_queue" | translate }}</th>
+            <td mat-cell *matCellDef="let inhouse_part"> {{ inhouse_part.in_queue }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="in_process">
+            <th mat-header-cell *matHeaderCellDef> {{ "production.in_process" | translate }} </th>
+            <td mat-cell *matCellDef="let inhouse_part"> {{ inhouse_part.in_process }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="planned_production">
+            <th mat-header-cell *matHeaderCellDef> {{ "production.planned_production" | translate }} </th>
+            <td mat-cell *matCellDef="let inhouse_part"> {{ inhouse_part.planned_production }} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+</div>
+  
+  
+
+<!-- <table class="production-table">
 <tr>
     <th>
         {{ "production.product" | translate }}
@@ -54,4 +108,4 @@
         {{ inhouse_parts[i].planned_production }}
      </td>
     <tr>
-</table>
+</table> -->

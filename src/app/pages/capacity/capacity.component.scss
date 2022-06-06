@@ -20,11 +20,11 @@ th {
     border-style: solid;
     margin-left: auto;
     margin-right: auto;
-    min-width: 50px;
+    min-width: 40px;
 }
 
 td {
-    font-size: large;
+    // font-size: large;
     padding: 10px;
     border-width: 0px 2px 1px 2px;
     border-color: black;
@@ -63,14 +63,14 @@ td {
  50%,#000000 51%,#fff 51.1%,#fff 100%);
 }
 
-.gray {
-    border-width: 1px  2px  2px  2px;
-    border-color: black;
-    background-color: lightgray;
-    border-style: solid;
-    margin-left: auto;
-    margin-right: auto;
-}
+// .gray {
+//     border-width: 1px  2px  2px  2px;
+//     border-color: black;
+//     background-color: lightgray;
+//     border-style: solid;
+//     margin-left: auto;
+//     margin-right: auto;
+// }
 
 .empty-cell-none {
     color: white;

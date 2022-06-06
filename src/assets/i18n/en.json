@@ -73,6 +73,7 @@
     "back": "Back"
   },
   "capacity": {
+    "title": "Capacity Planning",
     "period": "Period...",
     "label": "Description",
     "bike_type": "bike type",
@@ -138,8 +139,12 @@
     }
   },
   "directSales": {
+    "title": "Direct Sales",
     "error": {
       "NonValidNumber": "The input was not a valid number or smaller than 0!"
     }
+  },
+  "export": {
+    "title": "Data Export"
   }
 }

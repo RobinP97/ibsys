@@ -124,7 +124,7 @@
 
         <!-- Produktionsplanung  -->
         <div class="tbl-wrapper">
-            <h2>Produktionsplanung</h2>
+            <h2>{{ "forecast.title" | translate }}</h2>
             <table mat-table [dataSource]="getObjectKeys(mandatoryOrders)" class="mat-elevation-z8">      
                 <!-- Article Number Column  -->
                 <ng-container matColumnDef="id">
@@ -144,7 +144,7 @@
 
         <!-- Direktverkauf -->
         <div class="tbl-wrapper">
-            <h2>Direktverkauf</h2>
+            <h2>{{ "directSales.title" | translate }}</h2>
             <table mat-table [dataSource]="getObjectKeys(directSales)" class="mat-elevation-z8">   
 
                 <!-- Article Number Column  -->
@@ -173,7 +173,7 @@
 
         <!-- Bestellplanung -->
         <div class="tbl-wrapper">
-            <h2>Bestellplanung</h2>
+            <h2>{{ "orderPlanning.title" | translate }}</h2>
             <table mat-table [dataSource]="orders" class="mat-elevation-z8"> 
 
                 <!-- Article Number Column  -->
@@ -201,7 +201,7 @@
 
         <!-- Eigenfertigung -->
         <div class="tbl-wrapper">
-            <h2>Eigenfertigung</h2>
+            <h2>{{ "production.title" | translate }}</h2>
             <table mat-table [dataSource]="productionOrders" class="mat-elevation-z8"> 
 
                 <!-- Article Number Column  -->
@@ -223,7 +223,7 @@
 
         <!-- Kapazitätsplanung -->
         <div class="tbl-wrapper">
-            <h2>Kapazitätsplanung</h2>
+            <h2>{{ "capacity.title" | translate }}</h2>
             <table mat-table [dataSource]="workstations" class="mat-elevation-z8"> 
 
                 <!-- Article Number Column  -->

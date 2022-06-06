@@ -140,6 +140,9 @@
   },
   "directSales": {
     "title": "Direktverkauf",
+    "quantity": "Menge",			
+    "price"	:	"Preis",
+    "penalty": "Vertragsstrafe",
     "error": {
       "NonValidNumber": "Die Eingabe war keine gültige Nummer oder kleiner 0!"
     }

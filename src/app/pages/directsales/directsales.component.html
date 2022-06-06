@@ -1,6 +1,9 @@
 <div class="tbl-wrapper">
     <table class="mat-elevation-z8">
-        <tr>        
+        <tr>   
+            <th>
+                
+            </th>     
             <th>
                 P1
             </th>
@@ -13,6 +16,9 @@
         </tr>
         <tr>
             <td>
+                {{ "directSales.quantity" | translate }}
+            </td>
+            <td>
                 <input matInput [(ngModel)]="directsales.p1" type="number"  min="0" (change)="onChange()" class="matInputField"/>   
             </td>
             <td>
@@ -20,6 +26,34 @@
             </td>
             <td>
                 <input matInput [(ngModel)]="directsales.p3" type="number"  min="0" (change)="onChange()" class="matInputField"/>   
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ "directSales.price" | translate }}
+            </td>
+            <td>
+                <input matInput [(ngModel)]="getSellDirect(1).price" type="number"  min="0" (change)="onChangePrice(1)" class="matInputField"/>   
+            </td>
+            <td>
+                <input matInput [(ngModel)]="getSellDirect(2).price" type="number"  min="0" (change)="onChangePrice(2)" class="matInputField"/>   
+            </td>
+            <td>
+                <input matInput [(ngModel)]="getSellDirect(3).price" type="number"  min="0" (change)="onChangePrice(3)" class="matInputField"/>   
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ "directSales.penalty" | translate }}
+            </td>
+            <td>
+                <input matInput [(ngModel)]="getSellDirect(1).penalty" type="number"  min="0" (change)="onChangePenalty(1)" class="matInputField"/>   
+            </td>
+            <td>
+                <input matInput [(ngModel)]="getSellDirect(2).penalty" type="number"  min="0" (change)="onChangePenalty(2)" class="matInputField"/>   
+            </td>
+            <td>
+                <input matInput [(ngModel)]="getSellDirect(3).penalty" type="number"  min="0" (change)="onChangePenalty(3)" class="matInputField"/>   
             </td>
         </tr>
     </table>

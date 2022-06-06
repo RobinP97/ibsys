@@ -14,7 +14,7 @@
           <th mat-header-cell *matHeaderCellDef> {{ "production.predecessor_waiting_list" | translate }}</th>
           <td mat-cell *matCellDef="let inhouse_part">
             <div *ngIf="inhouse_part.predecessor_waiting_list > 0; then thenBlock else elseBlock"></div>
-            <ng-template #thenBlock>{{inhouse_parts[i].predecessor_waiting_list}}</ng-template>
+            <ng-template #thenBlock>{{ inhouse_part.predecessor_waiting_list }}</ng-template>
             <ng-template #elseBlock></ng-template>       
           </td>
         </ng-container>

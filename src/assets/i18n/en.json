@@ -140,6 +140,9 @@
   },
   "directSales": {
     "title": "Direct Sales",
+    "quantity": "quantity",			
+    "price"	:	"price",
+    "penalty": "penalty",
     "error": {
       "NonValidNumber": "The input was not a valid number or smaller than 0!"
     }

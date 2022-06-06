@@ -1,3 +1,4 @@
+@import 'src/styles.scss';
 .tbl-wrapper {
     display: flex;
     align-items: center;
@@ -13,13 +14,27 @@ table {
 }
 
 th {
-    font-size: large;
     padding: 10px;
+    border: 1px;
+    border-style: solid;
+    border-color: black;
+    background: mat-color($ibsys-primary);
+    color: white !important;
+    font-size: medium !important;
+    border-width: 0px 2px 1px 2px;
+    border-color: black;
+    border-bottom-color: black;
+    border-style: solid;
 }
 
 td {
     font-size: large;
     padding: 10px;
+    border-width: 0px 2px 1px 2px;
+    border-color: black;
+    border-bottom-color: black;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+    border-style: solid;
 
 }
 

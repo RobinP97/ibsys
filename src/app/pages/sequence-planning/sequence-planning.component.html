@@ -30,7 +30,7 @@
                 <span class="col-actions">{{ "sequencePlanning.header_label_actions" | translate }}</span>
             </div>
             <div *ngFor="let productionOrder of getProductionOrdersToDisplay(col); let idx = index" cdkDrag class="item-box">
-                <span class="col-number">{{ idx }}</span>
+                <span class="col-number">{{ (col * 15) + idx + 1 }}</span>
                 <span class="col-order">{{ productionOrder.category }}{{ productionOrder.id }}</span>
                 <span class="col-quantity">{{productionOrder.binding_orders}}</span>
                 <span class="col-actions">

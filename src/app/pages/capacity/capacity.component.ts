@@ -70,14 +70,23 @@ export class CapacityComponent implements OnInit {
           activeWorkstation.totalProductionTime +
           activeWorkstation.capacityNeedDeficitPriorPeriod +
           activeWorkstation.setUpTimeDeficitPriorPeriod;
-        if (activeWorkstation.totalTime > 2400) {
-          activeWorkstation.overTime = activeWorkstation.totalTime - 2400;
-        }
         for (let i = activeWorkstation.totalTime; i > 3600; ) {
           activeWorkstation.shifts++;
           i -= 2400;
-          if (i > 2400) {
-            activeWorkstation.overTime = i - 2400;
+        }
+        if (activeWorkstation.totalTime > 2400) {
+          if(activeWorkstation.shifts*2400<activeWorkstation.totalTime)
+          {
+            activeWorkstation.overTime = activeWorkstation.totalTime - (activeWorkstation.shifts*2400);
+            if(activeWorkstation.id == "7")
+            {
+              console.log("succes")
+              console.log(activeWorkstation.totalTime)
+              console.log((activeWorkstation.shifts*2400));
+            }
+          }
+          else{
+            activeWorkstation.overTime = 0;
           }
         }
         activeWorkstation.productionTime.push(productionTime);

@@ -20,6 +20,7 @@ export const localStorageKeys = {
     PRODUCTIONORDERS: 'productionorders',
     FORECASTANDDIRECTSALES: 'forecastanddirectsales',
     DIRECTSALES: 'directsales',
+    WORKSTATIONS: 'workstations',
   },
 };
 

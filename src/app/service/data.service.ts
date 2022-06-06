@@ -13,6 +13,7 @@ import { STEPS } from '../shared/production-planning-steps';
 import { Subject } from 'rxjs';
 import { WarehouseStock } from '../model/import/warehousestock';
 import { WorkplaceWaitingListWorkstation } from '../model/import/workplaceWaitingListWorkstations';
+import { Workstation } from '../model/capacity/workstation';
 import { localStorageKeys as keys } from '../shared/constants';
 
 @Injectable({
@@ -37,6 +38,7 @@ export class DataService {
   cycleTimes$ = new Subject<Cycletimes>();
   result$ = new Subject<Result>();
   production$ = new Subject<Production[]>();
+  workstations$ = new Subject<Workstation[]>();
 
   fileUploadSuccessful$ = new Subject<boolean>();
   completedProductionPlanningStep$ = new Subject<any>();
@@ -313,5 +315,10 @@ export class DataService {
       keys.other.PRODUCTIONORDERS,
       productionOrders
     );
+  }
+
+  setWorkstations(workstations: Workstation[]) {
+    this.workstations$.next(workstations);
+    this.localStorageService.setItem(keys.other.WORKSTATIONS, workstations);
   }
 }

@@ -113,7 +113,7 @@ export class ExportComponent implements OnInit {
     // Produktionsplan
     xml += '\t<productionlist>\n';
     for (const productionOrder of this.productionOrders) {
-      xml += `\t\t<production article="${productionOrder.id}" quantity="${productionOrder.binding_orders}"/>\n`;
+      xml += `\t\t<production article="${productionOrder.id}" quantity="${productionOrder.planned_production}"/>\n`;
     }
     xml += '\t</productionlist>\n';
 

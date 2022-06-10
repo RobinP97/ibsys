@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+
 import { DataService } from 'src/app/service/data.service';
 import { Forecast } from 'src/app/model/import/forecast';
+import { Item } from 'src/app/model/export/item';
+import { SellDirect } from 'src/app/model/export/selldirect';
 import { SnackbarService } from 'src/app/service/snackbar.service';
-import { selldirect } from 'src/app/model/export/selldirect';
-import { item } from 'src/app/model/export/item';
 
 @Component({
   selector: 'app-directsales',
@@ -12,86 +13,119 @@ import { item } from 'src/app/model/export/item';
 })
 export class DirectsalesComponent implements OnInit, OnDestroy {
   directsales: Forecast;
-  selldirect: selldirect;
+  sellDirect: SellDirect;
 
   constructor(
     private readonly dataSerivce: DataService,
     private readonly snackBarService: SnackbarService
   ) {
-    this.directsales = this.dataSerivce.getDirectSales();
-    if (Object.keys(this.directsales).length === 0)
-      this.directsales = { p1: 0, p2: 0, p3: 0 };
+    // this.directsales = this.dataSerivce.getDirectSales_Old();
+    // if (Object.keys(this.directsales).length === 0)
+    //   this.directsales = { p1: 0, p2: 0, p3: 0 };
     // this.directsales.p1 = 0;
     // this.directsales.p2 = 0;
     // this.directsales.p3 = 0;
-    this.selldirect = {} as selldirect;
-    this.selldirect.item = [];
-    let first = {} as item;
-    first.article = 1;
-    first.penalty = 0;
-    first.price = 0;
-    first.quantity = 0;
-    let second = {} as item;
-    second.article = 2;
-    second.penalty = 0;
-    second.price = 0;
-    second.quantity = 0;
-    let third = {} as item;
-    third.article = 3;
-    third.penalty = 0;
-    third.price = 0;
-    third.quantity = 0;
-    this.selldirect.item.push(first);
-    this.selldirect.item.push(second);
-    this.selldirect.item.push(third);
+    this.sellDirect = this.dataSerivce.getDirectSales();
+    if (this.sellDirect === undefined) this.initializeSellDirectData();
+  }
+
+  initializeSellDirectData() {
+    this.sellDirect = {} as SellDirect;
+    this.sellDirect.items = [];
+    const first: Item = {
+      article: 1,
+      penalty: 0.0,
+      price: 0.0,
+      quantity: 0,
+    };
+
+    const second: Item = {
+      article: 2,
+      penalty: 0.0,
+      price: 0.0,
+      quantity: 0,
+    };
+
+    const third: Item = {
+      article: 3,
+      penalty: 0.0,
+      price: 0.0,
+      quantity: 0,
+    };
+
+    this.sellDirect.items.push(first);
+    this.sellDirect.items.push(second);
+    this.sellDirect.items.push(third);
   }
 
   ngOnDestroy(): void {
     this.saveDirectsales();
-    this.saveSellDirect();
-  }
-  saveSellDirect() {
-    this.directsales.p1
-    this.selldirect.item.find((item) => item.article == 1).quantity = this.directsales.p1;
-    this.selldirect.item.find((item) => item.article == 2).quantity = this.directsales.p2;
-    this.selldirect.item.find((item) => item.article == 3).quantity = this.directsales.p3;
-    //TODO: add to dataservice
-    console.log(this.selldirect);
+    // this.saveSellDirect();
   }
 
-  getSellDirect(id: number)
-  {
-    console.log(this.selldirect);
-    return this.selldirect.item.find((item) => item.article == id);
-  }
+  // saveSellDirect() {
+  //   this.directsales.p1
+  //   this.sellDirect.items.find((item) => item.article == 1).quantity = this.directsales.p1;
+  //   this.sellDirect.items.find((item) => item.article == 2).quantity = this.directsales.p2;
+  //   this.sellDirect.items.find((item) => item.article == 3).quantity = this.directsales.p3;
+  //   //TODO: add to dataservice
+  //   console.log(this.sellDirect);
+  // }
+
+  // getSellDirect(id: number)
+  // {
+  //   console.log(this.sellDirect);
+  //   return this.sellDirect.items.find((item) => item.article == id);
+  // }
 
   ngOnInit(): void {}
 
-  onChange() {
-    this.directsales.p1 = this.returnValidNumber(this.directsales.p1);
-    this.directsales.p2 = this.returnValidNumber(this.directsales.p2);
-    this.directsales.p3 = this.returnValidNumber(this.directsales.p3);
+  // onChange() {
+  //   this.directsales.p1 = this.returnValidNumber(this.directsales.p1);
+  //   this.directsales.p2 = this.returnValidNumber(this.directsales.p2);
+  //   this.directsales.p3 = this.returnValidNumber(this.directsales.p3);
+  // }
+
+  // onChangePrice(id: number){
+  //   this.getSellDirect(id).price = this.returnValidNumber(this.getSellDirect(id).price);
+  // }
+
+  // onChangePenalty(id: number){
+  //   this.getSellDirect(id).penalty = this.returnValidNumber(this.getSellDirect(id).penalty);
+  // }
+
+  onChangeQuantity(item: Item, value: string) {
+    const updatedQuantity = Number.parseFloat(value);
+    item.quantity = this.returnValidNumber(updatedQuantity, item.quantity);
   }
 
-  onChangePrice(id: number){
-    this.getSellDirect(id).price = this.returnValidNumber(this.getSellDirect(id).price);
+  onChangePrice(item: Item, event: any) {
+    const updatedPrice = Number.parseFloat(event.target.value);
+    item.price = this.returnValidNumber(updatedPrice, item.price);
+    if (isNaN(updatedPrice)) event.target.value = item.price.toFixed(2);
   }
 
-  onChangePenalty(id: number){
-    this.getSellDirect(id).penalty = this.returnValidNumber(this.getSellDirect(id).penalty);
+  onChangePenalty(item: Item, event: any) {
+    const updatedPenalty = Number.parseFloat(event.target.value);
+    console.log(updatedPenalty);
+    console.log(event.target);
+    
+    
+    item.penalty = this.returnValidNumber(updatedPenalty, item.penalty);
+    event.target.value = item.penalty.toFixed(2);
   }
 
-  returnValidNumber(forecastNumber: number) {
+  returnValidNumber(num2Validate: number, oldNumber: number) {
     if (
-      forecastNumber < 0 ||
-      typeof forecastNumber == undefined ||
-      isNaN(forecastNumber) ||
-      forecastNumber == null
+      num2Validate < 0 ||
+      typeof num2Validate == undefined ||
+      isNaN(num2Validate) ||
+      num2Validate == null
     ) {
       this.triggerWarningForNonValidNumber();
-      return 0;
+      return oldNumber;
     }
-    return forecastNumber;
+    return num2Validate;
   }
 
   triggerWarningForNonValidNumber() {
@@ -103,7 +137,8 @@ export class DirectsalesComponent implements OnInit, OnDestroy {
   }
 
   saveDirectsales() {
-    this.dataSerivce.setDirectSales(this.directsales);
-    this.dataSerivce.setForecastsAndDirectSales();
+    this.dataSerivce.setDirectSales(this.sellDirect);
+    // this.dataSerivce.setDirectSales_Old(this.directsales);
+    // this.dataSerivce.setForecastsAndDirectSales_Old();
   }
 }

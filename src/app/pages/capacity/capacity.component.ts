@@ -75,11 +75,10 @@ export class CapacityComponent implements OnInit {
           i -= 2400;
         }
         if (activeWorkstation.totalTime > 2400) {
-          if(activeWorkstation.shifts*2400<activeWorkstation.totalTime)
-          {
-            activeWorkstation.overTime = activeWorkstation.totalTime - (activeWorkstation.shifts*2400);
-          }
-          else{
+          if (activeWorkstation.shifts * 2400 < activeWorkstation.totalTime) {
+            activeWorkstation.overTime =
+              activeWorkstation.totalTime - activeWorkstation.shifts * 2400;
+          } else {
             activeWorkstation.overTime = 0;
           }
         }

@@ -73,6 +73,7 @@ export class ForecastComponent implements OnInit, OnDestroy {
     // this.dataSerivce.mandatoryOrders$.complete();
     // this.dataSerivce.forecasts$.complete();
     // this.dataSerivce.period$.complete();
+    this.saveForecasts();
   }
 
   ngOnInit(): void {

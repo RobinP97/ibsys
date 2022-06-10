@@ -23,7 +23,7 @@ export class ExportComponent implements OnInit {
 
   constructor(private readonly dataService: DataService) {
     this.mandatoryOrders = dataService.getMandatoryOrders();
-    this.directSales = dataService.getDirectSales();
+    this.directSales = dataService.getDirectSales_Old();
     this.productionOrders = dataService.getProductionOrdersWithResolvedSplits();
     // TODO: Daten wurden noch nicht gespeichert
     this.orders = [

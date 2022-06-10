@@ -1,5 +1,5 @@
-import { item } from './item';
+import { Item } from './item';
 
-export interface sellwish {
-  item: item[];
+export interface SellWish {
+  item: Item[];
 }

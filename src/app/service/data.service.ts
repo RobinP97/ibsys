@@ -10,6 +10,7 @@ import { OrderInwardStockMovement } from '../model/import/orderinwardstockmoveme
 import { Production } from '../model/production/production';
 import { Result } from '../model/import/result';
 import { STEPS } from '../shared/production-planning-steps';
+import { SellDirect } from '../model/export/selldirect';
 import { Subject } from 'rxjs';
 import { WarehouseStock } from '../model/import/warehousestock';
 import { WorkplaceWaitingListWorkstation } from '../model/import/workplaceWaitingListWorkstations';
@@ -109,11 +110,18 @@ export class DataService {
     return mandatoryOrders;
   }
 
-  getDirectSales(): Forecast {
+  getDirectSales_Old(): Forecast {
     const directsales: Forecast = this.localStorageService.getItem(
       keys.other.DIRECTSALES
     );
     return directsales === undefined ? ({} as Forecast) : directsales;
+  }
+
+  getDirectSales(): SellDirect {
+    const directSales: SellDirect = this.localStorageService.getItem(
+      keys.other.DIRECTSALES
+    );
+    return directSales;
   }
 
   getForecastsAndDirectSales() {
@@ -277,6 +285,8 @@ export class DataService {
 
   setForecasts(forecasts: Forecast[]) {
     this.forecasts$.next(forecasts);
+    console.log(forecasts);
+    
     this.localStorageService.setItem(keys.other.FORECASTS, forecasts);
     const mandatoryOrder = forecasts[0];
     this.mandatoryOrders$.next(mandatoryOrder);
@@ -284,18 +294,40 @@ export class DataService {
       keys.import.MANDATORYORDERS,
       mandatoryOrder
     );
-    this.setForecastsAndDirectSales();
+    // this.setForecastsAndDirectSales_Old();
+    this.updateForecastAndDirectSalesOnChange();
   }
 
-  setDirectSales(directsales: Forecast) {
+  setDirectSales_Old(directsales: Forecast) {
     this.directsales$.next(directsales);
     this.localStorageService.setItem(keys.other.DIRECTSALES, directsales);
-    this.setForecastsAndDirectSales();
+    this.setForecastsAndDirectSales_Old();
   }
 
-  setForecastsAndDirectSales() {
+  setDirectSales(directSales: SellDirect) {
+    this.localStorageService.setItem(keys.other.DIRECTSALES, directSales);
+    this.updateForecastAndDirectSalesOnChange();
+  }
+
+  updateForecastAndDirectSalesOnChange() {
+    const forecasts: Forecast[] = this.getForcasts();
+    const directSales: SellDirect = this.getDirectSales();
+    const combined: Forecast[] = [...forecasts];
+    // ?? => Nullish coalescing operator
+    combined[0]['p1'] += directSales?.items[0]?.quantity ?? 0;
+    combined[0]['p2'] += directSales?.items[1]?.quantity ?? 0;
+    combined[0]['p3'] += directSales?.items[2]?.quantity ?? 0;
+    console.log(combined);
+
+    this.localStorageService.setItem(
+      keys.other.FORECASTANDDIRECTSALES,
+      combined
+    );
+  }
+
+  setForecastsAndDirectSales_Old() {
     const forecasts = this.getForcasts();
-    const directsales = this.getDirectSales();
+    const directsales = this.getDirectSales_Old();
     const combined = [...forecasts];
 
     // ?? => Nullish coalescing operator

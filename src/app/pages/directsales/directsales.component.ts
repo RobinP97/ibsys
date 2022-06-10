@@ -94,23 +94,21 @@ export class DirectsalesComponent implements OnInit, OnDestroy {
   //   this.getSellDirect(id).penalty = this.returnValidNumber(this.getSellDirect(id).penalty);
   // }
 
-  onChangeQuantity(item: Item, value: string) {
-    const updatedQuantity = Number.parseFloat(value);
-    item.quantity = this.returnValidNumber(updatedQuantity, item.quantity);
+  onChangeQuantity(item: Item, event: any) {
+    const updatedQuantity = Number.parseFloat(event.target.value);
+    const checkNum = this.returnValidNumber(updatedQuantity, item.quantity);
+    item.quantity = this.returnMultipleOfTen(checkNum, item.quantity);
+    event.target.value = item.quantity.toString();
   }
 
   onChangePrice(item: Item, event: any) {
     const updatedPrice = Number.parseFloat(event.target.value);
     item.price = this.returnValidNumber(updatedPrice, item.price);
-    if (isNaN(updatedPrice)) event.target.value = item.price.toFixed(2);
+    event.target.value = item.price.toFixed(2);
   }
 
   onChangePenalty(item: Item, event: any) {
     const updatedPenalty = Number.parseFloat(event.target.value);
-    console.log(updatedPenalty);
-    console.log(event.target);
-    
-    
     item.penalty = this.returnValidNumber(updatedPenalty, item.penalty);
     event.target.value = item.penalty.toFixed(2);
   }
@@ -128,11 +126,27 @@ export class DirectsalesComponent implements OnInit, OnDestroy {
     return num2Validate;
   }
 
+  returnMultipleOfTen(num2Validate: number, oldNumber: number) {
+    if (num2Validate % 10 !== 0) {
+      this.triggerWarningForNonMultipleOfTen();
+      return oldNumber;
+    }
+    return num2Validate;
+  }
+
+  triggerWarningForNonMultipleOfTen() {
+    this.snackBarService.openSnackBar(
+      'directSales.error.NonMultipleOfTen',
+      'Ok',
+      5000
+    );
+  }
+
   triggerWarningForNonValidNumber() {
     this.snackBarService.openSnackBar(
       'directSales.error.NonValidNumber',
       'Ok',
-      10000
+      5000
     );
   }
 

@@ -14,7 +14,7 @@
 //     margin-bottom: 4px;
 // }
 
-.row-wrapper {
+.page-row-wrapper {
     display: flex;
     width: 100%;
     justify-content: center;
@@ -22,13 +22,20 @@
     margin: 16px 0;
 }
 
+.text-align-left {
+    text-align: left;
+}
+
 th {
-    background-color:  mat-color($ibsys-primary);
-    
+    background-color:  mat-color($ibsys-primary);  
 }
 
 td {
     text-align: center;
+}
+
+::ng-deep td.mat-cell:last-of-type {
+    padding-right: 0 !important;
 }
 
 ::ng-deep thead > tr > th.mat-header-cell {

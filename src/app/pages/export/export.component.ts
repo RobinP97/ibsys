@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AnyRecord } from 'dns';
 import { DataService } from 'src/app/service/data.service';
 import { Forecast } from 'src/app/model/import/forecast';
 import { OrderPlanning } from 'src/app/model/order-planning/order-planning';
 import { Production } from 'src/app/model/production/production';
+import { SellDirect } from 'src/app/model/export/selldirect';
 import { Workstation } from 'src/app/model/capacity/workstation';
 import { orderTypes } from 'src/app/model/order-planning/orderTypeEnum';
 import { saveAs } from 'file-saver';
@@ -16,51 +16,54 @@ import { saveAs } from 'file-saver';
 })
 export class ExportComponent implements OnInit {
   mandatoryOrders: Forecast;
-  directSales: Forecast;
+  directSales: SellDirect;
   orders: OrderPlanning[];
   productionOrders: Production[];
   workstations: Workstation[];
 
   constructor(private readonly dataService: DataService) {
     this.mandatoryOrders = dataService.getMandatoryOrders();
-    this.directSales = dataService.getDirectSales_Old();
+    this.directSales = dataService.getDirectSales();
     this.productionOrders = dataService.getProductionOrdersWithResolvedSplits();
-    // TODO: Daten wurden noch nicht gespeichert
-    this.orders = [
-      {
-        id: 1,
-        category: 'K',
-        discountAmount: 200,
-        replacementTime: 20,
-        replacementTimeVariance: 2,
-        replacementTimeAndVariance: 2,
-        neededTillReplaced: 2,
-        usage: [],
-        demand: [],
-        current_stock: 2222,
-        differenceTillReplacedAndStock: 2,
-        orderQuantity: 400,
-        orderType: orderTypes.fast,
-      },
-    ];
-    this.workstations = [
-      {
-        id: '1',
-        productionTime: [],
-        totalSetUpTime: 10,
-        totalProductionTime: 10,
-        totalTime: 80,
-        capacityNeedDeficitPriorPeriod: 10,
-        setUpTimeDeficitPriorPeriod: 10,
-        shifts: 10,
-        overTime: 10,
-      },
-    ];
+    this.orders = this.dataService.getOrderPlanning();
+    // [
+    //   {
+    //     id: 1,
+    //     category: 'K',
+    //     discountAmount: 200,
+    //     replacementTime: 20,
+    //     replacementTimeVariance: 2,
+    //     replacementTimeAndVariance: 2,
+    //     neededTillReplaced: 2,
+    //     usage: [],
+    //     demand: [],
+    //     current_stock: 2222,
+    //     differenceTillReplacedAndStock: 2,
+    //     orderQuantity: 400,
+    //     orderType: orderTypes.fast,
+    //   },
+    // ];
+    this.workstations = this.dataService.getWorkStations();
+    // [
+    //   {
+    //     id: '1',
+    //     productionTime: [],
+    //     totalSetUpTime: 10,
+    //     totalProductionTime: 10,
+    //     totalTime: 80,
+    //     capacityNeedDeficitPriorPeriod: 10,
+    //     setUpTimeDeficitPriorPeriod: 10,
+    //     shifts: 10,
+    //     overTime: 10,
+    //   },
+    // ];
   }
 
-  // TODO: Datenüberblick als Tabelle?
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.orders = this.orders?.filter(
+      (order) => order.orderType !== orderTypes.none
+    );
+  }
 
   getObjectKeys(object: any) {
     return Object.keys(this.mandatoryOrders);
@@ -87,18 +90,23 @@ export class ExportComponent implements OnInit {
 
     // Direktverkauf
     xml += '\t<selldirect>\n';
-    for (const i of [1, 2, 3]) {
-      xml += `\t\t<item article="${i}" quantity="${
-        this.directSales['p' + i] ?? 0
-      }" price="0" penalty="0"/>\n`;
+    // TODO
+    for (let item of this.directSales.items) {
+      xml += `\t\t<item article="${item.article}" quantity="${
+        item.quantity ?? '0'
+      }" price="${item.price?.toFixed(2) ?? '0.00'}" penalty="${
+        item.penalty?.toFixed(2) ?? '0.00'
+      }"/>\n`;
     }
     xml += '\t</selldirect>\n';
 
     // Bestellplanung
-    // TODO: Mapping orderType auf 4,5
+    // Mapping orderType auf 4 = fast und 5 = normal
     xml += '\t<orderlist>\n';
     for (const order of this.orders) {
-      xml += `\t\t<order article="${order.id}" quantity="${order.orderQuantity}" modus="${order.orderType}"/>\n`;
+      xml += `\t\t<order article="${order.id}" quantity="${
+        order.orderQuantity
+      }" modus="${order.orderType === orderTypes.fast ? 4 : 5}"/>\n`;
     }
     xml += '\t</orderlist>';
 

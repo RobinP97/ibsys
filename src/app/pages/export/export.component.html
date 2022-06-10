@@ -120,7 +120,7 @@
     </div>
 </div> -->
 <div>
-    <div class="row-wrapper">
+    <div class="page-row-wrapper">
 
         <!-- Produktionsplanung  -->
         <div class="tbl-wrapper">
@@ -129,7 +129,7 @@
                 <!-- Article Number Column  -->
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef>Produktnummer</th>
-                    <td mat-cell *matCellDef="let key"> {{ key | uppercase }} </td>
+                    <td mat-cell class="text-align-left" *matCellDef="let key"> {{ key | uppercase }} </td>
                 </ng-container>
                 <!-- Position Column -->
                 <ng-container matColumnDef="orderQuantity">
@@ -145,18 +145,18 @@
         <!-- Direktverkauf -->
         <div class="tbl-wrapper">
             <h2>{{ "directSales.title" | translate }}</h2>
-            <table mat-table [dataSource]="getObjectKeys(directSales)" class="mat-elevation-z8">   
+            <table mat-table [dataSource]="directSales.items" class="mat-elevation-z8">   
 
                 <!-- Article Number Column  -->
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef>Produktnummer</th>
-                    <td mat-cell *matCellDef="let key"> {{ key | uppercase }} </td>
+                    <td mat-cell class="text-align-left" *matCellDef="let item">P{{ item.article }} </td>
                 </ng-container>
 
                 <!-- Position Column -->
                 <ng-container matColumnDef="orderQuantity">
                     <th mat-header-cell *matHeaderCellDef>Auftragsmenge</th>
-                    <td mat-cell *matCellDef="let key"> {{ mandatoryOrders[key] }} </td>
+                    <td mat-cell *matCellDef="let item"> {{ item.quantity }} </td>
                 </ng-container>
             
                 <tr mat-header-row *matHeaderRowDef="['id', 'orderQuantity']"></tr>
@@ -169,7 +169,7 @@
         <mat-divider></mat-divider>
     </div>
 
-    <div class="row-wrapper">
+    <div class="page-row-wrapper">
 
         <!-- Bestellplanung -->
         <div class="tbl-wrapper">
@@ -179,7 +179,7 @@
                 <!-- Article Number Column  -->
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef>Artikelnummer</th>
-                    <td mat-cell *matCellDef="let order">{{ order.category }}{{ order.id }}</td>
+                    <td mat-cell class="text-align-left" *matCellDef="let order">{{ order.category }}{{ order.id }}</td>
                 </ng-container>
 
                 <!-- Position Column -->
@@ -207,7 +207,7 @@
                 <!-- Article Number Column  -->
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef>Artikelnummer</th>
-                    <td mat-cell *matCellDef="let productionOrder"> {{ productionOrder.category }}{{ productionOrder.id }} </td>
+                    <td mat-cell class="text-align-left" *matCellDef="let productionOrder"> {{ productionOrder.category }}{{ productionOrder.id }} </td>
                 </ng-container>
 
                 <!-- Order Quantity Column -->
@@ -229,7 +229,7 @@
                 <!-- Article Number Column  -->
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef>Arbeitsplatz</th>
-                    <td mat-cell *matCellDef="let workstation">{{ workstation.id }}</td>
+                    <td mat-cell class="text-align-left" *matCellDef="let workstation">{{ workstation.id }}</td>
                 </ng-container>
 
                 <!-- Shifts Column -->
@@ -241,7 +241,7 @@
                 <!-- Overtime Column -->
                 <ng-container matColumnDef="overtime">
                     <th mat-header-cell *matHeaderCellDef>Überzeiten</th>
-                    <td mat-cell *matCellDef="let workstation">{{ workstation.overTime }} Minuten</td>
+                    <td mat-cell *matCellDef="let workstation">{{ workstation.overTime }} min</td>
                 </ng-container> 
             
                 <tr class="primary" mat-header-row *matHeaderRowDef="['id', 'shifts', 'overtime']"></tr>

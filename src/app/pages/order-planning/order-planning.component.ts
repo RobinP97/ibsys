@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   TypeMapping,
   orderTypes,
@@ -14,7 +14,7 @@ import { WarehouseStock } from 'src/app/model/import/warehousestock';
   templateUrl: './order-planning.component.html',
   styleUrls: ['./order-planning.component.scss'],
 })
-export class OrderPlanningComponent implements OnInit {
+export class OrderPlanningComponent implements OnInit, OnDestroy {
   public TypeMapping = TypeMapping;
   public orderTypes = Object.values(orderTypes);
   purchase_parts: OrderPlanning[];
@@ -33,7 +33,9 @@ export class OrderPlanningComponent implements OnInit {
   ];
 
   constructor(private readonly dataSerivce: DataService) {
-    this.loadDataFromJson();
+    this.purchase_parts = this.dataSerivce.getOrderPlanning();
+    // Es es die purchase_parts noch nicht gibt, dann initialisieren
+    if (!this.purchase_parts) this.loadDataFromJson();
     this.forecasts = dataSerivce.getForecastsAndDirectSales();
     this.calculateDemand();
     this.warehousestock = this.dataSerivce.getWarehouseStock();
@@ -125,5 +127,10 @@ export class OrderPlanningComponent implements OnInit {
       purchase_part.orderType = orderTypes.fast;
     }
     console.log(purchase_part);
+  }
+
+  ngOnDestroy(): void {
+    if (this.purchase_parts)
+      this.dataSerivce.setOrderPlanning(this.purchase_parts);
   }
 }

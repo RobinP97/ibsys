@@ -21,6 +21,7 @@ export const localStorageKeys = {
     FORECASTANDDIRECTSALES: 'forecastanddirectsales',
     DIRECTSALES: 'directsales',
     WORKSTATIONS: 'workstations',
+    ORDERPLANNING: 'orderplanning',
   },
 };
 

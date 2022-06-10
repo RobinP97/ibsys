@@ -14,7 +14,7 @@ import { processingChain } from 'src/app/model/production/processing_chain';
   templateUrl: './production.component.html',
   styleUrls: ['./production.component.scss'],
 })
-export class ProductionComponent {
+export class ProductionComponent implements OnDestroy {
   // Alle Bestellungen der Periode
   inhouse_parts: Production[];
   forecasts: Forecast[];
@@ -356,10 +356,6 @@ export class ProductionComponent {
     }
   }
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
-    console.log(this.inhouse_parts);
-
     if (this.inhouse_parts) {
       this.dataService.setProductionOrders(this.inhouse_parts);
     }

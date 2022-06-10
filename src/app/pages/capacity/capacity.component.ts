@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { DataService } from 'src/app/service/data.service';
 import { Production } from 'src/app/model/production/production';
@@ -11,29 +11,19 @@ import { productionTime } from 'src/app/model/capacity/productionTime';
   templateUrl: './capacity.component.html',
   styleUrls: ['./capacity.component.scss'],
 })
-export class CapacityComponent implements OnInit {
+export class CapacityComponent implements OnInit, OnDestroy {
   inhouse_parts: Production[];
   workstations: Workstation[];
+
   constructor(
     private readonly dataSerivce: DataService,
     private readonly snackBarService: SnackbarService
   ) {
     let waitinglistworkstations = dataSerivce.getWaitinglistWorkstations();
     this.inhouse_parts = dataSerivce.getProductionOrders();
-    this.workstations = [];
-    for (let i = 1; i < 16; i++) {
-      let workstation = {} as Workstation;
-      workstation.id = i.toString();
-      workstation.totalProductionTime = 0;
-      workstation.totalSetUpTime = 0;
-      workstation.totalTime = 0;
-      workstation.productionTime = [];
-      workstation.capacityNeedDeficitPriorPeriod = 0;
-      workstation.setUpTimeDeficitPriorPeriod = 0;
-      workstation.overTime = 0;
-      workstation.shifts = 1;
-      this.workstations.push(workstation);
-    }
+    this.workstations = dataSerivce.getWorkStations();
+    if (!this.workstations) this.initializeWorkstations();
+
     const imported_parts = require('../../data/inhouse-parts.json');
     waitinglistworkstations.forEach((waitinglist) => {
       let activeWorkstation = this.findWorkstationById(
@@ -94,6 +84,23 @@ export class CapacityComponent implements OnInit {
     console.log(this.workstations);
   }
 
+  initializeWorkstations() {
+    this.workstations = [];
+    for (let i = 1; i < 16; i++) {
+      let workstation = {} as Workstation;
+      workstation.id = i.toString();
+      workstation.totalProductionTime = 0;
+      workstation.totalSetUpTime = 0;
+      workstation.totalTime = 0;
+      workstation.productionTime = [];
+      workstation.capacityNeedDeficitPriorPeriod = 0;
+      workstation.setUpTimeDeficitPriorPeriod = 0;
+      workstation.overTime = 0;
+      workstation.shifts = 1;
+      this.workstations.push(workstation);
+    }
+  }
+
   findWorkstationAndProductionTimeById(
     workstationId: string,
     productionTimeId: number
@@ -117,6 +124,10 @@ export class CapacityComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  ngOnDestroy(): void {
+    if (this.workstations) this.dataSerivce.setWorkstations(this.workstations);
+  }
 
   onChangeWorkstation(workstation: Workstation) {
     if (

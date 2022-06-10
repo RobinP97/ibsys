@@ -128,13 +128,14 @@
             <table mat-table [dataSource]="getObjectKeys(mandatoryOrders)" class="mat-elevation-z8">      
                 <!-- Article Number Column  -->
                 <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef>Produktnummer</th>
+                    <th mat-header-cell *matHeaderCellDef>{{ "production.product" | translate }}</th>
                     <td mat-cell class="text-align-left" *matCellDef="let key"> {{ key | uppercase }} </td>
                 </ng-container>
-                <!-- Position Column -->
+
+                <!-- Quantity Column -->
                 <ng-container matColumnDef="orderQuantity">
-                    <th mat-header-cell *matHeaderCellDef>Auftragsmenge</th>
-                    <td mat-cell *matCellDef="let key"> {{ mandatoryOrders[key] }} </td>
+                    <th mat-header-cell *matHeaderCellDef>{{ "production.binding_orders" | translate }}</th>
+                    <td mat-cell *matCellDef="let key"> {{ mandatoryOrders[key] }} {{ "export.pieces" | translate }}</td>
                 </ng-container>
             
                 <tr mat-header-row *matHeaderRowDef="['id', 'orderQuantity']"></tr>
@@ -149,18 +150,30 @@
 
                 <!-- Article Number Column  -->
                 <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef>Produktnummer</th>
+                    <th mat-header-cell *matHeaderCellDef>{{ "production.product" | translate }}</th>
                     <td mat-cell class="text-align-left" *matCellDef="let item">P{{ item.article }} </td>
                 </ng-container>
 
-                <!-- Position Column -->
+                <!-- Quantity Column -->
                 <ng-container matColumnDef="orderQuantity">
-                    <th mat-header-cell *matHeaderCellDef>Auftragsmenge</th>
-                    <td mat-cell *matCellDef="let item"> {{ item.quantity }} </td>
+                    <th mat-header-cell *matHeaderCellDef>{{ "directSales.quantity" | translate }}</th>
+                    <td mat-cell *matCellDef="let item"> {{ item.quantity }} {{ "export.pieces" | translate }}</td>
+                </ng-container>
+
+                  <!-- Price Column -->
+                  <ng-container matColumnDef="price">
+                    <th mat-header-cell *matHeaderCellDef>{{ "directSales.price" | translate }}</th>
+                    <td mat-cell *matCellDef="let item"> {{ item.price | number:'1.2-2' }}€ </td>
+                </ng-container>
+
+                  <!-- Penalty Column -->
+                  <ng-container matColumnDef="penalty">
+                    <th mat-header-cell *matHeaderCellDef>{{ "directSales.penalty" | translate }}</th>
+                    <td mat-cell *matCellDef="let item"> {{ item.penalty | number:'1.2-2' }}€</td>
                 </ng-container>
             
-                <tr mat-header-row *matHeaderRowDef="['id', 'orderQuantity']"></tr>
-                <tr mat-row *matRowDef="let row; columns: ['id', 'orderQuantity'];"></tr>
+                <tr mat-header-row *matHeaderRowDef="['id', 'orderQuantity', 'price', 'penalty']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['id', 'orderQuantity', 'price', 'penalty'];"></tr>
             </table>
         </div>
     </div>
@@ -178,20 +191,20 @@
 
                 <!-- Article Number Column  -->
                 <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef>Artikelnummer</th>
+                    <th mat-header-cell *matHeaderCellDef>{{ "orderPlanning.id" | translate }}</th>
                     <td mat-cell class="text-align-left" *matCellDef="let order">{{ order.category }}{{ order.id }}</td>
                 </ng-container>
 
-                <!-- Position Column -->
+                <!-- Quantity Column -->
                 <ng-container matColumnDef="orderQuantity">
-                    <th mat-header-cell *matHeaderCellDef>Bestellmenge</th>
-                    <td mat-cell *matCellDef="let order">{{ order.orderQuantity }}</td>
+                    <th mat-header-cell *matHeaderCellDef>{{ "orderPlanning.orderQuantity" | translate }}</th>
+                    <td mat-cell *matCellDef="let order">{{ order.orderQuantity }} {{ "export.pieces" | translate }}</td>
                 </ng-container> 
 
-                <!-- Position Column -->
+                <!-- OrderType Column -->
                 <ng-container matColumnDef="orderType">
-                    <th mat-header-cell *matHeaderCellDef>Bestellmodus</th>
-                    <td mat-cell *matCellDef="let order"> {{ order.orderType }} </td>
+                    <th mat-header-cell *matHeaderCellDef>{{ "orderPlanning.orderType" | translate }}</th>
+                    <td mat-cell *matCellDef="let order">{{ order.orderType | titlecase }}</td>
                 </ng-container>
             
                 <tr mat-header-row *matHeaderRowDef="['id', 'orderQuantity', 'orderType']"></tr>
@@ -206,14 +219,14 @@
 
                 <!-- Article Number Column  -->
                 <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef>Artikelnummer</th>
+                    <th mat-header-cell *matHeaderCellDef>{{ "production.product" | translate }}</th>
                     <td mat-cell class="text-align-left" *matCellDef="let productionOrder"> {{ productionOrder.category }}{{ productionOrder.id }} </td>
                 </ng-container>
 
                 <!-- Order Quantity Column -->
                 <ng-container matColumnDef="orderQuantity">
-                    <th mat-header-cell *matHeaderCellDef>Auftragsmenge</th>
-                    <td mat-cell *matCellDef="let productionOrder"> {{ productionOrder.binding_orders }} </td>
+                    <th mat-header-cell *matHeaderCellDef>{{ "production.planned_production" | translate }}</th>
+                    <td mat-cell *matCellDef="let productionOrder">{{ productionOrder.planned_production }} {{ "export.pieces" | translate }}</td>
                 </ng-container> 
             
                 <tr mat-header-row *matHeaderRowDef="['id', 'orderQuantity']"></tr>
@@ -228,19 +241,19 @@
 
                 <!-- Article Number Column  -->
                 <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef>Arbeitsplatz</th>
+                    <th mat-header-cell *matHeaderCellDef>{{ "capacity.workstation" | translate }}</th>
                     <td mat-cell class="text-align-left" *matCellDef="let workstation">{{ workstation.id }}</td>
                 </ng-container>
 
                 <!-- Shifts Column -->
                 <ng-container matColumnDef="shifts">
-                    <th mat-header-cell *matHeaderCellDef>Schichten</th>
+                    <th mat-header-cell *matHeaderCellDef>{{ "capacity.shifts" | translate }}</th>
                     <td mat-cell *matCellDef="let workstation">{{ workstation.shifts }}</td>
                 </ng-container> 
 
                 <!-- Overtime Column -->
                 <ng-container matColumnDef="overtime">
-                    <th mat-header-cell *matHeaderCellDef>Überzeiten</th>
+                    <th mat-header-cell *matHeaderCellDef>{{ "capacity.extra_hours" | translate }}</th>
                     <td mat-cell *matCellDef="let workstation">{{ workstation.overTime }} min</td>
                 </ng-container> 
             

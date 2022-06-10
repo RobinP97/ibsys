@@ -150,6 +150,7 @@
     }
   },
   "export": {
-    "title": "Data Export"
+    "title": "Data Export",
+    "pieces": "pcs."
   }
 }

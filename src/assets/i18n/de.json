@@ -151,6 +151,7 @@
     }
   },
   "export": {
-    "title": "Datenexport"
+    "title": "Datenexport",
+    "pieces": "Stk."
   }
 }

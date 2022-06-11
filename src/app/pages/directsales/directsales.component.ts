@@ -5,7 +5,7 @@ import { Forecast } from 'src/app/model/import/forecast';
 import { Item } from 'src/app/model/export/item';
 import { SellDirect } from 'src/app/model/export/selldirect';
 import { SnackbarService } from 'src/app/service/snackbar.service';
-import { ValidationService } from 'src/app/service/messaging.service';
+import { ValidationService } from 'src/app/service/validation.service';
 
 @Component({
   selector: 'app-directsales',

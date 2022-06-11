@@ -1,4 +1,4 @@
-<table class="mat-elevation-z8" (change)="saveForecasts()">
+<!-- <table class="mat-elevation-z8" (change)="saveData()">
     <tr>
         <th>
 
@@ -68,28 +68,43 @@
         </td>        
         <td>
             <input matInput class="md-table" type="number" [(ngModel)]="forecastP4.p3" (change)="checkIfNumberIsValid(forecastP4, forecastP4.p3)"/> 
-            <!-- <div class="input-wrapper">
-                <mat-form-field>
-                    <input 
-                    matInput 
-                    class="md-table" 
-                    min="0" 
-                    max="1000" 
-                    step="10" 
-                    type="number"
-                    #input
-                    (onkeypress)="setNewValue($event)"
-                    [value]="forecastP4.p3"/>
-                </mat-form-field>
-            </div> -->
         </td>
     </tr>
-    
-</table>
+</table> -->
 
-<div>
-    <mat-divider style="margin-top: 12px; margin-bottom: 12px;"></mat-divider>
-</div>
+<table class="mat-elevation-z8" (change)="saveData()">
+    <tr>
+        <th></th>
+        <th>
+            {{ "P" + (period+1) }}
+        </th>
+        <th>
+            {{ "P" + (period+2) }}
+        </th>
+        <th>
+            {{ "P" + (period+3) }}
+        </th>
+        <th>
+            {{ "P" + (period+4) }}
+        </th>
+    </tr>
+    <tr *ngFor="let key of rowsToDisplay">
+        <td>{{ key | uppercase }}
+        </td>
+        <td>
+            <input matInput class="md-table" type="number" [(ngModel)]="forecastP1[key]" (change)="checkIfNumberIsValid(forecastP1, forecastP1[key])"/> 
+        </td>
+        <td>
+            <input matInput class="md-table" type="number" [(ngModel)]="forecastP2[key]" (change)="checkIfNumberIsValid(forecastP2, forecastP2[key])"/> 
+        </td>
+        <td>            
+            <input matInput class="md-table" type="number" [(ngModel)]="forecastP3[key]" (change)="checkIfNumberIsValid(forecastP3, forecastP3[key])"/> 
+        </td>        
+        <td>            
+            <input matInput class="md-table" type="number" [(ngModel)]="forecastP4[key]" (change)="checkIfNumberIsValid(forecastP4, forecastP4[key])"/> 
+        </td>        
+    </tr>
+</table>
 <!-- Tabelle als mat-table -->
 <!--
 <table mat-table [dataSource]="forecasts"  class="mat-elevation-z8 forecast-table" (change)="saveForecasts()">

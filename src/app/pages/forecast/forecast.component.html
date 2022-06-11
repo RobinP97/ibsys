@@ -72,79 +72,70 @@
     </tr>
 </table> -->
 
-<table class="mat-elevation-z8" (change)="saveData()">
-    <tr>
-        <th></th>
-        <th>
-            {{ "P" + (period+1) }}
-        </th>
-        <th>
-            {{ "P" + (period+2) }}
-        </th>
-        <th>
-            {{ "P" + (period+3) }}
-        </th>
-        <th>
-            {{ "P" + (period+4) }}
-        </th>
-    </tr>
-    <tr *ngFor="let key of rowsToDisplay">
-        <td>{{ key | uppercase }}
-        </td>
-        <td>
-            <input matInput class="md-table" type="number" [(ngModel)]="forecastP1[key]" (change)="checkIfNumberIsValid(forecastP1, forecastP1[key])"/> 
-        </td>
-        <td>
-            <input matInput class="md-table" type="number" [(ngModel)]="forecastP2[key]" (change)="checkIfNumberIsValid(forecastP2, forecastP2[key])"/> 
-        </td>
-        <td>            
-            <input matInput class="md-table" type="number" [(ngModel)]="forecastP3[key]" (change)="checkIfNumberIsValid(forecastP3, forecastP3[key])"/> 
-        </td>        
-        <td>            
-            <input matInput class="md-table" type="number" [(ngModel)]="forecastP4[key]" (change)="checkIfNumberIsValid(forecastP4, forecastP4[key])"/> 
-        </td>        
-    </tr>
-</table>
-<!-- Tabelle als mat-table -->
-<!--
-<table mat-table [dataSource]="forecasts"  class="mat-elevation-z8 forecast-table" (change)="saveForecasts()">
-    <ng-container matColumnDef="period">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let forecast; let i = index">{{ "forecast.period_label"| translate }} {{ period + i }}</td> 
-    </ng-container>
-    <ng-container matColumnDef="p1">
-        <th mat-header-cell *matHeaderCellDef>P1</th>
-        <td mat-cell *matCellDef="let forecast"> 
-            <div class="input-wrapper">
-                <mat-form-field>
-                    <input matInput class="md-table" min="0" max="1000" step="10" pattern="[0-9]{0,5}" type="number" [(ngModel)]="forecast.p1"/>
-                </mat-form-field>
-            </div>
-        </td>
-    </ng-container>
-    <ng-container matColumnDef="p2">
-        <th mat-header-cell *matHeaderCellDef>P2</th>
-        <td mat-cell *matCellDef="let forecast">
-            <div class="input-wrapper">
-                <mat-form-field>
-                    <input matInput class="md-table" min="0"  max="1000" step="10" pattern="[0-9]{0,5}" type="number" [(ngModel)]="forecast.p2"/>
-                </mat-form-field>
-            </div>
-        </td>
-    </ng-container>
-    <ng-container matColumnDef="p3">
-        <th mat-header-cell *matHeaderCellDef>P3</th>
-        <td mat-cell *matCellDef="let forecast">
-            <div class="input-wrapper">
-                <mat-form-field>
-                    <input matInput class="md-table" min="0"  max="1000" step="10" pattern="[0-9]{0,5}" type="number" [(ngModel)]="forecast.p3"/>
-                </mat-form-field>
-            </div>
-        </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-    <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
-
-      
-</table>
--->
+<div class="tbl-wrapper">
+    <table class="mat-elevation-z8" (change)="saveData()">
+        <tr>
+            <th></th>
+            <th>
+                {{ "P" + (period+1) }}
+            </th>
+            <th>
+                {{ "P" + (period+2) }}
+            </th>
+            <th>
+                {{ "P" + (period+3) }}
+            </th>
+            <th>
+                {{ "P" + (period+4) }}
+            </th>
+        </tr>
+        <tr *ngFor="let key of rowsToDisplay">
+            <td>{{ key | uppercase }}
+            </td>
+            <td *ngFor="let forecast of [forecastP1, forecastP2, forecastP3, forecastP4]">
+                <input matInput 
+                    class="md-table" 
+                    [value]="forecast[key]" 
+                    (change)="checkIfNumberIsValid($event, forecast, key)" 
+                    type="number"
+                    min="0"
+                    max="1000"
+                    step="10"
+                />
+            </td>
+            <!-- <td>
+                <input matInput 
+                    class="md-table" 
+                    [value]="forecastP2[key]" 
+                    (change)="checkIfNumberIsValid($event, forecastP2, key)"
+                    type="number" 
+                    min="0"
+                    max="9999"
+                    step="10"
+                />
+            </td>
+            <td>            
+                <input matInput 
+                    class="md-table" 
+                    [value]="forecastP3[key]" 
+                    (change)="checkIfNumberIsValid($event, forecastP3, key)"
+                    type="number" 
+                    min="0"
+                    max="9999"
+                    step="10"
+                />
+            </td>        
+            <td>            
+                <input matInput 
+                    class="md-table" 
+                    [value]="forecastP4[key]" 
+                    (change)="checkIfNumberIsValid($event, forecastP4, key)"
+                    type="number" 
+                    min="0"
+                    max="9999"
+                    step="10"
+                />
+            </td>         -->
+        </tr>
+    </table>
+</div>

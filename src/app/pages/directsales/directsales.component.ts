@@ -5,19 +5,20 @@ import { Forecast } from 'src/app/model/import/forecast';
 import { Item } from 'src/app/model/export/item';
 import { SellDirect } from 'src/app/model/export/selldirect';
 import { SnackbarService } from 'src/app/service/snackbar.service';
+import { ValidationService } from 'src/app/service/messaging.service';
 
 @Component({
   selector: 'app-directsales',
   templateUrl: './directsales.component.html',
   styleUrls: ['./directsales.component.scss'],
 })
-export class DirectsalesComponent implements OnInit, OnDestroy {
-  directsales: Forecast;
+export class DirectsalesComponent {
+  // directsales: Forecast;
   sellDirect: SellDirect;
 
   constructor(
     private readonly dataSerivce: DataService,
-    private readonly snackBarService: SnackbarService
+    private readonly validatorService: ValidationService
   ) {
     // this.directsales = this.dataSerivce.getDirectSales_Old();
     // if (Object.keys(this.directsales).length === 0)
@@ -30,37 +31,22 @@ export class DirectsalesComponent implements OnInit, OnDestroy {
   }
 
   initializeSellDirectData() {
-    this.sellDirect = {} as SellDirect;
-    this.sellDirect.items = [];
-    const first: Item = {
-      article: 1,
-      penalty: 0.0,
-      price: 0.0,
-      quantity: 0,
-    };
+    const first: Item = this.createItem(1);
+    const second: Item = this.createItem(2);
+    const third: Item = this.createItem(3);
 
-    const second: Item = {
-      article: 2,
-      penalty: 0.0,
-      price: 0.0,
-      quantity: 0,
+    this.sellDirect = {
+      items: [first, second, third],
     };
-
-    const third: Item = {
-      article: 3,
-      penalty: 0.0,
-      price: 0.0,
-      quantity: 0,
-    };
-
-    this.sellDirect.items.push(first);
-    this.sellDirect.items.push(second);
-    this.sellDirect.items.push(third);
   }
 
-  ngOnDestroy(): void {
-    this.saveDirectsales();
-    // this.saveSellDirect();
+  createItem(article: number): Item {
+    return {
+      article,
+      penalty: 0.0,
+      price: 0.0,
+      quantity: 0,
+    };
   }
 
   // saveSellDirect() {
@@ -68,7 +54,6 @@ export class DirectsalesComponent implements OnInit, OnDestroy {
   //   this.sellDirect.items.find((item) => item.article == 1).quantity = this.directsales.p1;
   //   this.sellDirect.items.find((item) => item.article == 2).quantity = this.directsales.p2;
   //   this.sellDirect.items.find((item) => item.article == 3).quantity = this.directsales.p3;
-  //   //TODO: add to dataservice
   //   console.log(this.sellDirect);
   // }
 
@@ -77,8 +62,6 @@ export class DirectsalesComponent implements OnInit, OnDestroy {
   //   console.log(this.sellDirect);
   //   return this.sellDirect.items.find((item) => item.article == id);
   // }
-
-  ngOnInit(): void {}
 
   // onChange() {
   //   this.directsales.p1 = this.returnValidNumber(this.directsales.p1);
@@ -96,61 +79,102 @@ export class DirectsalesComponent implements OnInit, OnDestroy {
 
   onChangeQuantity(item: Item, event: any) {
     const updatedQuantity = Number.parseFloat(event.target.value);
-    const checkNum = this.returnValidNumber(updatedQuantity, item.quantity);
-    item.quantity = this.returnMultipleOfTen(checkNum, item.quantity);
+    item.quantity = this.validateNumber(updatedQuantity, item.quantity, event.target.max, true);
     event.target.value = item.quantity.toString();
+    this.saveData();
   }
 
   onChangePrice(item: Item, event: any) {
     const updatedPrice = Number.parseFloat(event.target.value);
-    item.price = this.returnValidNumber(updatedPrice, item.price);
+    item.price = this.validateNumber(updatedPrice, item.price, event.target.max, false);
     event.target.value = item.price.toFixed(2);
+    this.saveData();
   }
 
   onChangePenalty(item: Item, event: any) {
     const updatedPenalty = Number.parseFloat(event.target.value);
-    item.penalty = this.returnValidNumber(updatedPenalty, item.penalty);
+    item.penalty = this.validateNumber(updatedPenalty, item.penalty, event.target.max, false);
     event.target.value = item.penalty.toFixed(2);
+    this.saveData();
   }
 
-  returnValidNumber(num2Validate: number, oldNumber: number) {
-    if (
-      num2Validate < 0 ||
-      typeof num2Validate == undefined ||
-      isNaN(num2Validate) ||
-      num2Validate == null
-    ) {
-      this.triggerWarningForNonValidNumber();
-      return oldNumber;
-    }
-    return num2Validate;
+  formatFloat(item) {
+    return item.toFixed(2);
   }
 
-  returnMultipleOfTen(num2Validate: number, oldNumber: number) {
-    if (num2Validate % 10 !== 0) {
-      this.triggerWarningForNonMultipleOfTen();
-      return oldNumber;
-    }
-    return num2Validate;
-  }
-
-  triggerWarningForNonMultipleOfTen() {
-    this.snackBarService.openSnackBar(
-      'directSales.error.NonMultipleOfTen',
-      'Ok',
-      5000
+  validateNumber(
+    num2Validate: number,
+    oldNum: number,
+    max: string,
+    testMultiple: boolean
+  ): number {
+    console.log(this.sellDirect);
+    
+    let validatedNum = this.validatorService.returnValidNumber(
+      num2Validate,
+      oldNum,
+      'directSales.error.NonValidNumber'
     );
+
+    if (max?.length !== 0) {
+      console.log(max);
+      
+      validatedNum = this.validatorService.returnGreaterThanMaxValue(
+        validatedNum,
+        oldNum,
+        Number.parseFloat(max)
+      );
+    }
+
+    if (testMultiple) {
+      validatedNum = this.validatorService.returnMultipleOfTen(
+        validatedNum,
+        oldNum,
+        'directSales.error.NonMultipleOfTen'
+      );
+    }
+    return validatedNum;
   }
 
-  triggerWarningForNonValidNumber() {
-    this.snackBarService.openSnackBar(
-      'directSales.error.NonValidNumber',
-      'Ok',
-      5000
-    );
-  }
+  // returnValidNumber(num2Validate: number, oldNumber: number) {
+  //   if (
+  //     num2Validate < 0 ||
+  //     typeof num2Validate == undefined ||
+  //     isNaN(num2Validate) ||
+  //     num2Validate == null
+  //   ) {
+  //     this.triggerWarningForNonValidNumber();
+  //     return oldNumber;
+  //   }
+  //   return num2Validate;
+  // }
 
-  saveDirectsales() {
+  // returnMultipleOfTen(num2Validate: number, oldNumber: number) {
+  //   if (num2Validate % 10 !== 0) {
+  //     this.triggerWarningForNonMultipleOfTen();
+  //     return oldNumber;
+  //   }
+  //   return num2Validate;
+  // }
+
+  // triggerWarningForNonMultipleOfTen() {
+  //   this.snackBarService.openSnackBar(
+  //     'directSales.error.NonMultipleOfTen',
+  //     'Ok',
+  //     5000
+  //   );
+  // }
+
+  // triggerWarningForNonValidNumber() {
+  //   this.snackBarService.openSnackBar(
+  //     'directSales.error.NonValidNumber',
+  //     'Ok',
+  //     5000
+  //   );
+  // }
+
+  saveData() {
+    this.sellDirect = { ...this.sellDirect };
     this.dataSerivce.setDirectSales(this.sellDirect);
     // this.dataSerivce.setDirectSales_Old(this.directsales);
     // this.dataSerivce.setForecastsAndDirectSales_Old();

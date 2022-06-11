@@ -159,5 +159,10 @@
   "dialog": {
     "title": "Warning",
     "message": "Do you really want to leave the current planning run?"
+  },
+  "error": {
+    "NonValidNumber": "The input was not a valid number or smaller than 0!",
+    "NonMultipleOfTen": "The input has to be a multiple of 10!",
+    "GreaterThanMaxValue": "The maximum permitted number is: "
   }
 }

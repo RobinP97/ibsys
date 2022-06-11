@@ -160,5 +160,10 @@
   "dialog": {
     "title": "Warnung",
     "message": "Möchten Sie den aktuellen Planungsdurchlauf wirklich verlassen?"
+  },
+  "error": {
+    "NonValidNumber": "Die Eingabe war keine gültige Nummer oder kleiner 0!",
+    "NonMultipleOfTen": "Die Eingabe muss ein Vielfaches von 10 sein!",
+    "GreaterThanMaxValue": "Die größte erlaubte Zahl ist: "
   }
 }

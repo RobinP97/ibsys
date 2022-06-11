@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from 'src/app/service/data.service';
 import { Forecast } from '../../model/import/forecast';
 import { SnackbarService } from 'src/app/service/snackbar.service';
+import { ValidationService } from 'src/app/service/messaging.service';
 
 @Component({
   selector: 'app-forecast',
@@ -21,7 +22,7 @@ export class ForecastComponent {
 
   constructor(
     private readonly dataSerivce: DataService,
-    private readonly snackBarService: SnackbarService
+    private readonly validatorService: ValidationService
   ) {
     const forecasts: Forecast[] = this.dataSerivce.getForcasts();
 
@@ -33,29 +34,53 @@ export class ForecastComponent {
     this.period = this.dataSerivce.getPeriod();
   }
 
-  checkIfNumberIsValid(forecast: Forecast, forecastNumber: number) {
-    console.log(forecastNumber);
-    if (forecastNumber < 0 || isNaN(forecastNumber) || forecastNumber == null) {
-      if (forecast.p1 < 0 || isNaN(forecast.p1) || forecast.p1 == null) {
-        forecast.p1 = 0;
-      }
-      if (forecast.p2 < 0 || isNaN(forecast.p2) || forecast.p2 == null) {
-        forecast.p2 = 0;
-      }
-      if (forecast.p3 < 0 || isNaN(forecast.p3) || forecast.p3 == null) {
-        forecast.p3 = 0;
-      }
-      this.triggerWarningForNonValidNumber();
+  checkIfNumberIsValid(event: any, forecast: Forecast, key: string) {
+    const oldNum = forecast[key];
+    let updatedForecast = Number.parseInt(event.target.value);
+
+    let validatedNum = this.validatorService.returnValidNumber(
+      updatedForecast,
+      oldNum,
+      'forecast.error.NonValidNumber'
+    );
+
+    // Wenn max am input-Element spezfiziert wurde, prüfe ob Zahl < als max
+    if (event.target.max.length !== 0) {
+      const max = Number.parseInt(event.target.max);
+      validatedNum = this.validatorService.returnGreaterThanMaxValue(
+        validatedNum,
+        oldNum,
+        max
+      );
     }
+
+    forecast[key] = this.validatorService.returnMultipleOfTen(
+      validatedNum,
+      oldNum
+    );
+
+    event.target.value = forecast[key];
+    // if (forecastNumber < 0 || isNaN(forecastNumber) || forecastNumber == null) {
+    //   if (forecast.p1 < 0 || isNaN(forecast.p1) || forecast.p1 == null) {
+    //     forecast.p1 = 0;
+    //   }
+    //   if (forecast.p2 < 0 || isNaN(forecast.p2) || forecast.p2 == null) {
+    //     forecast.p2 = 0;
+    //   }
+    //   if (forecast.p3 < 0 || isNaN(forecast.p3) || forecast.p3 == null) {
+    //     forecast.p3 = 0;
+    //   }
+    //   this.triggerWarningForNonValidNumber();
+    // }
   }
 
-  triggerWarningForNonValidNumber() {
-    this.snackBarService.openSnackBar(
-      'forecast.error.NonValidNumber',
-      'Ok',
-      4000
-    );
-  }
+  // triggerWarningForNonValidNumber() {
+  //   this.snackBarService.openSnackBar(
+  //     'forecast.error.NonValidNumber',
+  //     'Ok',
+  //     4000
+  //   );
+  // }
 
   initializeForecast(forecast: Forecast): Forecast {
     return {

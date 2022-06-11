@@ -19,7 +19,7 @@
 <router-outlet></router-outlet>
 -->
 <!--Vorlage: https://github.com/TheFringe/mat-stepper-routing -->
-<mat-horizontal-stepper #stepper (selectionChange)="selectionChanged($event)" [linear]="true" [selectedIndex]="selectedStepIndex">
+<mat-horizontal-stepper #stepper (selectionChange)="selectionChanged($event)" [linear]="isLinear" [selectedIndex]="selectedStepIndex">
     <mat-step
       [label]="step.title | translate"
       #matStep

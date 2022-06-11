@@ -1,4 +1,3 @@
-import { ActivatedRouteSnapshot, CanDeactivate, Router, RouterStateSnapshot } from '@angular/router';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -14,10 +13,14 @@ import { ExitWarningDialogComponent } from '../exit-warning-dialog/exit-warning-
 import { IDeactivateComponent } from 'src/app/service/deactivate-guard.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
-import { Observable } from 'rxjs/internal/Observable';
+import { Router } from '@angular/router';
 import { STEPS } from '../production-planning-steps';
 import { SnackbarService } from 'src/app/service/snackbar.service';
 import { Step } from 'src/app/model/production/step';
+
+// export interface PlanningComponent {
+//   saveDate(): () => void;
+// }
 
 @Component({
   templateUrl: './nav-bar-planning.component.html',
@@ -38,7 +41,7 @@ export class NavBarPlanningComponent
 
   selectedStepIndex = 0;
   completedImport: boolean = false;
-  route: ActivatedRouteSnapshot;
+  isLinear: boolean = true;
   exitWarning: boolean = false;
 
   constructor(
@@ -50,39 +53,11 @@ export class NavBarPlanningComponent
     this.completedImport = dataService.checkBrowsercache4ImportedFileData();
   }
 
-  // openDialog(): void {
-  
-  // }
-
-  canExit() {
-    const dialogRef = this.dialog.open(ExitWarningDialogComponent, {
-      width: '250px',
-    });
-    return dialogRef.afterClosed().toPromise();
-  }
-
-
-
   ngOnInit(): void {
     this.steps = STEPS;
     this.dataService.fileUploadSuccessful$.subscribe({
       next: (success) => (this.completedImport = success),
     });
-
-  //   this.dataService.completedProductionPlanningStep$.subscribe({
-  //     next: (step) => {
-  //       // console.log('nav-bar', step);
-  //       if (this.stepList) {
-  //         // console.log('nav-bar', this.stepList._results[step.index]);
-
-  //         this.stepList._results[step.index]._completedOverride =
-  //           step.completed;
-  //         // Eine Datei erfolgreich hochgeladen wurde editable auf false setzen
-  //         if (step.index === 0)
-  //           this.stepList._results[step.index]._editable = !step.completed;
-  //       }
-  //     },
-  //   });
   }
 
   ngAfterContentInit() {
@@ -94,9 +69,7 @@ export class NavBarPlanningComponent
           ? currentUrlParts[currentUrlParts.length - 1]
           : '';
       for (let step of this.steps) {
-        if (this.stepList) this.stepList._results[step.index].interacted = true;
         if (step.path !== lastUrlPart) continue;
-        
         // this.stepper.selectedIndex = step.index;
         this.selectedStepIndex = step.index;
         // Info falls noch Daten aus der alten Planung im Browser zur Verfügung stehen
@@ -113,12 +86,13 @@ export class NavBarPlanningComponent
   }
 
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
+    // Schritte markieren, die der Nutzer in einer linearen Abfolge schon erledigt hat
+    // Reload bei Schritt 5: Schritte 0-4 müssen die property interacted = true setzen
     this.stepList._results
       .filter((step, idx) => idx < this.selectedStepIndex)
       .forEach((step) => (step.interacted = true));
     this.dataService.importFileStatus(this.completedImport);
+
     this.navigateToPlanningStep();
   }
 
@@ -127,11 +101,16 @@ export class NavBarPlanningComponent
     this.dataService.completedProductionPlanningStep$.complete();
   }
 
+  canExit() {
+    const dialogRef = this.dialog.open(ExitWarningDialogComponent, {
+      width: '250px',
+    });
+    return dialogRef.afterClosed().toPromise();
+  }
+
   selectionChanged(event: any) {
     this.selectedStepIndex = event.selectedIndex;
     this.navigateToPlanningStep();
-    // const url = 'planning/' + this.steps[this.selectedStepIndex].path;
-    // this.router.navigate([url]);
   }
 
   navigateToPlanningStep() {

@@ -1,6 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 
 import { CapacityComponent } from './pages/capacity/capacity.component';
+import { DeactivateGuardService } from './service/deactivate-guard.service';
 import { DebugComponent } from './pages/debug/debug.component';
 import { DirectsalesComponent } from './pages/directsales/directsales.component';
 import { ExportComponent } from './pages/export/export.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
   {
     path: 'planning',
     component: NavBarPlanningComponent,
+    canDeactivate: [DeactivateGuardService],
     children: [
       { path: '', component: ImportComponent },
       { path: 'forecast', component: ForecastComponent },

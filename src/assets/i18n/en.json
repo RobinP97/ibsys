@@ -70,10 +70,6 @@
       "no_orders": "No production orders could be found for sequence planning."
     }
   },
-  "btn": {
-    "next": "Next",
-    "back": "Back"
-  },
   "capacity": {
     "title": "Capacity Planning",
     "period": "Period...",
@@ -153,5 +149,15 @@
   "export": {
     "title": "Data Export",
     "pieces": "pcs."
+  },
+  "btn": {
+    "next": "Next",
+    "back": "Back",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "dialog": {
+    "title": "Warning",
+    "message": "Do you really want to leave the current planning run?"
   }
 }

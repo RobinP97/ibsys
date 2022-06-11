@@ -7,6 +7,7 @@ import { CapacityComponent } from './pages/capacity/capacity.component';
 import { DebugComponent } from './pages/debug/debug.component';
 import { DirectsalesComponent } from './pages/directsales/directsales.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ExitWarningDialogComponent } from './shared/exit-warning-dialog/exit-warning-dialog.component';
 import { ExportComponent } from './pages/export/export.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { ForecastComponent } from './pages/forecast/forecast.component';
@@ -15,6 +16,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { ImportComponent } from './pages/import/import.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -54,6 +56,7 @@ import { SequencePlanningComponent } from './pages/sequence-planning/sequence-pl
     CapacityComponent,
     ExportComponent,
     FooterComponent,
+    ExitWarningDialogComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -65,6 +68,7 @@ import { SequencePlanningComponent } from './pages/sequence-planning/sequence-pl
     NgxTranslateModule,
     MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     MatDividerModule,
     MatIconModule,
     MatInputModule,

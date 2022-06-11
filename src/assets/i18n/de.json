@@ -70,10 +70,6 @@
       "no_orders": "Es konnten keine Fertigungsaufträge für die Reihenfolgeplanung gefunden werden."
     }
   },
-  "btn": {
-    "next": "Weiter",
-    "back": "Zurück"
-  },
   "capacity": {
     "title": "Kapazitätsplanung",
     "period": "Periode...",
@@ -154,5 +150,15 @@
   "export": {
     "title": "Datenexport",
     "pieces": "Stk."
+  },
+  "btn": {
+    "next": "Weiter",
+    "back": "Zurück",
+    "yes": "Ja",
+    "no": "Nein"
+  },
+  "dialog": {
+    "title": "Warnung",
+    "message": "Möchten Sie den aktuellen Planungsdurchlauf wirklich verlassen?"
   }
 }

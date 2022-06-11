@@ -1,4 +1,12 @@
 // Höhe der Toolbar: 64px
+// Höhe des Footers: 48px
 .content {
-    height: calc(100% - 64px);
+    height: calc(100% - 64px - 48px);
+}
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 48px;
 }

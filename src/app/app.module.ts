@@ -8,6 +8,7 @@ import { DebugComponent } from './pages/debug/debug.component';
 import { DirectsalesComponent } from './pages/directsales/directsales.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ExportComponent } from './pages/export/export.component';
+import { FooterComponent } from './shared/footer/footer.component';
 import { ForecastComponent } from './pages/forecast/forecast.component';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './pages/home/home.component';
@@ -21,6 +22,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
@@ -51,6 +53,7 @@ import { SequencePlanningComponent } from './pages/sequence-planning/sequence-pl
     DirectsalesComponent,
     CapacityComponent,
     ExportComponent,
+    FooterComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -69,6 +72,7 @@ import { SequencePlanningComponent } from './pages/sequence-planning/sequence-pl
     MatMenuModule,
     MatToolbarModule,
     MatSelectModule,
+    MatSidenavModule,
     MatSnackBarModule,
     MatStepperModule,
     MatRadioModule,

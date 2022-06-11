@@ -23,6 +23,7 @@ export class SnackbarService {
       label,
       {
         duration,
-    });
+      }
+    );
   }
 }

@@ -79,21 +79,36 @@ export class DirectsalesComponent {
 
   onChangeQuantity(item: Item, event: any) {
     const updatedQuantity = Number.parseFloat(event.target.value);
-    item.quantity = this.validateNumber(updatedQuantity, item.quantity, event.target.max, true);
+    item.quantity = this.validateNumber(
+      updatedQuantity,
+      item.quantity,
+      event.target.max,
+      true
+    );
     event.target.value = item.quantity.toString();
     this.saveData();
   }
 
   onChangePrice(item: Item, event: any) {
     const updatedPrice = Number.parseFloat(event.target.value);
-    item.price = this.validateNumber(updatedPrice, item.price, event.target.max, false);
+    item.price = this.validateNumber(
+      updatedPrice,
+      item.price,
+      event.target.max,
+      false
+    );
     event.target.value = item.price.toFixed(2);
     this.saveData();
   }
 
   onChangePenalty(item: Item, event: any) {
     const updatedPenalty = Number.parseFloat(event.target.value);
-    item.penalty = this.validateNumber(updatedPenalty, item.penalty, event.target.max, false);
+    item.penalty = this.validateNumber(
+      updatedPenalty,
+      item.penalty,
+      event.target.max,
+      false
+    );
     event.target.value = item.penalty.toFixed(2);
     this.saveData();
   }
@@ -109,7 +124,7 @@ export class DirectsalesComponent {
     testMultiple: boolean
   ): number {
     console.log(this.sellDirect);
-    
+
     let validatedNum = this.validatorService.returnValidNumber(
       num2Validate,
       oldNum,
@@ -118,7 +133,7 @@ export class DirectsalesComponent {
 
     if (max?.length !== 0) {
       console.log(max);
-      
+
       validatedNum = this.validatorService.returnGreaterThanMaxValue(
         validatedNum,
         oldNum,

@@ -27,6 +27,7 @@
       [errorMessage]="asdfsadf"
       *ngFor="let step of steps; let i = index"
       [routerLink]="'planning/' + step.path"
+      class="mat-step-wrapper"
     >
       <router-outlet *ngIf="i === selectedStepIndex"></router-outlet>
       <div class="btn-wrapper">

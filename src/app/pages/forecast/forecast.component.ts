@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from 'src/app/service/data.service';
 import { Forecast } from '../../model/import/forecast';
 import { SnackbarService } from 'src/app/service/snackbar.service';
-import { ValidationService } from 'src/app/service/messaging.service';
+import { ValidationService } from 'src/app/service/validation.service';
 
 @Component({
   selector: 'app-forecast',

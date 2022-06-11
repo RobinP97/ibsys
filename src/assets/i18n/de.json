@@ -1,6 +1,7 @@
 {
   "home": {
-    "button": "Planung starten"
+    "button": "Planung starten",
+    "welcome_msg": "Willkommen"
   },
   "import": {
     "title": "Datenimport",

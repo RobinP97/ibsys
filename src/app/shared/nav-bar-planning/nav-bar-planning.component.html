@@ -38,5 +38,6 @@
             <button *ngIf="( i > 0 && steps.length !== i + 1) || (completedImport && i === 0)" mat-button matStepperNext class="btn btn-secondary">{{ "btn.next" | translate }}</button>
         </div>
       </div>
+      <div style="min-height: 10px;"></div>
     </mat-step>
 </mat-horizontal-stepper>

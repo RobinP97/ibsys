@@ -114,10 +114,11 @@ export class NavBarPlanningComponent
   }
 
   navigateToPlanningStep() {
-    const url =
-      this.selectedStepIndex === 0
-        ? 'planning'
-        : 'planning/' + this.steps[this.selectedStepIndex].path;
-    this.router.navigate([url]);
+    if (this.selectedStepIndex === 0) this.router.navigate(['planning']);
+    else
+      this.router.navigate([
+        'planning',
+        this.steps[this.selectedStepIndex].path,
+      ]);
   }
 }

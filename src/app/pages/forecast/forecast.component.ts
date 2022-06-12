@@ -30,6 +30,7 @@ export class ForecastComponent {
     this.forecastP2 = this.initializeForecast(forecasts[1]);
     this.forecastP3 = this.initializeForecast(forecasts[2]);
     this.forecastP4 = this.initializeForecast(forecasts[3]);
+    this.saveData();
 
     this.period = this.dataSerivce.getPeriod();
   }

@@ -11,7 +11,7 @@ import { productionTime } from 'src/app/model/capacity/productionTime';
   templateUrl: './capacity.component.html',
   styleUrls: ['./capacity.component.scss'],
 })
-export class CapacityComponent implements OnInit, OnDestroy {
+export class CapacityComponent implements OnInit {
   inhouse_parts: Production[];
   workstations: Workstation[];
 
@@ -82,6 +82,8 @@ export class CapacityComponent implements OnInit, OnDestroy {
       });
     });
     console.log(this.workstations);
+
+    this.saveData();
   }
 
   initializeWorkstations() {
@@ -125,10 +127,6 @@ export class CapacityComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {}
 
-  ngOnDestroy(): void {
-    if (this.workstations) this.dataSerivce.setWorkstations(this.workstations);
-  }
-
   onChangeWorkstation(workstation: Workstation) {
     if (
       workstation.shifts < 1 ||
@@ -140,6 +138,7 @@ export class CapacityComponent implements OnInit, OnDestroy {
       this.triggerWarningForNonValidShiftNumber();
       workstation.shifts = 1;
     }
+    this.saveData();
   }
 
   onChangeWorkstationOvertime(workstation: Workstation) {
@@ -153,6 +152,7 @@ export class CapacityComponent implements OnInit, OnDestroy {
       this.triggerWarningForNonValidOvertimeNumber();
       workstation.overTime = 0;
     }
+    this.saveData();
   }
 
   triggerWarningForNonValidShiftNumber() {
@@ -169,5 +169,9 @@ export class CapacityComponent implements OnInit, OnDestroy {
       'Ok',
       10000
     );
+  }
+
+  saveData() {
+    this.dataSerivce.setWorkstations(this.workstations);
   }
 }

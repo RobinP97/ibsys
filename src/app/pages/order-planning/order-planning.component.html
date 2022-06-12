@@ -1,5 +1,5 @@
 <div class="tbl-wrapper">
-    <table mat-table [dataSource]="purchase_parts" class="mat-elevation-z8">
+    <table mat-table [dataSource]="purchase_parts" class="mat-elevation-z8" (change)="saveData()">
 
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>{{ "orderPlanning.id" | translate }}</th>

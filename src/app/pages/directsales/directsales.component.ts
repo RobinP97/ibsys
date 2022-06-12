@@ -27,7 +27,10 @@ export class DirectsalesComponent {
     // this.directsales.p2 = 0;
     // this.directsales.p3 = 0;
     this.sellDirect = this.dataSerivce.getDirectSales();
-    if (this.sellDirect === undefined) this.initializeSellDirectData();
+    if (this.sellDirect === undefined) {
+      this.initializeSellDirectData();
+      this.saveData();
+    }
   }
 
   initializeSellDirectData() {

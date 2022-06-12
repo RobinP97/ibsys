@@ -30,6 +30,7 @@ export class SequencePlanningComponent implements OnDestroy {
       this.dataService.getProductionOrdersWithResolvedSplits();
     // this.initializeProductionOrderSequence();
     this.setColumnCount();
+    this.saveData();
   }
 
   // initializeProductionOrderSequence() {

@@ -14,7 +14,7 @@ import { WarehouseStock } from 'src/app/model/import/warehousestock';
   templateUrl: './order-planning.component.html',
   styleUrls: ['./order-planning.component.scss'],
 })
-export class OrderPlanningComponent implements OnInit, OnDestroy {
+export class OrderPlanningComponent implements OnInit {
   public TypeMapping = TypeMapping;
   public orderTypes = Object.values(orderTypes);
   purchase_parts: OrderPlanning[];
@@ -41,6 +41,8 @@ export class OrderPlanningComponent implements OnInit, OnDestroy {
     this.warehousestock = this.dataSerivce.getWarehouseStock();
     this.updateWareHouse();
     this.calculateNeededTillReplaced();
+
+    this.saveData();
   }
 
   ngOnInit(): void {}
@@ -129,8 +131,7 @@ export class OrderPlanningComponent implements OnInit, OnDestroy {
     console.log(purchase_part);
   }
 
-  ngOnDestroy(): void {
-    if (this.purchase_parts)
-      this.dataSerivce.setOrderPlanning(this.purchase_parts);
+  saveData() {
+    this.dataSerivce.setOrderPlanning(this.purchase_parts);
   }
 }

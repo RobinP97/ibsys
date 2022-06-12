@@ -16,6 +16,7 @@ import { Subject } from 'rxjs';
 import { WarehouseStock } from '../model/import/warehousestock';
 import { WorkplaceWaitingListWorkstation } from '../model/import/workplaceWaitingListWorkstations';
 import { Workstation } from '../model/capacity/workstation';
+import { dir } from 'console';
 import { isMainThread } from 'worker_threads';
 import { localStorageKeys as keys } from '../shared/constants';
 
@@ -328,12 +329,14 @@ export class DataService {
     const forecasts: Forecast[] = this.getForcasts();
     const directSales: SellDirect = this.getDirectSales();
     const combined: Forecast[] = [...forecasts];
-    // ?? => Nullish coalescing operator
-    combined[0]['p1'] += directSales?.items[0]?.quantity ?? 0;
-    combined[0]['p2'] += directSales?.items[1]?.quantity ?? 0;
-    combined[0]['p3'] += directSales?.items[2]?.quantity ?? 0;
-    console.log(combined);
-
+    console.log('DIRECTSALES', directSales);
+    
+    if (directSales) {
+      // ?? => Nullish coalescing operator
+      combined[0]['p1'] += directSales?.items[0]?.quantity ?? 0;
+      combined[0]['p2'] += directSales?.items[1]?.quantity ?? 0;
+      combined[0]['p3'] += directSales?.items[2]?.quantity ?? 0;
+    }
     this.localStorageService.setItem(
       keys.other.FORECASTANDDIRECTSALES,
       combined

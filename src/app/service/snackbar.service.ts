@@ -11,9 +11,19 @@ export class SnackbarService {
     private readonly _snackBar: MatSnackBar
   ) {}
 
-  openSnackBar(message: string, label: string = 'Ok', duration: number = 5000) {
-    this._snackBar.open(this.translateService.instant(message), label, {
-      duration,
-    });
+  openSnackBar(
+    message: string,
+    label: string = 'Ok',
+    duration: number = 5000,
+    messageAddon?: string
+  ) {
+    this._snackBar.open(
+      this.translateService.instant(message) +
+        (messageAddon ? messageAddon : ''),
+      label,
+      {
+        duration,
+      }
+    );
   }
 }

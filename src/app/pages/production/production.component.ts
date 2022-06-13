@@ -5,6 +5,7 @@ import { Forecast } from 'src/app/model/import/forecast';
 import { OrderInWork } from 'src/app/model/import/orderinwork';
 import { Production } from 'src/app/model/production/production';
 import { SnackbarService } from 'src/app/service/snackbar.service';
+import { ValidationService } from 'src/app/service/validation.service';
 import { WarehouseStock } from 'src/app/model/import/warehousestock';
 import { WorkplaceWaitingListWorkstation } from 'src/app/model/import/workplaceWaitingListWorkstations';
 import { processingChain } from 'src/app/model/production/processing_chain';
@@ -21,42 +22,23 @@ export class ProductionComponent {
   warehousestock: WarehouseStock;
   ordersinwork: OrderInWork[];
   waitinglistWorkstations: WorkplaceWaitingListWorkstation[];
-  displayedColumns: Array<String> = ['id','binding_orders','predecessor_waiting_list', 'planned_stock', 'current_stock', 'in_queue', 'in_process', 'planned_production']
+  displayedColumns: Array<String> = [
+    'id',
+    'binding_orders',
+    'predecessor_waiting_list',
+    'planned_stock',
+    'current_stock',
+    'in_queue',
+    'in_process',
+    'planned_production',
+  ];
 
   constructor(
     private readonly dataService: DataService,
-    private readonly snackBarService: SnackbarService
+    private readonly snackBarService: SnackbarService,
+    private readonly validatorService: ValidationService
   ) {
-    // dataSerivce.forecasts$.subscribe({
-    //   next: (v) => {
-    //     this.forecasts = v;
-    //     //@robin: sollte, das hier nicht updateAfterChange sein?
-    //     this.updateArrayAfterImport();
-    //   },
-    // });
-    // Vielleicht ist es einfacher am Anfang via dataService.get... sich die Daten zu holen, damit zu arbeiten und am Ende, wenn die Komponente verlassen wird alle mit
-    // dataService.set... abzuspeichern
-    // dataSerivce.ordersInWork$.subscribe({
-    //   next: (v) => {
-    //     this.ordersinwork = v;
-    //     this.updateArrayAfterImport();
-    //   },
-    // });
-    // dataSerivce.warehouseStock$.subscribe({
-    //   next: (v) => {
-    //     this.warehousestock = v;
-    //     this.updateArrayAfterImport();
-    //   },
-    // });
-    // dataSerivce.waitinglistworkstations$.subscribe({
-    //   next: (v) => {
-    //     this.waitinglistWorkstations = v;
-    //     this.updateArrayAfterImport();
-    //   },
-    // });
-    // Entweder wurde die Eigenfertigung schon einmal geplant und unter dem Schlüssel "production" abgespeichert
     this.inhouse_parts = dataService.getProductionOrders();
-    // oder noch nicht, sodass man initial eine Zusammenstellung aus den importierten Daten und inhouse-parts.json erstellen muss
     //if (!this.inhouse_parts) { inhouse_parts müssen geupdatet werden wenn vor und zurück gesprungen wird!
     this.initializeInhouseParts(dataService);
 
@@ -67,7 +49,8 @@ export class ProductionComponent {
     this.ordersinwork = this.dataService.getOrdersInWork();
 
     this.updateArrayAfterImport();
-    //}
+
+    this.saveData();
   }
 
   setWaitingListWorkstations() {
@@ -163,15 +146,16 @@ export class ProductionComponent {
     );
   }
 
-  updateAfterChange(inhouse_part) {
-    // TODO: Bei Ändeurngen in der Spalte "Verbindliche Aufträge" klappt das aktualisieren für alle E-Produkte noch nicht. Grund ist der reset der binding orders
-    // Lsg: Vielleicht einfache keine Eingabemöglichkeit für die verbindlichen Aufträge
-    // TODO: @robin welche spalten sol der User überhaupt editieren können. Alles was der USer ändern kann müssen wir abspeichern und einlesen...
+  updateAfterChange(event: any, inhouse_part) {
+    // erst prüfen
+    this.validatePartNumber(event, inhouse_part);
+    // dann neu berechnen
     this.resetBindingOrders();
     this.updateChain(this.inhouse_parts.find((x) => x.id == 1));
     this.updateChain(this.inhouse_parts.find((x) => x.id == 2));
     this.updateChain(this.inhouse_parts.find((x) => x.id == 3));
-    this.dataService.setProductionOrders(this.inhouse_parts);
+
+    this.saveData();
   }
 
   checkPartIsNotNegative(part: Production) {
@@ -203,6 +187,33 @@ export class ProductionComponent {
       this.warnUserNegativeNumber(part.current_stock, 'current_stock');
       part.current_stock = 0;
     }
+  }
+
+  validatePartNumber(event: any, inhouse_part: Production) {
+    const oldNum = inhouse_part.planned_stock;
+    let updatedPlannedStock = Number.parseInt(event.target.value);
+    let validatedNum = this.validatorService.returnValidNumber(
+      updatedPlannedStock,
+      oldNum,
+      'production.error.planned_stock'
+    );
+
+    // Wenn max am input-Element spezfiziert wurde, prüfe ob Zahl < als max
+    if (event.target.max.length !== 0) {
+      const max = Number.parseInt(event.target.max);
+      validatedNum = this.validatorService.returnGreaterThanMaxValue(
+        validatedNum,
+        oldNum,
+        max
+      );
+    }
+
+    inhouse_part.planned_stock = this.validatorService.returnMultipleOfTen(
+      validatedNum,
+      oldNum
+    );
+
+    event.target.value = inhouse_part.planned_stock;
   }
 
   warnUserNegativeNumber(num: number, Attribute: string) {
@@ -346,13 +357,8 @@ export class ProductionComponent {
       });
     }
   }
-  ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
-    console.log(this.inhouse_parts);
 
-    if (this.inhouse_parts) {
-      this.dataService.setProductionOrders(this.inhouse_parts);
-    }
+  saveData() {
+    this.dataService.setProductionOrders(this.inhouse_parts);
   }
 }

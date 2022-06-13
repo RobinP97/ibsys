@@ -7,13 +7,17 @@ import { LocalStorageService } from './local-storage.service';
 import { MissingPart } from '../model/import/missingpart';
 import { OrderInWork } from '../model/import/orderinwork';
 import { OrderInwardStockMovement } from '../model/import/orderinwardstockmovement';
+import { OrderPlanning } from '../model/order-planning/order-planning';
 import { Production } from '../model/production/production';
 import { Result } from '../model/import/result';
 import { STEPS } from '../shared/production-planning-steps';
+import { SellDirect } from '../model/export/selldirect';
 import { Subject } from 'rxjs';
 import { WarehouseStock } from '../model/import/warehousestock';
 import { WorkplaceWaitingListWorkstation } from '../model/import/workplaceWaitingListWorkstations';
 import { Workstation } from '../model/capacity/workstation';
+import { dir } from 'console';
+import { isMainThread } from 'worker_threads';
 import { localStorageKeys as keys } from '../shared/constants';
 
 @Injectable({
@@ -39,6 +43,7 @@ export class DataService {
   result$ = new Subject<Result>();
   production$ = new Subject<Production[]>();
   workstations$ = new Subject<Workstation[]>();
+  orderPlanning$ = new Subject<OrderPlanning[]>();
 
   fileUploadSuccessful$ = new Subject<boolean>();
   completedProductionPlanningStep$ = new Subject<any>();
@@ -109,11 +114,18 @@ export class DataService {
     return mandatoryOrders;
   }
 
-  getDirectSales(): Forecast {
-    const directsales: Forecast = this.localStorageService.getItem(
+  // getDirectSales_Old(): Forecast {
+  //   const directsales: Forecast = this.localStorageService.getItem(
+  //     keys.other.DIRECTSALES
+  //   );
+  //   return directsales === undefined ? ({} as Forecast) : directsales;
+  // }
+
+  getDirectSales(): SellDirect {
+    const directSales: SellDirect = this.localStorageService.getItem(
       keys.other.DIRECTSALES
     );
-    return directsales === undefined ? ({} as Forecast) : directsales;
+    return directSales;
   }
 
   getForecastsAndDirectSales() {
@@ -170,6 +182,20 @@ export class DataService {
     productionOrders.push(...resolvedProductionOrders);
     productionOrders.sort((a, b) => a.sequencePos - b.sequencePos);
     return productionOrders;
+  }
+
+  getOrderPlanning(): OrderPlanning[] {
+    const orderPlanning: OrderPlanning[] = this.localStorageService.getItem(
+      keys.other.ORDERPLANNING
+    );
+    return orderPlanning;
+  }
+
+  getWorkStations(): Workstation[] {
+    const workStations: Workstation[] = this.localStorageService.getItem(
+      keys.other.WORKSTATIONS
+    );
+    return workStations;
   }
 
   //-------------------------------------------------------------------------------------------
@@ -284,30 +310,54 @@ export class DataService {
       keys.import.MANDATORYORDERS,
       mandatoryOrder
     );
-    this.setForecastsAndDirectSales();
+    // this.setForecastsAndDirectSales_Old();
+    this.updateForecastAndDirectSalesOnChange();
   }
 
-  setDirectSales(directsales: Forecast) {
-    this.directsales$.next(directsales);
-    this.localStorageService.setItem(keys.other.DIRECTSALES, directsales);
-    this.setForecastsAndDirectSales();
+  // setDirectSales_Old(directsales: Forecast) {
+  //   this.directsales$.next(directsales);
+  //   this.localStorageService.setItem(keys.other.DIRECTSALES, directsales);
+  //   this.setForecastsAndDirectSales_Old();
+  // }
+
+  setDirectSales(directSales: SellDirect) {
+    this.localStorageService.setItem(keys.other.DIRECTSALES, directSales);
+    this.updateForecastAndDirectSalesOnChange();
   }
 
-  setForecastsAndDirectSales() {
-    const forecasts = this.getForcasts();
-    const directsales = this.getDirectSales();
-    const combined = [...forecasts];
-
-    // ?? => Nullish coalescing operator
-    combined[0]['p1'] += directsales?.p1 ?? 0;
-    combined[0]['p2'] += directsales?.p2 ?? 0;
-    combined[0]['p3'] += directsales?.p3 ?? 0;
-
+  updateForecastAndDirectSalesOnChange() {
+    const forecasts: Forecast[] = this.getForcasts();
+    const directSales: SellDirect = this.getDirectSales();
+    const combined: Forecast[] = [...forecasts];
+    console.log('DIRECTSALES', directSales);
+    
+    if (directSales) {
+      // ?? => Nullish coalescing operator
+      combined[0]['p1'] += directSales?.items[0]?.quantity ?? 0;
+      combined[0]['p2'] += directSales?.items[1]?.quantity ?? 0;
+      combined[0]['p3'] += directSales?.items[2]?.quantity ?? 0;
+    }
     this.localStorageService.setItem(
       keys.other.FORECASTANDDIRECTSALES,
       combined
     );
   }
+
+  // setForecastsAndDirectSales_Old() {
+  //   const forecasts = this.getForcasts();
+  //   const directsales = this.getDirectSales_Old();
+  //   const combined = [...forecasts];
+
+  //   // ?? => Nullish coalescing operator
+  //   combined[0]['p1'] += directsales?.p1 ?? 0;
+  //   combined[0]['p2'] += directsales?.p2 ?? 0;
+  //   combined[0]['p3'] += directsales?.p3 ?? 0;
+
+  //   this.localStorageService.setItem(
+  //     keys.other.FORECASTANDDIRECTSALES,
+  //     combined
+  //   );
+  // }
 
   setProductionOrders(productionOrders: Production[]) {
     this.production$.next(productionOrders);
@@ -320,5 +370,10 @@ export class DataService {
   setWorkstations(workstations: Workstation[]) {
     this.workstations$.next(workstations);
     this.localStorageService.setItem(keys.other.WORKSTATIONS, workstations);
+  }
+
+  setOrderPlanning(orderPlanning: OrderPlanning[]) {
+    this.orderPlanning$.next(orderPlanning);
+    this.localStorageService.setItem(keys.other.ORDERPLANNING, orderPlanning);
   }
 }

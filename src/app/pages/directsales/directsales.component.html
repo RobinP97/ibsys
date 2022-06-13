@@ -1,4 +1,4 @@
-<div class="tbl-wrapper">
+<!-- <div class="tbl-wrapper">
     <table class="mat-elevation-z8">
         <tr>   
             <th>
@@ -18,42 +18,113 @@
             <td>
                 {{ "directSales.quantity" | translate }}
             </td>
-            <td>
-                <input matInput [(ngModel)]="directsales.p1" type="number"  min="0" (change)="onChange()" class="matInputField"/>   
-            </td>
-            <td>
-                <input matInput [(ngModel)]="directsales.p2" type="number"  min="0" (change)="onChange()" class="matInputField"/>   
-            </td>
-            <td>
-                <input matInput [(ngModel)]="directsales.p3" type="number"  min="0" (change)="onChange()" class="matInputField"/>   
+            <td *ngFor="let item of sellDirect.items">
+                <input 
+                    matInput [value]="item.quantity" 
+                    type="number"  
+                    min="0" 
+                    (change)="onChangeQuantity(item, $event.target.value)"
+                    class="matInputField"
+                />   
             </td>
         </tr>
         <tr>
             <td>
                 {{ "directSales.price" | translate }}
             </td>
-            <td>
-                <input matInput [(ngModel)]="getSellDirect(1).price" type="number"  min="0" (change)="onChangePrice(1)" class="matInputField"/>   
-            </td>
-            <td>
-                <input matInput [(ngModel)]="getSellDirect(2).price" type="number"  min="0" (change)="onChangePrice(2)" class="matInputField"/>   
-            </td>
-            <td>
-                <input matInput [(ngModel)]="getSellDirect(3).price" type="number"  min="0" (change)="onChangePrice(3)" class="matInputField"/>   
+            <td *ngFor="let item of selldirect.items">
+                <div>
+                    <span>€</span>
+                    <input matInput 
+                        [value]="item.price" 
+                        type="number" 
+                        min="0" 
+                        step="0.01" 
+                        (change)="onChangePrice(item, $event.traget.value)" 
+                        class="matInputField price"
+                    />   
+                </div>
             </td>
         </tr>
         <tr>
             <td>
                 {{ "directSales.penalty" | translate }}
             </td>
+            <td *ngFor="let item of selldirect.items">
+                <div>
+                    <span>€</span>
+                    <input matInput 
+                        [value]="item.penalty | number:'1.2-2'" 
+                        (change)="onChangePenalty(item, $event.target.value)" 
+                        type="number"
+                        min="0.00" 
+                        step="0.01"  
+                        class="matInputField price"
+                    />   
+                </div>
+            </td>
+        </tr>
+    </table>
+</div> -->
+
+<div class="tbl-wrapper">
+    <table class="mat-elevation-z8">
+        <tr>   
+            <th></th>     
+            <th>
+                {{ "directSales.quantity" | translate }}
+            </th>
+            <th>
+                {{ "directSales.price" | translate }}
+            </th>
+            <th>
+                {{ "directSales.penalty" | translate }}
+            </th>
+        </tr>
+        <tr *ngFor="let item of sellDirect.items; let idx = index">
+            <td>P{{ idx + 1 }}</td>
             <td>
-                <input matInput [(ngModel)]="getSellDirect(1).penalty" type="number"  min="0" (change)="onChangePenalty(1)" class="matInputField"/>   
+                <div class="input-wrapper">
+                    <input matInput 
+                        class="matInputField"
+                        [value]="item.quantity | number:'1.0-0'" 
+                        (change)="onChangeQuantity(item, $event)"
+                        type="number"  
+                        min="0"
+                        step="10"
+                        max="1000"
+                    />   
+                </div>
             </td>
             <td>
-                <input matInput [(ngModel)]="getSellDirect(2).penalty" type="number"  min="0" (change)="onChangePenalty(2)" class="matInputField"/>   
+                <div class="input-wrapper">
+                    <span class="currency-wrapper">
+                        <span class="currency-value">€</span>
+                    </span>
+                    <input matInput 
+                        class="matInputField price"
+                        [value]="formatFloat(item.price)"
+                        (change)="onChangePrice(item, $event)"
+                        type="number" 
+                        min="0" 
+                        step="0.1" 
+                    /> 
+                </div>
             </td>
             <td>
-                <input matInput [(ngModel)]="getSellDirect(3).penalty" type="number"  min="0" (change)="onChangePenalty(3)" class="matInputField"/>   
+                <div class="input-wrapper">
+                    <span class="currency-wrapper">
+                        <span class="currency-value">€</span>
+                    </span>
+                    <input matInput 
+                        class="matInputField price"
+                        [value]="formatFloat(item.penalty)" 
+                        (change)="onChangePenalty(item, $event)" 
+                        type="number"
+                        min="0.00" 
+                        step="0.1"
+                    />   
+                </div>
             </td>
         </tr>
     </table>

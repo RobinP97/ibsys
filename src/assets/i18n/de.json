@@ -1,6 +1,7 @@
 {
   "home": {
-    "button": "Planung starten"
+    "button": "Planung starten",
+    "welcome_msg": "Willkommen"
   },
   "import": {
     "title": "Datenimport",
@@ -69,10 +70,6 @@
       "no_orders": "Es konnten keine Fertigungsaufträge für die Reihenfolgeplanung gefunden werden."
     }
   },
-  "btn": {
-    "next": "Weiter",
-    "back": "Zurück"
-  },
   "capacity": {
     "title": "Kapazitätsplanung",
     "tooltip": "Die Kapazität",
@@ -140,16 +137,34 @@
       "NonValidOvertimeNumber": "Überstunden müssen zwischen 0 und 1200 liegen."
     }
   },
+
   "directSales": {
     "title": "Direktverkauf",
     "quantity": "Menge",			
     "price"	:	"Preis",
     "penalty": "Vertragsstrafe",
     "error": {
-      "NonValidNumber": "Die Eingabe war keine gültige Nummer oder kleiner 0!"
+      "NonValidNumber": "Die Eingabe war keine gültige Nummer oder kleiner 0!",
+      "NonMultipleOfTen": "Die Eingabe muss ein Vielfaches von 10 sein!"
     }
   },
   "export": {
-    "title": "Datenexport"
+    "title": "Datenexport",
+    "pieces": "Stk."
+  },
+  "btn": {
+    "next": "Weiter",
+    "back": "Zurück",
+    "yes": "Ja",
+    "no": "Nein"
+  },
+  "dialog": {
+    "title": "Warnung",
+    "message": "Möchten Sie den aktuellen Planungsdurchlauf wirklich verlassen?"
+  },
+  "error": {
+    "NonValidNumber": "Die Eingabe war keine gültige Nummer oder kleiner 0!",
+    "NonMultipleOfTen": "Die Eingabe muss ein Vielfaches von 10 sein!",
+    "GreaterThanMaxValue": "Die größte erlaubte Zahl ist: "
   }
 }

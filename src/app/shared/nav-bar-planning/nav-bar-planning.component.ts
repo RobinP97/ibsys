@@ -9,18 +9,30 @@ import {
 } from '@angular/core';
 
 import { DataService } from 'src/app/service/data.service';
+import { ExitWarningDialogComponent } from '../exit-warning-dialog/exit-warning-dialog.component';
+import { IDeactivateComponent } from 'src/app/service/deactivate-guard.service';
+import { MatDialog } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { STEPS } from '../production-planning-steps';
 import { SnackbarService } from 'src/app/service/snackbar.service';
 import { Step } from 'src/app/model/production/step';
 
+// export interface PlanningComponent {
+//   saveDate(): () => void;
+// }
+
 @Component({
   templateUrl: './nav-bar-planning.component.html',
   styleUrls: ['./nav-bar-planning.component.scss'],
 })
 export class NavBarPlanningComponent
-  implements OnInit, AfterContentInit, AfterViewInit, OnDestroy
+  implements
+    OnInit,
+    AfterContentInit,
+    AfterViewInit,
+    OnDestroy,
+    IDeactivateComponent
 {
   @ViewChild('stepper') stepper: MatStepper | undefined;
   // @ViewChildren(RouterOutlet) fooList: any;
@@ -29,11 +41,14 @@ export class NavBarPlanningComponent
 
   selectedStepIndex = 0;
   completedImport: boolean = false;
+  isLinear: boolean = true;
+  exitWarning: boolean = false;
 
   constructor(
     private readonly router: Router,
     private readonly dataService: DataService,
-    private readonly snackBarService: SnackbarService
+    private readonly snackBarService: SnackbarService,
+    public dialog: MatDialog
   ) {
     this.completedImport = dataService.checkBrowsercache4ImportedFileData();
   }
@@ -42,18 +57,6 @@ export class NavBarPlanningComponent
     this.steps = STEPS;
     this.dataService.fileUploadSuccessful$.subscribe({
       next: (success) => (this.completedImport = success),
-    });
-
-    this.dataService.completedProductionPlanningStep$.subscribe({
-      next: (step) => {
-        if (this.stepList) {
-          this.stepList._results[step.index]._completedOverride =
-            step.completed;
-          // Eine Datei erfolgreich hochgeladen wurde editable auf false setzen
-          if (step.index === 0)
-            this.stepList._results[step.index]._editable = !step.completed;
-        }
-      },
     });
   }
 
@@ -79,16 +82,18 @@ export class NavBarPlanningComponent
         }
         break;
       }
-    } else {
-      this.selectedStepIndex = 0;
-      this.router.navigate(['planning']);
     }
   }
 
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
+    // Schritte markieren, die der Nutzer in einer linearen Abfolge schon erledigt hat
+    // Reload bei Schritt 5: Schritte 0-4 müssen die property interacted = true setzen
+    this.stepList._results
+      .filter((step, idx) => idx < this.selectedStepIndex)
+      .forEach((step) => (step.interacted = true));
     this.dataService.importFileStatus(this.completedImport);
+
+    this.navigateToPlanningStep();
   }
 
   ngOnDestroy(): void {
@@ -96,9 +101,24 @@ export class NavBarPlanningComponent
     this.dataService.completedProductionPlanningStep$.complete();
   }
 
+  canExit() {
+    const dialogRef = this.dialog.open(ExitWarningDialogComponent, {
+      width: '250px',
+    });
+    return dialogRef.afterClosed().toPromise();
+  }
+
   selectionChanged(event: any) {
     this.selectedStepIndex = event.selectedIndex;
-    const url = 'planning/' + this.steps[this.selectedStepIndex].path;
-    this.router.navigate([url]);
+    this.navigateToPlanningStep();
+  }
+
+  navigateToPlanningStep() {
+    if (this.selectedStepIndex === 0) this.router.navigate(['planning']);
+    else
+      this.router.navigate([
+        'planning',
+        this.steps[this.selectedStepIndex].path,
+      ]);
   }
 }

@@ -1,6 +1,7 @@
 {
   "home": {
-    "button": "Start planning"
+    "button": "Start planning",
+    "welcome_msg": "Welcome"
   },
   "import": {
     "title": "Data import",
@@ -68,10 +69,6 @@
     "error": {
       "no_orders": "No production orders could be found for sequence planning."
     }
-  },
-  "btn": {
-    "next": "Next",
-    "back": "Back"
   },
   "capacity": {
     "title": "Capacity Planning",
@@ -145,10 +142,27 @@
     "price"	:	"price",
     "penalty": "penalty",
     "error": {
-      "NonValidNumber": "The input was not a valid number or smaller than 0!"
+      "NonValidNumber": "The input was not a valid number or smaller than 0!",
+      "NonMultipleOfTen": "The input has to be a multiple of 10!"
     }
   },
   "export": {
-    "title": "Data Export"
+    "title": "Data Export",
+    "pieces": "pcs."
+  },
+  "btn": {
+    "next": "Next",
+    "back": "Back",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "dialog": {
+    "title": "Warning",
+    "message": "Do you really want to leave the current planning run?"
+  },
+  "error": {
+    "NonValidNumber": "The input was not a valid number or smaller than 0!",
+    "NonMultipleOfTen": "The input has to be a multiple of 10!",
+    "GreaterThanMaxValue": "The maximum permitted number is: "
   }
 }

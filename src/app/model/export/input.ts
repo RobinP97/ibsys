@@ -1,14 +1,14 @@
+import { SellDirect } from './selldirect';
+import { SellWish } from './sellwish';
 import { orderlist } from './orderlist';
 import { productionlist } from './productionlist';
 import { qualitycontrol } from './qualitycontrol';
-import { selldirect } from './selldirect';
-import { sellwish } from './sellwish';
 import { workingtimelist } from './workingtimelist';
 
 export interface input {
   qualitycontrol: qualitycontrol;
-  sellwish: sellwish;
-  selldirect: selldirect;
+  sellwish: SellWish;
+  selldirect: SellDirect;
   orderlist: orderlist;
   productionlist: productionlist;
   workingtimelist: workingtimelist;

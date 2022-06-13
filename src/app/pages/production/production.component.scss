@@ -27,6 +27,11 @@ td {
     width: 100%;
 }
 
+input[type="number"].matInputField {
+    width: 5em;
+
+}
+
 .table-wrapper{
     display: flex;
     justify-content: center;
@@ -42,4 +47,8 @@ td {
 
 ::ng-deep th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
     padding: 0 4px !important;
+}
+
+::ng-deep .material-icons {
+    font-size: large;
 }

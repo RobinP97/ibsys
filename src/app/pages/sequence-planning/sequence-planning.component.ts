@@ -30,6 +30,7 @@ export class SequencePlanningComponent implements OnDestroy {
       this.dataService.getProductionOrdersWithResolvedSplits();
     // this.initializeProductionOrderSequence();
     this.setColumnCount();
+    this.saveData();
   }
 
   // initializeProductionOrderSequence() {
@@ -121,6 +122,7 @@ export class SequencePlanningComponent implements OnDestroy {
         event.currentIndex + this.ITEM_PER_LIST * +event.container.id
       );
     }
+    this.update();
   }
 
   splitItem(
@@ -139,7 +141,7 @@ export class SequencePlanningComponent implements OnDestroy {
       0,
       newOrder
     );
-    this.setColumnCount();
+    this.update();
   }
 
   deleteItem(productionOrder: Production, index: number, col: number): void {
@@ -151,16 +153,24 @@ export class SequencePlanningComponent implements OnDestroy {
     relevantSplits.pop().binding_orders += productionOrder.binding_orders;
     // Element entfernen
     this.productionOrders.splice(index + col * this.ITEM_PER_LIST, 1);
-    this.setColumnCount();
+    this.update();
   }
 
   reset() {
     this.productionOrders = this.dataService.getProductionOrders();
+    this.update();
+  }
+
+  update() {
     this.setColumnCount();
+    this.saveData();
   }
 
   ngOnDestroy(): void {
     // Called once, before the instance is destroyed.
+  }
+
+  saveData() {
     if (this.productionOrders) {
       // index auf sequencePos mappen: Position über die Komponente hinaus speichern
       this.productionOrders.forEach((p, idx) => (p.sequencePos = idx));

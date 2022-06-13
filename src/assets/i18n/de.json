@@ -75,6 +75,7 @@
   },
   "capacity": {
     "title": "Kapazitätsplanung",
+    "tooltip": "Die Kapazität",
     "period": "Periode...",
     "label": "Bezeichnung",
     "bike_type": "Radtyp",

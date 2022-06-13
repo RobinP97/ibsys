@@ -23,6 +23,7 @@ export class CapacityComponent implements OnInit {
     this.inhouse_parts = dataSerivce.getProductionOrders();
     this.workstations = dataSerivce.getWorkStations();
     if (!this.workstations) this.initializeWorkstations();
+    else{this.resetWorkstationTime();}
 
     const imported_parts = require('../../data/inhouse-parts.json');
     waitinglistworkstations.forEach((waitinglist) => {
@@ -84,6 +85,18 @@ export class CapacityComponent implements OnInit {
     console.log(this.workstations);
 
     this.saveData();
+  }
+  
+  resetWorkstationTime() {
+    this.workstations.forEach((workstation) => {
+      workstation.totalProductionTime = 0;
+      workstation.totalSetUpTime = 0;
+      workstation.totalTime = 0;
+      workstation.overTime = 0;
+      workstation.shifts = 1;
+      workstation.setUpTimeDeficitPriorPeriod = 0;
+      workstation.capacityNeedDeficitPriorPeriod = 0;
+    })
   }
 
   initializeWorkstations() {

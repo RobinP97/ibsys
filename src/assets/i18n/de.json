@@ -29,7 +29,6 @@
   },
   "production": {
     "title": "Eigenfertigung",
-    "tooltip": "Die Geplanten Produktionsaufträge berechnen sich wie folgt: Verbindliche Aufträge + Warteschlange des Nachfolgers + Geplanter Lagerbestand am Ende der Planperiode - Lagerbestand am Ende der Vorperiode - Aufträge in der Warteschlange - Aufträge in Bearbeitung. Diese Summe kommt wie folgt zustande:",
     "binding_orders": "Verbindliche Aufträge",
     "planned_stock": "Geplanter Lagerbestand am Ende der Periode",
     "current_stock": "Aktueller Lagerbestand",
@@ -43,6 +42,11 @@
       "current_stock": "Aktueller Lagerbestand darf nicht kleiner 0 sein!",
       "in_queue": "Aufträge in Warteschlange dürfen nicht kleiner 0 sein!",
       "in_process": "Aufträge in Bearbeitung dürfen nicht kleiner 0 sein!"
+    },
+    "tooltip": {
+      "help": "Die Geplanten Produktionsaufträge berechnen sich wie folgt:\n    Verbindliche Aufträge\n+  Warteschlange des Nachfolgers\n+  Geplanter Lagerbestand am Ende der Planperiode\n-   Lagerbestand am Ende der Vorperiode\n-   Aufträge in der Warteschlange\n-   Aufträge in Bearbeitung. Diese Summe kommt wie folgt zustande:",
+      "components": "Verwendet von",
+      "calculation": "Berechnung"
     }
   },
   "orderPlanning": {

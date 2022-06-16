@@ -29,6 +29,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NavBarComponent } from './shared/nav-bar/nav-bar.component';
 import { NavBarPlanningComponent } from './shared/nav-bar-planning/nav-bar-planning.component';
 import { NgModule } from '@angular/core';
@@ -75,6 +76,7 @@ import { SequencePlanningComponent } from './pages/sequence-planning/sequence-pl
     MatListModule,
     MatMenuModule,
     MatToolbarModule,
+    MatTooltipModule,
     MatSelectModule,
     MatSidenavModule,
     MatSnackBarModule,

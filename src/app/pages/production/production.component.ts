@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-
+import { Component } from '@angular/core';
 import { DataService } from 'src/app/service/data.service';
 import { Forecast } from 'src/app/model/import/forecast';
 import { OrderInWork } from 'src/app/model/import/orderinwork';
 import { Production } from 'src/app/model/production/production';
 import { SnackbarService } from 'src/app/service/snackbar.service';
+import { TranslateService } from '@ngx-translate/core';
 import { ValidationService } from 'src/app/service/validation.service';
 import { WarehouseStock } from 'src/app/model/import/warehousestock';
 import { WorkplaceWaitingListWorkstation } from 'src/app/model/import/workplaceWaitingListWorkstations';
@@ -21,6 +21,7 @@ export class ProductionComponent {
   forecasts: Forecast[];
   warehousestock: WarehouseStock;
   ordersinwork: OrderInWork[];
+  tooltips: Map<number, any>;
   waitinglistWorkstations: WorkplaceWaitingListWorkstation[];
   displayedColumns: Array<String> = [
     'id',
@@ -36,7 +37,8 @@ export class ProductionComponent {
   constructor(
     private readonly dataService: DataService,
     private readonly snackBarService: SnackbarService,
-    private readonly validatorService: ValidationService
+    private readonly validatorService: ValidationService,
+    private readonly translatorService: TranslateService
   ) {
     this.inhouse_parts = dataService.getProductionOrders();
     //if (!this.inhouse_parts) { inhouse_parts müssen geupdatet werden wenn vor und zurück gesprungen wird!
@@ -48,6 +50,7 @@ export class ProductionComponent {
     this.warehousestock = this.dataService.getWarehouseStock();
     this.ordersinwork = this.dataService.getOrdersInWork();
 
+    this.tooltips = new Map();
     this.updateArrayAfterImport();
 
     this.saveData();
@@ -244,26 +247,30 @@ export class ProductionComponent {
       part.current_stock -
       part.in_queue -
       part.in_process;
-    console.log(part.id + ':');
-    console.log(
-      planned +
-        ' = ' +
-        part.binding_orders +
-        ' + ' +
-        part.predecessor_waiting_list +
-        ' + ' +
-        part.planned_stock +
-        ' - ' +
-        part.current_stock +
-        ' - ' +
-        part.in_queue +
-        ' - ' +
-        part.in_process
-    );
+
+    // console.log(part.id + ':');
+    // console.log(
+    //   planned +
+    //     ' = ' +
+    //     part.binding_orders +
+    //     ' + ' +
+    //     part.predecessor_waiting_list +
+    //     ' + ' +
+    //     part.planned_stock +
+    //     ' - ' +
+    //     part.current_stock +
+    //     ' - ' +
+    //     part.in_queue +
+    //     ' - ' +
+    //     part.in_process
+    // );
     if (planned < 0) {
       planned = 0;
     }
     part.planned_production = planned;
+
+    this.setTooltip(part);
+
     if (typeof part.elements !== 'undefined' && part.elements.length > 0) {
       part.elements.forEach((element) => {
         this.updateChain(
@@ -313,25 +320,24 @@ export class ProductionComponent {
       }
       part.binding_orders += binding_orders;
     }
-    if (part.in_queue > 0) {
-      // TODO: Im ersten Durchlauf ist planned noch 0
-      console.log(part.id + ':');
-      console.log(
-        planned +
-          ' = ' +
-          part.binding_orders +
-          ' + ' +
-          part.predecessor_waiting_list +
-          '+' +
-          part.planned_stock +
-          ' - ' +
-          part.current_stock +
-          ' - ' +
-          part.in_queue +
-          ' - ' +
-          part.in_process
-      );
-    }
+    // if (part.in_queue > 0) {
+    // console.log(part.id + ':');
+    // console.log(
+    //   planned +
+    //     ' = ' +
+    //     part.binding_orders +
+    //     ' + ' +
+    //     part.predecessor_waiting_list +
+    //     '+' +
+    //     part.planned_stock +
+    //     ' - ' +
+    //     part.current_stock +
+    //     ' - ' +
+    //     part.in_queue +
+    //     ' - ' +
+    //     part.in_process
+    // );
+    // }
     planned =
       part.binding_orders +
       part.predecessor_waiting_list +
@@ -345,6 +351,8 @@ export class ProductionComponent {
 
     part.planned_production = planned;
 
+    this.setTooltip(part);
+
     if (typeof part.elements !== 'undefined' && part.elements.length > 0) {
       part.elements.forEach((element) => {
         console.log(part.in_queue);
@@ -356,6 +364,52 @@ export class ProductionComponent {
         );
       });
     }
+  }
+
+  setTooltip(part: Production): void {
+    const tooltip = {
+      planned: part.planned_production,
+      calculation:
+        part.binding_orders +
+        ' + ' +
+        part.predecessor_waiting_list +
+        ' + ' +
+        part.planned_stock +
+        ' - ' +
+        part.current_stock +
+        ' - ' +
+        part.in_queue +
+        ' - ' +
+        part.in_process,
+      parents: this.tooltips.get(part.id)?.parents ?? '',
+    };
+
+    this.tooltips.set(part.id, tooltip);
+
+    // Info über aktuelles Teil an den Kindelementen ablegen
+    part.elements?.forEach((subElement) => {
+      const childTooltip = this.tooltips.get(subElement);
+      this.tooltips.set(subElement, {
+        planned: childTooltip?.planned ?? part.planned_production,
+        parents:
+          (childTooltip?.parents ? `${childTooltip.parents}  +  ` : '') +
+          `${part.planned_production} ${part.category}${part.id}`,
+        calculation: tooltip.calculation,
+      });
+    });
+  }
+
+  getTooltip(id): any {
+    const tooltip = this.tooltips.get(id);
+    const usedByStr = this.translatorService.instant(
+      'production.tooltip.components'
+    );
+    const calcStr = this.translatorService.instant(
+      'production.tooltip.calculation'
+    );
+    return tooltip.parents
+      ? `${usedByStr}: ${tooltip.parents}\n${calcStr}: ${tooltip.calculation} = ${tooltip.planned}`
+      : `${calcStr}: ${tooltip.calculation} = ${tooltip.planned}`;
   }
 
   saveData() {

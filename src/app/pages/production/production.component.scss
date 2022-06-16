@@ -52,3 +52,14 @@ input[type="number"].matInputField {
 ::ng-deep .material-icons {
     font-size: large;
 }
+
+.multiline-tooltip {
+    white-space: pre-line;
+}
+
+::ng-deep .mat-tooltip {
+    font-size: small !important;
+    white-space: pre;
+    max-width: unset !important;
+    width: fit-content !important;
+}

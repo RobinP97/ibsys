@@ -147,7 +147,8 @@
     "P3": "P3",
     "error": {
       "NonValidShiftNumber": "Only one (1), two (2) or three (3) shifts are allowed.",
-      "NonValidOvertimeNumber": "Overtime must be between 0 and 1200."
+      "NonValidOvertimeNumber": "Overtime must be between 0 and 1200.",
+      "NonOverTimeAllowed": "No additional overtime allowed when 3 shifts were selected"
     }
   },
   "directSales": {

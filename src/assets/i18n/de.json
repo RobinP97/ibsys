@@ -147,7 +147,8 @@
     "P3": "P3",
     "error": {
       "NonValidShiftNumber": "Es sind nur eine (1), zwei (2) oder drei (3) Schichten zulässig.",
-      "NonValidOvertimeNumber": "Überstunden müssen zwischen 0 und 1200 liegen."
+      "NonValidOvertimeNumber": "Überstunden müssen zwischen 0 und 1200 liegen.",
+      "NonOverTimeAllowed": "Bei 3 Schichten sind keine zusätzlichen Überstunden mehr erlaubt,"
     }
   },
 

@@ -88,7 +88,7 @@ export class CapacityComponent implements OnInit {
 
     this.saveData();
   }
-  
+
   resetWorkstationTime() {
     this.workstations.forEach((workstation) => {
       workstation.totalProductionTime = 0;
@@ -98,7 +98,7 @@ export class CapacityComponent implements OnInit {
       workstation.shifts = 1;
       workstation.setUpTimeDeficitPriorPeriod = 0;
       workstation.capacityNeedDeficitPriorPeriod = 0;
-    })
+    });
   }
 
   initializeWorkstations() {
@@ -152,12 +152,17 @@ export class CapacityComponent implements OnInit {
     ) {
       this.triggerWarningForNonValidShiftNumber();
       workstation.shifts = 1;
+    } else if (workstation.shifts === 3) {
+      workstation.overTime = 0;
     }
     this.saveData();
   }
 
   onChangeWorkstationOvertime(workstation: Workstation) {
-    if (
+    if (workstation.shifts === 3) {
+      this.triggerWarningForNonOverTimeAllowed();
+      workstation.overTime = 0;
+    } else if (
       workstation.overTime < 0 ||
       typeof workstation.overTime == undefined ||
       isNaN(workstation.overTime) ||
@@ -165,6 +170,7 @@ export class CapacityComponent implements OnInit {
       workstation.overTime > 1200
     ) {
       this.triggerWarningForNonValidOvertimeNumber();
+
       workstation.overTime = 0;
     }
     this.saveData();
@@ -173,6 +179,14 @@ export class CapacityComponent implements OnInit {
   triggerWarningForNonValidShiftNumber() {
     this.snackBarService.openSnackBar(
       'capacity.error.NonValidShiftNumber',
+      'Ok',
+      10000
+    );
+  }
+
+  triggerWarningForNonOverTimeAllowed() {
+    this.snackBarService.openSnackBar(
+      'capacity.error.NonOverTimeAllowed',
       'Ok',
       10000
     );

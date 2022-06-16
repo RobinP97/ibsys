@@ -23,7 +23,9 @@ export class CapacityComponent implements OnInit {
     this.inhouse_parts = dataSerivce.getProductionOrders();
     this.workstations = dataSerivce.getWorkStations();
     if (!this.workstations) this.initializeWorkstations();
-    else{this.resetWorkstationTime();}
+    else {
+      this.resetWorkstationTime();
+    }
 
     const imported_parts = require('../../data/inhouse-parts.json');
     waitinglistworkstations.forEach((waitinglist) => {
@@ -182,6 +184,11 @@ export class CapacityComponent implements OnInit {
       'Ok',
       10000
     );
+  }
+
+  getTotalCapaReqTooltip(workstation) {
+    if (workstation.id === '5') return '';
+    return `${workstation.totalProductionTime} + ${workstation.totalSetUpTime} + ${workstation.capacityNeedDeficitPriorPeriod} + ${workstation.setUpTimeDeficitPriorPeriod} = ${workstation.totalTime}`;
   }
 
   saveData() {

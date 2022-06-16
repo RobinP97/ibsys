@@ -118,9 +118,12 @@ export class ExportComponent implements OnInit {
     xml += '\t</productionlist>\n';
 
     // Kapazitätsplan
+    // Überzeiten pro Tag = Überzeit / 5
     xml += '\t<workingtimelist>\n';
     for (const workstation of this.workstations) {
-      xml += `\t\t<workingtime station="${workstation.id}" shift="${workstation.shifts}" overtime="${workstation.overTime}"/>\n`;
+      xml += `\t\t<workingtime station="${workstation.id}" shift="${
+        workstation.shifts
+      }" overtime="${Math.floor(workstation.overTime / 5)}"/>\n`;
     }
     xml += '\t</workingtimelist>\n';
 

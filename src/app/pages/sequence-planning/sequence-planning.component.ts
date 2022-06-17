@@ -61,7 +61,9 @@ export class SequencePlanningComponent implements OnDestroy {
 
   setColumnCount() {
     this.colCount = Array.from(
-      Array(Math.ceil(this.productionOrders.length / this.ITEM_PER_LIST)).keys()
+      Array(
+        Math.ceil((this.productionOrders?.length ?? 0) / this.ITEM_PER_LIST)
+      ).keys()
     );
   }
 

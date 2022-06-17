@@ -163,11 +163,10 @@ export class DataService {
   }
 
   getProductionOrdersWithResolvedSplits(): Production[] {
-    const productionOrders: Production[] = this.localStorageService.getItem(
-      keys.other.PRODUCTIONORDERS
-    );
+    const productionOrders: Production[] | undefined =
+      this.localStorageService.getItem(keys.other.PRODUCTIONORDERS);
     const resolvedProductionOrders: Production[] = [];
-    productionOrders.forEach((p) => {
+    productionOrders?.forEach((p) => {
       p.splits?.forEach((s) => {
         // Verbindliche Auftrage - Splitmenge
         p.binding_orders = p.binding_orders - s.amount;
@@ -179,8 +178,8 @@ export class DataService {
         resolvedProductionOrders.push(resolvedSplit);
       });
     });
-    productionOrders.push(...resolvedProductionOrders);
-    productionOrders.sort((a, b) => a.sequencePos - b.sequencePos);
+    productionOrders?.push(...resolvedProductionOrders);
+    productionOrders?.sort((a, b) => a.sequencePos - b.sequencePos);
     return productionOrders;
   }
 

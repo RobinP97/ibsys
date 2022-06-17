@@ -3,6 +3,9 @@
     "button": "Planung starten",
     "welcome_msg": "Willkommen"
   },
+  "footer": {
+    "title": "Hochschule Karlsruhe Wirtschaft und Technik, Modul: Ibsys II, Semester: SS2022"
+  },
   "import": {
     "title": "Datenimport",
     "fileupload": "Datei hochladen",

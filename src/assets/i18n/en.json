@@ -3,6 +3,9 @@
     "button": "Start planning",
     "welcome_msg": "Welcome"
   },
+  "footer": {
+    "title": "University of Applied Science Karlsruhe, Module: Ibsys II, Semester: SS2022"
+  },
   "import": {
     "title": "Data import",
     "fileupload": "upload file",

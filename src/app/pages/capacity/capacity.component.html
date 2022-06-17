@@ -3441,6 +3441,7 @@
     <tr>
         <td>
             {{ "capacity.capacity_need_new" | translate }}
+            <mat-icon matTooltip='{{ "capacity.sumOfColumnTooltip" | translate }}' matTooltipClass="inline-block">info_outline</mat-icon>
         </td>
         <td class="empty">
 
@@ -3451,7 +3452,13 @@
         <td class="empty">
 
         </td>
-        <td title='{{ "capacity.sumOfColumn" | translate }}'>            
+
+        <td *ngFor="let workstation of workstations" >
+            <span *ngIf="workstation.id !=='5'">
+                {{ workstation.totalProductionTime }}
+            </span>
+        </td>  
+        <!-- <td title='{{ "capacity.sumOfColumn" | translate }}'>            
             {{ findWorkstationById("1").totalProductionTime }}
         </td>
         <td title='{{ "capacity.sumOfColumn" | translate }}'>            
@@ -3495,11 +3502,16 @@
         </td>
         <td title='{{ "capacity.sumOfColumn" | translate }}'>            
             {{ findWorkstationById("15").totalProductionTime }}
-        </td>
+        </td> -->
     </tr>
     <tr>
         <td>
             {{ "capacity.set-up_time" | translate }}
+            <mat-icon matTooltip='{{ "capacity.totalSetUpTimeTooltip" | translate }}' matTooltipClass="inline-block">info_outline</mat-icon>
+
+        </td>
+        <td class="empty">
+
         </td>
         <td class="empty">
 
@@ -3507,9 +3519,13 @@
         <td class="empty">
 
         </td>
-        <td class="empty">
-        </td>
-        <td title='{{ "capacity.totalSetUpTimeTooltip" | translate }}'>            
+
+        <td *ngFor="let workstation of workstations">
+            <span *ngIf="workstation.id !=='5'">
+                {{ workstation.totalSetUpTime }}
+            </span>
+        </td>  
+        <!-- <td title='{{ "capacity.totalSetUpTimeTooltip" | translate }}'>            
             {{ findWorkstationById("1").totalSetUpTime }}
         </td>
         <td title='{{ "capacity.totalSetUpTimeTooltip" | translate }}'>            
@@ -3553,11 +3569,12 @@
         </td>
         <td title='{{ "capacity.totalSetUpTimeTooltip" | translate }}'>            
             {{ findWorkstationById("15").totalSetUpTime }}
-        </td>
+        </td> -->
     </tr>
     <tr>
         <td>
             {{ "capacity.capacity_need_deficit_prior_period" | translate }}
+            <mat-icon matTooltip='{{ "capacity.capacityNeedDeficitPriorPeriodTooltip" | translate }}' matTooltipClass="inline-block">info_outline</mat-icon>
         </td>
         <td class="empty">
 
@@ -3566,8 +3583,14 @@
 
         </td>
         <td class="empty">
-        </td>        
-        <td  title='{{ "capacity.capacityNeedDeficitPriorPeriodTooltip" | translate }}'>            
+
+        </td>
+        <td *ngFor="let workstation of workstations">
+            <span *ngIf="workstation.id !=='5'">
+                {{ workstation.capacityNeedDeficitPriorPeriod }}
+            </span>
+        </td>       
+        <!-- <td  title='{{ "capacity.capacityNeedDeficitPriorPeriodTooltip" | translate }}'>            
             {{ findWorkstationById("1").capacityNeedDeficitPriorPeriod }}
         </td>
         <td title='{{ "capacity.capacityNeedDeficitPriorPeriodTooltip" | translate }}'>            
@@ -3610,11 +3633,12 @@
         </td>
         <td title='{{ "capacity.capacityNeedDeficitPriorPeriodTooltip" | translate }}'>            
             {{ findWorkstationById("15").capacityNeedDeficitPriorPeriod }}
-        </td>
+        </td> -->
     </tr>
     <tr>
         <td>
             {{ "capacity.set-up_time_deficit_prior_period" | translate }}
+            <mat-icon matTooltip='{{ "capacity.setUpTimeDeficitPriorPeriodTooltip" | translate }}' matTooltipClass="inline-block">info_outline</mat-icon>
         </td>
         <td class="empty">
 
@@ -3623,8 +3647,15 @@
 
         </td>
         <td class="empty">
-        </td>        
-        <td title='{{ "capacity.setUpTimeDeficitPriorPeriodTooltip" | translate }}'>            
+
+        </td>   
+        
+        <td *ngFor="let workstation of workstations">
+            <span *ngIf="workstation.id !=='5'">
+                {{ workstation.setUpTimeDeficitPriorPeriod }}
+            </span>
+        </td>
+        <!-- <td title='{{ "capacity.setUpTimeDeficitPriorPeriodTooltip" | translate }}'>            
             {{ findWorkstationById("1").setUpTimeDeficitPriorPeriod }}
         </td>
         <td title='{{ "capacity.setUpTimeDeficitPriorPeriodTooltip" | translate }}'>    
@@ -3667,11 +3698,12 @@
         </td>
         <td title='{{ "capacity.setUpTimeDeficitPriorPeriodTooltip" | translate }}'>            
             {{ findWorkstationById("15").setUpTimeDeficitPriorPeriod }}
-        </td>
+        </td> -->
     </tr>
     <tr>
         <td>
             <b>{{ "capacity.total_capacity_need" | translate }}</b>
+            <mat-icon matTooltip='{{ "capacity.totalTimeTooltip" | translate }}' matTooltipClass="inline-block">info_outline</mat-icon>
         </td>
         <td class="empty">
 
@@ -3680,57 +3712,62 @@
 
         </td>
         <td class="empty">
+        </td>         
+        <td *ngFor="let workstation of workstations"
+            [matTooltip]="getTotalCapaReqTooltip(workstation)" >
+            <span *ngIf="workstation.id !=='5'">
+                {{ workstation.totalTime }}
+            </span>
+        </td>
 
-        </td>          
-        <td title='{{ "capacity.totalTimeTooltip" | translate }}'>            
+        <!-- <td matTooltip='{{ "capacity.totalTimeTooltip" | translate }}'>            
             {{ findWorkstationById("1").totalTime }}
         </td>
-        <td title='{{ "capacity.totalTimeTooltip" | translate }}'>    
+        <td matTooltip='{{ "capacity.totalTimeTooltip" | translate }}'>    
             {{ findWorkstationById("2").totalTime }}
         </td>
-        <td title='{{ "capacity.totalTimeTooltip" | translate }}'>            
+        <td matTooltip='{{ "capacity.totalTimeTooltip" | translate }}'>            
             {{ findWorkstationById("3").totalTime }}
         </td>
-        <td title='{{ "capacity.totalTimeTooltip" | translate }}'>            
+        <td matTooltip='{{ "capacity.totalTimeTooltip" | translate }}'>            
             {{ findWorkstationById("4").totalTime }}
         </td>
-        <td class="empty">
-        </td>
-        <td title='{{ "capacity.totalTimeTooltip" | translate }}'>            
+        <td class="empty"></td>
+        <td matTooltip='{{ "capacity.totalTimeTooltip" | translate }}'>            
             {{ findWorkstationById("6").totalTime }}
         </td>
-        <td title='{{ "capacity.totalTimeTooltip" | translate }}'>            
+        <td matTooltip='{{ "capacity.totalTimeTooltip" | translate }}'>            
             {{ findWorkstationById("7").totalTime }}
         </td>
-        <td title='{{ "capacity.totalTimeTooltip" | translate }}'>            
+        <td matTooltip='{{ "capacity.totalTimeTooltip" | translate }}'>            
             {{ findWorkstationById("8").totalTime }}
         </td>
-        <td title='{{ "capacity.totalTimeTooltip" | translate }}'>            
+        <td matTooltip='{{ "capacity.totalTimeTooltip" | translate }}'>            
             {{ findWorkstationById("9").totalTime }}
         </td>
-        <td title='{{ "capacity.totalTimeTooltip" | translate }}'>            
+        <td matTooltip='{{ "capacity.totalTimeTooltip" | translate }}'>            
             {{ findWorkstationById("10").totalTime }}
         </td>
-        <td title='{{ "capacity.totalTimeTooltip" | translate }}'>            
+        <td matTooltip='{{ "capacity.totalTimeTooltip" | translate }}'>            
             {{ findWorkstationById("11").totalTime }}
         </td>
-        <td title='{{ "capacity.totalTimeTooltip" | translate }}'>            
+        <td matTooltip='{{ "capacity.totalTimeTooltip" | translate }}'>            
             {{ findWorkstationById("12").totalTime }}
         </td>
-        <td title='{{ "capacity.totalTimeTooltip" | translate }}'>            
+        <td matTooltip='{{ "capacity.totalTimeTooltip" | translate }}'>            
             {{ findWorkstationById("13").totalTime }}
         </td>
-        <td title='{{ "capacity.totalTimeTooltip" | translate }}'>            
+        <td matTooltip='{{ "capacity.totalTimeTooltip" | translate }}'>            
             {{ findWorkstationById("14").totalTime }}
         </td>
-        <td title='{{ "capacity.totalTimeTooltip" | translate }}'>            
+        <td matTooltip='{{ "capacity.totalTimeTooltip" | translate }}'>            
             {{ findWorkstationById("15").totalTime }}
-        </td>      
-
+        </td>       -->
     </tr>
     <tr>
         <td>
             <b>{{ "capacity.shifts" | translate }}</b>
+            <mat-icon matTooltip='{{ "capacity.shiftTooltip" | translate }}' matTooltipClass="inline-block">info_outline</mat-icon>
         </td>
         <td class="empty">
 
@@ -3741,7 +3778,20 @@
         <td class="empty">
 
         </td>
-        <td title='{{ "capacity.shiftTooltip" | translate }}'>            
+        <td *ngFor="let workstation of workstations">
+            <input *ngIf="workstation.id !=='5'"
+                matInput 
+                [(ngModel)]="workstation.shifts" 
+                type="number"
+                min="0" 
+                max="3" 
+                pattern="/^\d+$/" 
+                class="matInputField" 
+                (change)="onChangeWorkstation(workstation)"
+            />   
+        </td>
+
+        <!-- <td title='{{ "capacity.shiftTooltip" | translate }}'>            
             <input matInput [(ngModel)]="findWorkstationById('1').shifts" type="number"  min="0" max="3" pattern="/^\d+$/" class="matInputField" (change)="onChangeWorkstation(findWorkstationById('1'))"/>   
         </td>
         <td title='{{ "capacity.shiftTooltip" | translate }}'>            
@@ -3784,11 +3834,12 @@
         </td>
         <td title='{{ "capacity.shiftTooltip" | translate }}'>            
             <input matInput [(ngModel)]="findWorkstationById('15').shifts" type="number"  min="0" max="3" pattern="/^\d+$/" class="matInputField" (change)="onChangeWorkstation(findWorkstationById('15'))"/>   
-        </td>
+        </td> -->
     </tr>
     <tr>
         <td>
             <b>{{ "capacity.extra_hours" | translate }}</b>
+            <mat-icon matTooltip='{{ "capacity.overTimeTooltip" | translate }}' matTooltipClass="inline-block">info_outline</mat-icon>
         </td>
         <td class="empty">
 
@@ -3799,7 +3850,19 @@
         <td class="empty">
 
         </td>
-        <td title='{{ "capacity.overTimeTooltip" | translate }}'>                  
+        <td *ngFor="let workstation of workstations">
+            <input *ngIf="workstation.id !=='5'"
+                matInput 
+                [(ngModel)]="workstation.overTime" 
+                type="number"
+                min="0" 
+                max="1200"
+                [disabled]="workstation.shifts === 3"
+                pattern="/^\d+$/" 
+                class="matInputField" 
+                (change)="onChangeWorkstationOvertime(workstation)"/>  
+        </td>
+        <!-- <td title='{{ "capacity.overTimeTooltip" | translate }}'>                  
             <input matInput [(ngModel)]="findWorkstationById('1').overTime" type="number"  min="0" max="1200" pattern="/^\d+$/" class="matInputField" (change)="onChangeWorkstationOvertime(findWorkstationById('1'))"/>   
         </td>
         <td title='{{ "capacity.overTimeTooltip" | translate }}'>                        
@@ -3842,7 +3905,7 @@
         </td>
         <td title='{{ "capacity.overTimeTooltip" | translate }}'>            
             <input matInput [(ngModel)]="findWorkstationById('15').overTime" type="number"  min="0" max="1200" pattern="/^\d+$/" class="matInputField" (change)="onChangeWorkstationOvertime(findWorkstationById('15'))"/>  
-        </td>
+        </td> -->
     </tr>
 </table>
 </div>

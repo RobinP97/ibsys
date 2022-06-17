@@ -3,6 +3,9 @@
     "button": "Planung starten",
     "welcome_msg": "Willkommen"
   },
+  "footer": {
+    "title": "Hochschule Karlsruhe Wirtschaft und Technik, Modul: Ibsys II, Semester: SS2022"
+  },
   "import": {
     "title": "Datenimport",
     "fileupload": "Datei hochladen",
@@ -56,6 +59,9 @@
     "deviation": "Abweichung",
     "safeDeliveryTime": "Sichere Lieferzeit",
     "discontQuantity": "Diskontmenge",
+    "usageInP1": "Verwendung in P1",
+    "usageInP2": "Verwendung in P2",
+    "usageInP3": "Verwendung in P3",
     "stock": "Lagerbestand",
     "neededTillReplaced": "Bedarf bis zur sicheren Lieferung",
     "orderQuantity": "Bestellmenge",
@@ -77,10 +83,10 @@
   },
   "capacity": {
     "title": "Kapazitätsplanung",
-    "sumOfColumn": "Der Kapazitätsbedarf (neu) wird berechnet, in dem die Werte der jeweiligen Spalte bis zu diesem Punkt (Kapazitäten der einzelnen Eigenfertigungen innerhalb dieses Arbeitsplatzes) Summiert werden.",
+    "sumOfColumnTooltip": "Der Kapazitätsbedarf (neu) wird berechnet, in dem die Werte der jeweiligen Spalte bis zu diesem Punkt (Kapazitäten der einzelnen Eigenfertigungen innerhalb dieses Arbeitsplatzes) Summiert werden.",
     "totalSetUpTimeTooltip": "Die Rüstzeit ergibt sich aus den hinterlegten Rüstzeiten für jeden Fertigungsschritt der an dem Arbeitsplatz durchgeführt wird.",
     "capacityNeedDeficitPriorPeriodTooltip": "Der Zeitdefizit aus der Vorperiode wird bestimmt, in dem aus der Eingabedatei die noch Benötigten Zeiten für Teile in der Warteschlange und in der Bearbeitung innerhalb des Arbeitsplatzes zusammengefasst werden.",
-    "setUpTimeDeficitPriorPeriod": "Die benötigte Rüstzeit wird für jeden noch zutätigenden Arbeitsschritt aus der Vorperiode Summiert.",
+    "setUpTimeDeficitPriorPeriodTooltip": "Die benötigte Rüstzeit wird für jeden noch zutätigenden Arbeitsschritt aus der Vorperiode Summiert.",
     "totalTimeTooltip": "Der Gesamt-Kapazizätsbedarf ergibt sich aus der Summe des Kapazitätsbedarfs, der Rüstzeit (neu), dem Kap. bed. (Rückstand Vorperiode) und der Rüstzeit (Rückstand Vorperiode).",
     "shiftTooltip": "Die Schichten werden bestimmt, in dem der Gesamt-Kapazizätsbedarf durch 2400 geteilt wird, und ab 1,5(1200 Minuten Überstunden) aufgerundet wird. Sollte die Schicht größer als drei sein, so werden die Maximal möglichen Schichten eingetragen(3).",
     "overTimeTooltip": "Die Überstunden werden bestimmt, in dem von dem Gesamt-Kapazizätsbedarf die Schichten * 2400 abgezogen werden, sofern das Ergebnis positiv ist. Ist die Anzahl der Schichten gleich 3, so wird hier der Wert 0 eingetragen.",
@@ -109,6 +115,7 @@
     "capacity_need_deficit_prior_period": "Kap. bed. (Rückstand Vorperiode)",
     "set-up_time_deficit_prior_period": "Rüstzeit (Rückstand Vorperiode)",
     "total_capacity_need": "Gesamt-Kapazizätsbedarf",
+    "tooltip_inhouse_planing": "",
     "shifts": "Schichten",
     "extra_hours": "Mehrarbeitszeit in Minuten",
     "C": "K",
@@ -147,7 +154,8 @@
     "P3": "P3",
     "error": {
       "NonValidShiftNumber": "Es sind nur eine (1), zwei (2) oder drei (3) Schichten zulässig.",
-      "NonValidOvertimeNumber": "Überstunden müssen zwischen 0 und 1200 liegen."
+      "NonValidOvertimeNumber": "Überstunden müssen zwischen 0 und 1200 liegen.",
+      "NonOverTimeAllowed": "Bei 3 Schichten sind keine zusätzlichen Überstunden mehr erlaubt,"
     }
   },
 
@@ -169,7 +177,9 @@
     "next": "Weiter",
     "back": "Zurück",
     "yes": "Ja",
-    "no": "Nein"
+    "no": "Nein",
+    "split": "Splitten",
+    "delete": "Löschen"
   },
   "dialog": {
     "title": "Warnung",

@@ -47,6 +47,7 @@
                     <button
                         #split
                         mat-icon-button 
+                        matTooltip="{{ 'btn.split' | translate }}"
                         class="split-btn" 
                         (click)="splitItem(productionOrder, idx, col, amt.value)" 
                         [disabled]="!canSplit(productionOrder, amt.value)"
@@ -55,6 +56,7 @@
                     </button>
                     <button
                         mat-icon-button
+                        matTooltip="{{ 'btn.delete' | translate }}"
                         class="split-btn" 
                         [disabled]="!canDelete(productionOrder.id)" 
                         mat-button (click)="deleteItem(productionOrder, idx, col)"

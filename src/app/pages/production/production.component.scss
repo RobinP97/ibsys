@@ -1,5 +1,5 @@
 @import "../../../color-definitions";
-@import "../../../styles.scss";
+// @import "../../../styles.scss";
 .production-table{
     margin-left: auto;
     margin-right: auto;
@@ -10,7 +10,8 @@ th {
     border-style: solid;
     margin-left: auto;
     margin-right: auto;
-    background: mat-color($ibsys-primary);
+    // background: mat-color($ibsys-primary);
+    background: $primary-blue;
     color: white !important;
     font-size: medium !important;
 }

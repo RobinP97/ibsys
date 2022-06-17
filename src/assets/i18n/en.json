@@ -176,7 +176,9 @@
     "next": "Next",
     "back": "Back",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "split": "Splitten",
+    "delete": "Löschen"
   },
   "dialog": {
     "title": "Warning",

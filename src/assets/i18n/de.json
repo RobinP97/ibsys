@@ -110,7 +110,7 @@
     "set-up_time_deficit_prior_period": "Rüstzeit (Rückstand Vorperiode)",
     "total_capacity_need": "Gesamt-Kapazizätsbedarf",
     "shifts": "Schichten",
-    "extra_hours": "Überstunden",
+    "extra_hours": "Mehrarbeitszeit in Minuten",
     "C": "K",
     "L": "D",
     "M": "H",

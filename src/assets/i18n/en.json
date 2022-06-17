@@ -68,7 +68,20 @@
     "orderType": "Order type",
     "none": "none",
     "normal": "normal",
-    "fast": "fast"
+    "fast": "fast",
+    "period": "Period",
+    "neededTillReplacedAfterAPeriod": "Demand when ordered one period later",
+    "error": {
+      "NonValidOrderNumber": "The order quantity must be a number greater than 0!"
+    },    
+    "tooltip": {
+      "safeDeliveryTime": "Safe delivery time is the sum of the deviation of the delivery time and the average delivery time.",
+      "demand": "The demand per period is calculated by multiplying the use of P1, P2 and P3 by the respective quantity to be produced.",
+      "demandTillReplaced": "The demand until safe delivery is determined by adding up the demand of the periods that have to be waited completely in order to reach the safe delivery target. The last period is added proportionally.",
+      "orderQuantity": "The order quantity is determined by default based on the stored discount quantity and can be adjusted.",
+      "orderType": "The order type is determined by default and can be adjusted. The order type is determined by checking whether the demand until safe delivery is less than the current stock. If this is the case, a fast order must be placed. If the demand until safe delivery, when the order is placed one period later, is smaller than the stock, a normal order must be placed.",
+      "demandTillReplacedAfterAPeriod": "The demand until safe delivery after a order in the next period is determined by adding up the demand of the periods that have to be waited completely in order to reach the safe delivery target. The last period is added proportionally."
+    }
   },
   "sequencePlanning": {
     "title": "Sequence Planning",

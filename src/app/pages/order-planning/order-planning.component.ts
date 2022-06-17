@@ -8,6 +8,7 @@ import { DataService } from 'src/app/service/data.service';
 import { Forecast } from 'src/app/model/import/forecast';
 import { OrderPlanning } from 'src/app/model/order-planning/order-planning';
 import { WarehouseStock } from 'src/app/model/import/warehousestock';
+import { SnackbarService } from 'src/app/service/snackbar.service';
 
 @Component({
   selector: 'app-order-planning',
@@ -19,32 +20,47 @@ export class OrderPlanningComponent implements OnInit {
   public orderTypes = Object.values(orderTypes);
   purchase_parts: OrderPlanning[];
   forecasts: Forecast[];
+  period: number;
   warehousestock: WarehouseStock;
   displayedColumns: Array<string> = [
     'id',
-    'deliveryTime',
-    'deviation',
     'safeDeliveryTime',
     'discontQuantity',
     "usageInP1",
     'usageInP2',
     'usageInP3',
+    'demandInPeriod1',
+    'demandInPeriod2',
+    'demandInPeriod3',
+    'demandInPeriod4',
     'stock',
     'neededTillReplaced',
+    'neededTillReplacedAfterAPeriod',
     'orderQuantity',
     'orderType',
   ];
 
-  constructor(private readonly dataSerivce: DataService) {
+  constructor(
+    private readonly dataSerivce: DataService, 
+    private readonly snackBarService: SnackbarService,
+    ) {
     this.purchase_parts = this.dataSerivce.getOrderPlanning();
     // Es es die purchase_parts noch nicht gibt, dann initialisieren
-    if (!this.purchase_parts) this.loadDataFromJson();
+    
+    if (!this.purchase_parts)
+    {
+      this.loadDataFromJson();
+    }
+    else {
+      this.resetDemand(this.purchase_parts);
+    }
     this.forecasts = dataSerivce.getForecastsAndDirectSales();
     this.calculateDemand();
     this.warehousestock = this.dataSerivce.getWarehouseStock();
     this.updateWareHouse();
+    this.period = this.dataSerivce.getPeriod();
     this.calculateNeededTillReplaced();
-
+    this.calculateNeededTillReplacedAfterAPeriod();
     this.saveData();
   }
 
@@ -126,6 +142,35 @@ export class OrderPlanningComponent implements OnInit {
       this.calculateOrderQuantityAndType(element);
     });
   }
+
+  
+  calculateNeededTillReplacedAfterAPeriod(): void {
+    this.purchase_parts.forEach((element) => {
+      let needed = 0;
+      [0, 1, 2, 3].forEach((index) => {
+        // replaceTime =2.2
+        if (element.replacementTimeAndVariance+1 >= index + 1) {
+          if (element.demand.length > index) {
+            if (isNaN(element.demand[index])) {
+            } else {
+              needed = element.demand[index] + needed;
+            }
+          }
+        }
+      });
+      let round = Math.floor(element.replacementTimeAndVariance+1);
+      if (isNaN(element.demand[round])) {
+      } else {
+        needed +=
+          (element.replacementTimeAndVariance+1 - round) * element.demand[round];
+      }
+      element.neededTillReplacedAfterAPeriod = Math.round(needed);
+      element.differenceTillReplacedAndStockAfterAPeriod =
+        element.neededTillReplacedAfterAPeriod - element.current_stock;
+      this.calculateOrderQuantityAndTypeNormal(element);
+    });
+  }
+
   calculateOrderQuantityAndType(purchase_part: OrderPlanning) {
     if (purchase_part.differenceTillReplacedAndStock > 0) {
       purchase_part.orderQuantity = purchase_part.discountAmount;
@@ -134,7 +179,125 @@ export class OrderPlanningComponent implements OnInit {
     console.log(purchase_part);
   }
 
+  calculateOrderQuantityAndTypeNormal(purchase_part: OrderPlanning) {
+    if (purchase_part.differenceTillReplacedAndStockAfterAPeriod > 0 && purchase_part.orderType !== orderTypes.fast) {
+      purchase_part.orderQuantity = purchase_part.discountAmount;
+      purchase_part.orderType = orderTypes.normal;
+    }
+    console.log(purchase_part);
+  }
+
+
   saveData() {
     this.dataSerivce.setOrderPlanning(this.purchase_parts);
+  }
+
+  checkOrderQuantity(purchase_part: OrderPlanning)
+  {
+    purchase_part.orderQuantity = this.validateOrderNumber(purchase_part.orderQuantity);
+    if(purchase_part.orderQuantity == 0)
+    {
+      purchase_part.orderType = orderTypes.none;
+    }
+  }
+
+  validateOrderNumber(num: number) {
+    if(num == null || num == undefined || num < 0 || isNaN(num) || num == NaN )
+    {
+      this.snackBarService.openSnackBar('orderPlanning.error.NonValidOrderNumber', 'Ok', 5000);
+      return 0;
+    }
+    return num;
+  }
+
+  checkOrderType(purchase_part: OrderPlanning)
+  {
+    if(purchase_part.orderType == orderTypes.none)
+    {
+      purchase_part.orderQuantity = 0;
+    }
+  }
+
+  resetDemand(purchase_parts: OrderPlanning[])
+  {
+    purchase_parts.forEach((element) => {
+      element.demand = [];
+    })
+  }
+
+  getDemandTillReplaceText(element: OrderPlanning)
+  {
+      let needed = "";
+      [0, 1, 2, 3].forEach((index) => {
+        // replaceTime =2.2
+        if (element.replacementTimeAndVariance >= index + 1) {
+          if (element.demand.length > index) {
+            if (isNaN(element.demand[index])) {
+            } else {
+              needed += element.demand[index];
+              needed += " + ";
+            }
+          }
+        }
+      });
+      let round = Math.floor(element.replacementTimeAndVariance);
+      if (isNaN(element.demand[round])) {
+      } else {
+        needed +=
+        Number((element.replacementTimeAndVariance - round).toFixed(2)) + ' * ' + element.demand[round];
+      }
+      needed += " = " +element.neededTillReplaced;
+      return needed;
+  }
+
+  getDemandTillReplacedAfterAPeriodText(element: OrderPlanning)
+  {
+      let needed = "";
+      [0, 1, 2, 3].forEach((index) => {
+        // replaceTime =2.2
+        if (element.replacementTimeAndVariance+1 >= index + 1) {
+          if (element.demand.length > index) {
+            if (isNaN(element.demand[index])) {
+            } else {
+              needed += element.demand[index];
+              needed += " + ";
+            }
+          }
+        }
+      });
+      let round = Math.floor(element.replacementTimeAndVariance+1);
+      if (isNaN(element.demand[round])) {
+      } else {
+        needed +=
+        Number((element.replacementTimeAndVariance+1 - round).toFixed(2)) + ' * ' + element.demand[round];
+      }
+      needed += " = " +element.neededTillReplaced;
+      return needed;
+      /*
+      
+    this.purchase_parts.forEach((element) => {
+      let needed = 0;
+      [0, 1, 2, 3].forEach((index) => {
+        // replaceTime =2.2
+        if (element.replacementTimeAndVariance+1 >= index + 1) {
+          if (element.demand.length > index) {
+            if (isNaN(element.demand[index])) {
+            } else {
+              needed = element.demand[index] + needed;
+            }
+          }
+        }
+      });
+      let round = Math.floor(element.replacementTimeAndVariance+1);
+      if (isNaN(element.demand[round])) {
+      } else {
+        needed +=
+          (element.replacementTimeAndVariance+1 - round) * element.demand[round];
+      }
+      element.neededTillReplacedAfterAPeriod = Math.round(needed);
+      element.differenceTillReplacedAndStockAfterAPeriod =
+        element.neededTillReplacedAfterAPeriod - element.current_stock;
+      this.calculateOrderQuantityAndTypeNormal(element);
+    });*/
   }
 }

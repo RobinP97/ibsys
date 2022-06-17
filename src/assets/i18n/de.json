@@ -68,7 +68,20 @@
     "orderType": "Bestellart",
     "none": "Keine",
     "normal": "Normal",
-    "fast": "Eil"
+    "fast": "Eil",
+    "period": "Periode",
+    "neededTillReplacedAfterAPeriod": "Bedarf, wenn eine Periode später bestellt wird",
+    "error": {
+      "NonValidOrderNumber": "Die Bestellmenge muss eine Zahl größer 0 sein!"
+    },
+    "tooltip": {
+      "safeDeliveryTime": "Die Sichere Lieferzeit ergibt sich aus der Summe der Abweichung der Lieferzeit und der durchschnittlichen Lieferzeit.",
+      "demand": "Der Bedarf pro Periode ergibt sich, in dem die Verwendung von P1, P2 und P3 mit der jeweiligen zuproduzierenden Menge multipliziert wird.",
+      "demandTillReplaced": "Der Bedarf bis zur sicheren Lieferung wird ermittelt, in dem der Bedarf, der Perioden, welche vollständig abgewartet werden müssen, damit die Sichere Lieferzeit erreicht ist, zusammen gerechnet werden. Abschließend wird Anteilig die letzte Periode addiert wird.",
+      "orderQuantity": "Die Bestellmenge wird standardmäßig ermittelt anhand der hinterlegten Diskontmenge und kann angepasst werden.",
+      "orderType": "Die Bestellart wird standardmäßig ermittelt und kann angepasst werden. Die Bestellart wird bestimmt, in dem überprüft wird ob der Bedarf bis zur sicheren Lieferung kleiner des aktuellen Bestandes ist. Ist dies der Fall muss eine Eilbestellung getätigt werden. Ist der Bedarf bis zur sicheren Lieferung, wenn die Bestellung eine Periode später getätigt wird kleiner des Bestands muss eine Normalbestellung getätigt werden.",
+      "demandTillReplacedAfterAPeriod": "Der Bedarf bis zur sicheren Lieferung, bei Bestellung in einer Periode wird ermittelt, in dem der Bedarf, der Perioden, welche vollständig abgewartet werden müssen, damit die Sichere Lieferzeit erreicht ist, zusammen gerechnet werden. Abschließend wird Anteilig die letzte Periode addiert wird."
+    }
   },
   "sequencePlanning": {
     "title": "Reihenfolgeplanung",

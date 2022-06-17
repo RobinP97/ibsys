@@ -7,9 +7,7 @@ export interface IDeactivateComponent {
   canExit: () => Observable<boolean> | Promise<boolean> | boolean;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class DeactivateGuardService {
   canDeactivate(
     component: IDeactivateComponent,

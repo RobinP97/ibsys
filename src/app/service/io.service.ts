@@ -12,9 +12,7 @@ export const xmlDebugOptions: ParserOptions = {
   normalize: true, // normalize (default: false): Trim whitespaces inside text nodes.
 };
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class IoService {
   constructor() {}
   // Doku unter: https://openbase.com/js/xml2js/documentation

@@ -330,7 +330,7 @@ export class DataService {
     const directSales: SellDirect = this.getDirectSales();
     const combined: Forecast[] = [...forecasts];
     console.log('DIRECTSALES', directSales);
-    
+
     if (directSales) {
       // ?? => Nullish coalescing operator
       combined[0]['p1'] += directSales?.items[0]?.quantity ?? 0;

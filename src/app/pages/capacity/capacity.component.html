@@ -3856,10 +3856,11 @@
                 [(ngModel)]="workstation.overTime" 
                 type="number"
                 min="0" 
-                max="1200" 
+                max="1200"
+                [disabled]="workstation.shifts === 3"
                 pattern="/^\d+$/" 
                 class="matInputField" 
-                (change)="onChangeWorkstationOvertime(workstation)"/>   
+                (change)="onChangeWorkstationOvertime(workstation)"/>  
         </td>
         <!-- <td title='{{ "capacity.overTimeTooltip" | translate }}'>                  
             <input matInput [(ngModel)]="findWorkstationById('1').overTime" type="number"  min="0" max="1200" pattern="/^\d+$/" class="matInputField" (change)="onChangeWorkstationOvertime(findWorkstationById('1'))"/>   

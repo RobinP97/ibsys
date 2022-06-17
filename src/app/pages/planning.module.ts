@@ -33,6 +33,7 @@ import { NavBarPlanningComponent } from '../shared/nav-bar-planning/nav-bar-plan
 // import { NavBarComponent } from '../shared/nav-bar/nav-bar.component';
 // import { NavBarPlanningComponent } from '../shared/nav-bar-planning/nav-bar-planning.component';
 import { NgModule } from '@angular/core';
+import { NoDataComponent } from '../shared/no-data/no-data.component';
 import { OrderPlanningComponent } from './order-planning/order-planning.component';
 import { PlanningRoutingModule } from './planning-routing.module';
 import { ProductionComponent } from './production/production.component';
@@ -53,6 +54,7 @@ import { ValidationService } from '../service/validation.service';
     DirectsalesComponent,
     CapacityComponent,
     ExitWarningDialogComponent,
+    NoDataComponent,
   ],
   imports: [
     SharedModule,

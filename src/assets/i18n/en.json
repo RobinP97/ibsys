@@ -200,6 +200,7 @@
   "error": {
     "NonValidNumber": "The input was not a valid number or smaller than 0!",
     "NonMultipleOfTen": "The input has to be a multiple of 10!",
-    "GreaterThanMaxValue": "The maximum permitted number is: "
+    "GreaterThanMaxValue": "The maximum permitted number is: ",
+    "NoData": "No data available"
   }
 }

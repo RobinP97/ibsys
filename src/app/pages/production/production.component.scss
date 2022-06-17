@@ -64,3 +64,10 @@ input[type="number"].matInputField {
     max-width: unset !important;
     width: fit-content !important;
 }
+
+.no-nodata-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+}

@@ -1,11 +1,8 @@
 <div
-    class="no-productionorders-wrapper"
-    *ngIf="productionOrders.length === 0; else showorderlist"
+    class="no-nodata-wrapper"
+    *ngIf="!productionOrders; else showorderlist"
 >
-<mat-icon>
-  content_paste_off
-</mat-icon>
- {{ "sequencePlanning..error.no_orders" | translate }}
+    <app-no-data></app-no-data>
 </div>
 <ng-template #showorderlist>
         <button

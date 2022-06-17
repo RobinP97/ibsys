@@ -109,6 +109,14 @@ td {
     max-width: unset !important;
     width: fit-content !important;
 }
+
 .inline-block {
     display: inline-block;
+}
+
+.no-nodata-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
 }

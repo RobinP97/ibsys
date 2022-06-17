@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from 'src/app/service/data.service';
 import { Production } from 'src/app/model/production/production';
 import { SnackbarService } from 'src/app/service/snackbar.service';
+import { WorkplaceWaitingListWorkstation } from 'src/app/model/import/workplaceWaitingListWorkstations';
 import { Workstation } from 'src/app/model/capacity/workstation';
 import { productionTime } from 'src/app/model/capacity/productionTime';
 
@@ -19,7 +20,8 @@ export class CapacityComponent implements OnInit {
     private readonly dataSerivce: DataService,
     private readonly snackBarService: SnackbarService
   ) {
-    let waitinglistworkstations = dataSerivce.getWaitinglistWorkstations();
+    let waitinglistworkstations: WorkplaceWaitingListWorkstation[] | undefined =
+      dataSerivce.getWaitinglistWorkstations();
     this.inhouse_parts = dataSerivce.getProductionOrders();
     this.workstations = dataSerivce.getWorkStations();
     if (!this.workstations) this.initializeWorkstations();
@@ -28,7 +30,7 @@ export class CapacityComponent implements OnInit {
     }
 
     const imported_parts = require('../../data/inhouse-parts.json');
-    waitinglistworkstations.forEach((waitinglist) => {
+    waitinglistworkstations?.forEach((waitinglist) => {
       let activeWorkstation = this.findWorkstationById(
         waitinglist.id.toString()
       );
@@ -44,7 +46,7 @@ export class CapacityComponent implements OnInit {
       }
     });
 
-    this.inhouse_parts.forEach((inhouse_part) => {
+    this.inhouse_parts?.forEach((inhouse_part) => {
       inhouse_part.processing_chain.forEach((processing_chain) => {
         let activeWorkstation = this.workstations.find(
           (workstation) => workstation.id == processing_chain.workstationId
@@ -137,7 +139,7 @@ export class CapacityComponent implements OnInit {
   }
 
   findInhousePartById(id: number): Production {
-    return this.inhouse_parts.find((inhouse_part) => inhouse_part.id == id);
+    return this.inhouse_parts?.find((inhouse_part) => inhouse_part.id == id);
   }
 
   ngOnInit(): void {}

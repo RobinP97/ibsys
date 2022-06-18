@@ -82,31 +82,10 @@ export class ProductionComponent {
     if (this.forecasts[0] !== undefined) {
       const first = this.inhouse_parts.find((x) => x.id == 1);
       first.binding_orders = this.forecasts[0].p1;
-      if (
-        first.planned_stock === undefined ||
-        first.planned_stock === null ||
-        isNaN(first.planned_stock)
-      ) {
-        first.planned_stock = first.binding_orders;
-      }
       const second = this.inhouse_parts.find((x) => x.id == 2);
       second.binding_orders = this.forecasts[0].p2;
-      if (
-        second.planned_stock === undefined ||
-        second.planned_stock === null ||
-        isNaN(second.planned_stock)
-      ) {
-        second.planned_stock = second.binding_orders;
-      }
       const third = this.inhouse_parts.find((x) => x.id == 3);
       third.binding_orders = this.forecasts[0].p3;
-      if (
-        third.planned_stock === undefined ||
-        third.planned_stock === null ||
-        isNaN(third.planned_stock)
-      ) {
-        third.planned_stock = third.binding_orders;
-      }
     }
   }
 
@@ -149,7 +128,6 @@ export class ProductionComponent {
     this.setOrderInWork(); // Spalte Aufträge in Bearbeitung
     this.updateWareHouse(); // Spalte Aktueller Lagerbestand
     this.resetBindingOrders(); // Spalte verbindliche Aufträge ab id=4
-
     this.onChange(
       this.inhouse_parts.find((x) => x.id == 1),
       undefined,

@@ -13,6 +13,7 @@ import { NgModule } from '@angular/core';
 import { OrderPlanningComponent } from './pages/order-planning/order-planning.component';
 import { ProductionComponent } from './pages/production/production.component';
 import { SequencePlanningComponent } from './pages/sequence-planning/sequence-planning.component';
+import { OrderPriceOverviewComponent } from './pages/order-price-overview/order-price-overview.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -31,6 +32,7 @@ const routes: Routes = [
       { path: 'sequencePlanning', component: SequencePlanningComponent },
       { path: 'orderPlanning', component: OrderPlanningComponent },
       { path: 'capacity', component: CapacityComponent },
+      { path: 'orderPriceOverview', component: OrderPriceOverviewComponent},
       { path: 'export', component: ExportComponent },
     ],
   },

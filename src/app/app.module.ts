@@ -38,6 +38,7 @@ import { OrderPlanningComponent } from './pages/order-planning/order-planning.co
 import { PrettyPrintPipe } from './pipes/prettyprint.pipe';
 import { ProductionComponent } from './pages/production/production.component';
 import { SequencePlanningComponent } from './pages/sequence-planning/sequence-planning.component';
+import { OrderPriceOverviewComponent } from './pages/order-price-overview/order-price-overview.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { SequencePlanningComponent } from './pages/sequence-planning/sequence-pl
     ExportComponent,
     FooterComponent,
     ExitWarningDialogComponent,
+    OrderPriceOverviewComponent,
   ],
   imports: [
     AppRoutingModule,

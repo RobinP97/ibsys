@@ -180,6 +180,22 @@
       "NonValidNumber": "The input was not a valid number or smaller than 0!",
       "NonMultipleOfTen": "The input has to be a multiple of 10!"
     }
+  },  
+  "orderPriceOverview":{
+    "title": "Order Costs",
+    "productNumber": "Item No.",
+    "amount": "Amount",
+    "pricePerPiece": "Price per piece",
+    "cost": "Value of item",
+    "ordercost": "Ordercost",
+    "totalOrderCost": "Total Cost",
+    "sum": "Sum",
+    "tooltip": {
+      "cost": "The value of item is calculated by multiplying the price per piece mwithe the ordered quantity.",
+      "orderCost": "The order cost is determined depending on the type of order. Fast orders cause 10x higher order costs than normal orders.",
+      "totalOrderCost": "Sum of value of items and order costs. Indicates how much the order costs in total.",
+      "totalSum": "Total sum from the total cost of individual orders."
+    }
   },
   "export": {
     "title": "Data Export",

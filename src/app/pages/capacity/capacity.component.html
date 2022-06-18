@@ -3720,11 +3720,11 @@
             </td>
             <td class="empty">
             </td>         
-            <td *ngFor="let workstation of workstations"
-                [matTooltip]="getTotalCapaReqTooltip(workstation)" >
-                <span *ngIf="workstation.id !=='5'">
-                    {{ workstation.totalTime }}
-                </span>
+            <td *ngFor="let workstation of workstations">
+                    <span *ngIf="workstation.id !=='5'">
+                        {{ workstation.totalTime }}
+                        <mat-icon [matTooltip]="getTotalCapaReqTooltip(workstation)" class="font-size-medium no-width" >info_outline</mat-icon>
+                    </span>
             </td>
 
             <!-- <td matTooltip='{{ "capacity.totalTimeTooltip" | translate }}'>            
@@ -3791,8 +3791,7 @@
                     [(ngModel)]="workstation.shifts" 
                     type="number"
                     min="0" 
-                    max="3" 
-                    pattern="/^\d+$/" 
+                    max="3"  
                     class="matInputField" 
                     (change)="onChangeWorkstation(workstation)"
                 />   

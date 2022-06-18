@@ -111,8 +111,18 @@ td {
 }
 
 .inline-block {
-    display: inline-block;
+    display: inline-block; 
 }
+
+.font-size-medium {
+    font-size: medium;
+}
+
+.no-width {
+    width: 0;
+}
+
+
 
 .no-nodata-wrapper {
     display: flex;
@@ -120,3 +130,9 @@ td {
     justify-content: center;
     align-items: flex-start;
 }
+
+input[type="number"] {
+    width: 4em;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 4px;
+  }

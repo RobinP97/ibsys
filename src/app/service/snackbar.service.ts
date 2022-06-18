@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SnackbarService {
   constructor(
     private readonly translateService: TranslateService,

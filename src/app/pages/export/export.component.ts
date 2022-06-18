@@ -94,8 +94,8 @@ export class ExportComponent implements OnInit {
     for (let item of this.directSales.items) {
       xml += `\t\t<item article="${item.article}" quantity="${
         item.quantity ?? '0'
-      }" price="${item.price?.toFixed(2) ?? '0.00'}" penalty="${
-        item.penalty?.toFixed(2) ?? '0.00'
+      }" price="${item.price ? item.price.toFixed(2) : '0.0'}" penalty="${
+        item.penalty ? item.penalty.toFixed(2) : '0.0'
       }"/>\n`;
     }
     xml += '\t</selldirect>\n';

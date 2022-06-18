@@ -1,4 +1,5 @@
-@import 'src/styles.scss';
+// @import 'src/styles.scss';
+@import 'src/_color-definitions.scss';
 
 .order-planning-table {
     text-align: center;
@@ -10,7 +11,8 @@ th {
     border: 1px;
     border-style: solid;
     border-color: black;
-    background: mat-color($ibsys-primary);
+    // background: mat-color($ibsys-primary);
+    background: $primary-blue;
     color: white !important;
     font-size: medium !important;
 }

@@ -1,40 +1,49 @@
 import { RouterModule, Routes } from '@angular/router';
 
-import { CapacityComponent } from './pages/capacity/capacity.component';
-import { DeactivateGuardService } from './service/deactivate-guard.service';
-import { DebugComponent } from './pages/debug/debug.component';
-import { DirectsalesComponent } from './pages/directsales/directsales.component';
-import { ExportComponent } from './pages/export/export.component';
-import { ForecastComponent } from './pages/forecast/forecast.component';
 import { HomeComponent } from './pages/home/home.component';
-import { ImportComponent } from './pages/import/import.component';
-import { NavBarPlanningComponent } from './shared/nav-bar-planning/nav-bar-planning.component';
 import { NgModule } from '@angular/core';
-import { OrderPlanningComponent } from './pages/order-planning/order-planning.component';
-import { ProductionComponent } from './pages/production/production.component';
-import { SequencePlanningComponent } from './pages/sequence-planning/sequence-planning.component';
-import { OrderPriceOverviewComponent } from './pages/order-price-overview/order-price-overview.component';
+
+// import { DebugComponent } from './pages/debug/debug.component';
+
+// import { CapacityComponent } from './pages/capacity/capacity.component';
+// import { DeactivateGuardService } from './service/deactivate-guard.service';
+
+// import { DirectsalesComponent } from './pages/directsales/directsales.component';
+// import { ExportComponent } from './pages/export/export.component';
+// import { ForecastComponent } from './pages/forecast/forecast.component';
+
+// import { ImportComponent } from './pages/import/import.component';
+// import { NavBarPlanningComponent } from './shared/nav-bar-planning/nav-bar-planning.component';
+
+// import { OrderPlanningComponent } from './pages/order-planning/order-planning.component';
+// import { ProductionComponent } from './pages/production/production.component';
+// import { SequencePlanningComponent } from './pages/sequence-planning/sequence-planning.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'debug', component: DebugComponent },
+  // { path: 'debug', component: DebugComponent },
   // NavBarPlanningComponent ist die Container-Komponente für die Planungskomponenten
+  // {
+  //   path: 'planning',
+  //   component: NavBarPlanningComponent,
+  //   canDeactivate: [DeactivateGuardService],
+  //   children: [
+  //     { path: '', component: ImportComponent },
+  //     { path: 'forecast', component: ForecastComponent },
+  //     { path: 'directsales', component: DirectsalesComponent },
+  //     { path: 'production', component: ProductionComponent },
+  //     { path: 'order-planning', component: OrderPlanningComponent },
+  //     { path: 'sequencePlanning', component: SequencePlanningComponent },
+  //     { path: 'orderPlanning', component: OrderPlanningComponent },
+  //     { path: 'capacity', component: CapacityComponent },
+  //     { path: 'export', component: ExportComponent },
+  //   ],
+  // },
+  // Lazy-Loading Planning Module
   {
     path: 'planning',
-    component: NavBarPlanningComponent,
-    canDeactivate: [DeactivateGuardService],
-    children: [
-      { path: '', component: ImportComponent },
-      { path: 'forecast', component: ForecastComponent },
-      { path: 'directsales', component: DirectsalesComponent },
-      { path: 'production', component: ProductionComponent },
-      { path: 'order-planning', component: OrderPlanningComponent },
-      { path: 'sequencePlanning', component: SequencePlanningComponent },
-      { path: 'orderPlanning', component: OrderPlanningComponent },
-      { path: 'capacity', component: CapacityComponent },
-      { path: 'orderPriceOverview', component: OrderPriceOverviewComponent},
-      { path: 'export', component: ExportComponent },
-    ],
+    loadChildren: () =>
+      import('./pages/planning.module').then((m) => m.PlanningModule),
   },
 ];
 

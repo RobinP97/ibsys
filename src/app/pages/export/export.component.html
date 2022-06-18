@@ -123,7 +123,7 @@
     <div class="page-row-wrapper">
 
         <!-- Produktionsplanung  -->
-        <div class="tbl-wrapper">
+        <div class="tbl-wrapper" *ngIf="mandatoryOrders">
             <h2>{{ "forecast.title" | translate }}</h2>
             <table mat-table [dataSource]="getObjectKeys(mandatoryOrders)" class="mat-elevation-z8">      
                 <!-- Article Number Column  -->
@@ -144,7 +144,7 @@
         </div>
 
         <!-- Direktverkauf -->
-        <div class="tbl-wrapper">
+        <div class="tbl-wrapper" *ngIf="directSales">
             <h2>{{ "directSales.title" | translate }}</h2>
             <table mat-table [dataSource]="directSales.items" class="mat-elevation-z8">   
 
@@ -185,7 +185,7 @@
     <div class="page-row-wrapper">
 
         <!-- Bestellplanung -->
-        <div class="tbl-wrapper">
+        <div class="tbl-wrapper" *ngIf="orders">
             <h2>{{ "orderPlanning.title" | translate }}</h2>
             <table mat-table [dataSource]="orders" class="mat-elevation-z8"> 
 
@@ -213,7 +213,7 @@
         </div>
 
         <!-- Eigenfertigung -->
-        <div class="tbl-wrapper">
+        <div class="tbl-wrapper" *ngIf="productionOrders">
             <h2>{{ "production.title" | translate }}</h2>
             <table mat-table [dataSource]="productionOrders" class="mat-elevation-z8"> 
 
@@ -235,7 +235,7 @@
         </div>
 
         <!-- Kapazitätsplanung -->
-        <div class="tbl-wrapper">
+        <div class="tbl-wrapper" *ngIf="workstations">
             <h2>{{ "capacity.title" | translate }}</h2>
             <table mat-table [dataSource]="workstations" class="mat-elevation-z8"> 
 

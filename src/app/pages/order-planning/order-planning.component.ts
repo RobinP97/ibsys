@@ -7,8 +7,8 @@ import {
 import { DataService } from 'src/app/service/data.service';
 import { Forecast } from 'src/app/model/import/forecast';
 import { OrderPlanning } from 'src/app/model/order-planning/order-planning';
-import { WarehouseStock } from 'src/app/model/import/warehousestock';
 import { SnackbarService } from 'src/app/service/snackbar.service';
+import { WarehouseStock } from 'src/app/model/import/warehousestock';
 
 @Component({
   selector: 'app-order-planning',
@@ -26,7 +26,7 @@ export class OrderPlanningComponent implements OnInit {
     'id',
     'safeDeliveryTime',
     'discontQuantity',
-    "usageInP1",
+    'usageInP1',
     'usageInP2',
     'usageInP3',
     'demandInPeriod1',
@@ -41,17 +41,15 @@ export class OrderPlanningComponent implements OnInit {
   ];
 
   constructor(
-    private readonly dataSerivce: DataService, 
-    private readonly snackBarService: SnackbarService,
-    ) {
+    private readonly dataSerivce: DataService,
+    private readonly snackBarService: SnackbarService
+  ) {
     this.purchase_parts = this.dataSerivce.getOrderPlanning();
     // Es es die purchase_parts noch nicht gibt, dann initialisieren
-    
-    if (!this.purchase_parts)
-    {
+
+    if (!this.purchase_parts) {
       this.loadDataFromJson();
-    }
-    else {
+    } else {
       this.resetDemand(this.purchase_parts);
     }
     this.forecasts = dataSerivce.getForecastsAndDirectSales();
@@ -143,13 +141,12 @@ export class OrderPlanningComponent implements OnInit {
     });
   }
 
-  
   calculateNeededTillReplacedAfterAPeriod(): void {
     this.purchase_parts.forEach((element) => {
       let needed = 0;
       [0, 1, 2, 3].forEach((index) => {
         // replaceTime =2.2
-        if (element.replacementTimeAndVariance+1 >= index + 1) {
+        if (element.replacementTimeAndVariance + 1 >= index + 1) {
           if (element.demand.length > index) {
             if (isNaN(element.demand[index])) {
             } else {
@@ -158,11 +155,12 @@ export class OrderPlanningComponent implements OnInit {
           }
         }
       });
-      let round = Math.floor(element.replacementTimeAndVariance+1);
+      let round = Math.floor(element.replacementTimeAndVariance + 1);
       if (isNaN(element.demand[round])) {
       } else {
         needed +=
-          (element.replacementTimeAndVariance+1 - round) * element.demand[round];
+          (element.replacementTimeAndVariance + 1 - round) *
+          element.demand[round];
       }
       element.neededTillReplacedAfterAPeriod = Math.round(needed);
       element.differenceTillReplacedAndStockAfterAPeriod =
@@ -180,100 +178,110 @@ export class OrderPlanningComponent implements OnInit {
   }
 
   calculateOrderQuantityAndTypeNormal(purchase_part: OrderPlanning) {
-    if (purchase_part.differenceTillReplacedAndStockAfterAPeriod > 0 && purchase_part.orderType !== orderTypes.fast) {
+    if (
+      purchase_part.differenceTillReplacedAndStockAfterAPeriod > 0 &&
+      purchase_part.orderType !== orderTypes.fast
+    ) {
       purchase_part.orderQuantity = purchase_part.discountAmount;
       purchase_part.orderType = orderTypes.normal;
     }
     console.log(purchase_part);
   }
 
-
   saveData() {
     this.dataSerivce.setOrderPlanning(this.purchase_parts);
   }
 
-  checkOrderQuantity(purchase_part: OrderPlanning)
-  {
-    purchase_part.orderQuantity = this.validateOrderNumber(purchase_part.orderQuantity);
-    if(purchase_part.orderQuantity == 0)
-    {
+  checkOrderQuantity(purchase_part: OrderPlanning) {
+    purchase_part.orderQuantity = this.validateOrderNumber(
+      purchase_part.orderQuantity
+    );
+    if (purchase_part.orderQuantity == 0) {
       purchase_part.orderType = orderTypes.none;
     }
   }
 
   validateOrderNumber(num: number) {
-    if(num == null || num == undefined || num < 0 || isNaN(num) || num == NaN )
-    {
-      this.snackBarService.openSnackBar('orderPlanning.error.NonValidOrderNumber', 'Ok', 5000);
+    if (
+      num == null ||
+      num == undefined ||
+      num < 0 ||
+      isNaN(num) ||
+      num == NaN
+    ) {
+      this.snackBarService.openSnackBar(
+        'orderPlanning.error.NonValidOrderNumber',
+        'Ok',
+        5000
+      );
       return 0;
     }
     return num;
   }
 
-  checkOrderType(purchase_part: OrderPlanning)
-  {
-    if(purchase_part.orderType == orderTypes.none)
-    {
+  checkOrderType(purchase_part: OrderPlanning) {
+    if (purchase_part.orderType == orderTypes.none) {
       purchase_part.orderQuantity = 0;
     }
   }
 
-  resetDemand(purchase_parts: OrderPlanning[])
-  {
+  resetDemand(purchase_parts: OrderPlanning[]) {
     purchase_parts.forEach((element) => {
       element.demand = [];
-    })
+    });
   }
 
-  getDemandTillReplaceText(element: OrderPlanning)
-  {
-      let needed = "";
-      [0, 1, 2, 3].forEach((index) => {
-        // replaceTime =2.2
-        if (element.replacementTimeAndVariance >= index + 1) {
-          if (element.demand.length > index) {
-            if (isNaN(element.demand[index])) {
-            } else {
-              needed += element.demand[index];
-              needed += " + ";
-            }
+  getDemandTillReplaceText(element: OrderPlanning) {
+    let needed = '';
+    [0, 1, 2, 3].forEach((index) => {
+      // replaceTime =2.2
+      if (element.replacementTimeAndVariance >= index + 1) {
+        if (element.demand.length > index) {
+          if (isNaN(element.demand[index])) {
+          } else {
+            needed += element.demand[index];
+            needed += ' + ';
           }
         }
-      });
-      let round = Math.floor(element.replacementTimeAndVariance);
-      if (isNaN(element.demand[round])) {
-      } else {
-        needed +=
-        Number((element.replacementTimeAndVariance - round).toFixed(2)) + ' * ' + element.demand[round];
       }
-      needed += " = " +element.neededTillReplaced;
-      return needed;
+    });
+    let round = Math.floor(element.replacementTimeAndVariance);
+    if (isNaN(element.demand[round])) {
+    } else {
+      needed +=
+        Number((element.replacementTimeAndVariance - round).toFixed(2)) +
+        ' * ' +
+        element.demand[round];
+    }
+    needed += ' = ' + element.neededTillReplaced;
+    return needed;
   }
 
-  getDemandTillReplacedAfterAPeriodText(element: OrderPlanning)
-  {
-      let needed = "";
-      [0, 1, 2, 3].forEach((index) => {
-        // replaceTime =2.2
-        if (element.replacementTimeAndVariance+1 >= index + 1) {
-          if (element.demand.length > index) {
-            if (isNaN(element.demand[index])) {
-            } else {
-              needed += element.demand[index];
-              needed += " + ";
-            }
+  getDemandTillReplacedAfterAPeriodText(element: OrderPlanning) {
+    let needed = '';
+    [0, 1, 2, 3].forEach((index) => {
+      // replaceTime =2.2
+      if (element.replacementTimeAndVariance + 1 >= index + 1) {
+        if (element.demand.length > index) {
+          if (isNaN(element.demand[index])) {
+          } else {
+            needed += element.demand[index];
+            needed += ' + ';
           }
         }
-      });
-      let round = Math.floor(element.replacementTimeAndVariance+1);
-      if (isNaN(element.demand[round])) {
-      } else {
-        needed +=
-        Number((element.replacementTimeAndVariance+1 - round).toFixed(2)) + ' * ' + element.demand[round];
       }
-      needed += " = " +element.neededTillReplaced;
-      return needed;
-      /*
+    });
+    let round = Math.floor(element.replacementTimeAndVariance + 1);
+    if (isNaN(element.demand[round])) {
+    } else {
+      needed +=
+        Number((element.replacementTimeAndVariance + 1 - round).toFixed(2)) +
+        ' * ' +
+        element.demand[round];
+    }
+    needed += ' = ' + element.neededTillReplaced;
+    return needed;
+    /*
       
     this.purchase_parts.forEach((element) => {
       let needed = 0;

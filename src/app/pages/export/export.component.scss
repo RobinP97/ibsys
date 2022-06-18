@@ -1,4 +1,5 @@
-@import 'src/styles.scss';
+// @import 'src/styles.scss';
+@import 'src/_color-definitions.scss';
 
 // .list-entry-wrapper {
 //     display: flex;
@@ -27,7 +28,8 @@
 }
 
 th {
-    background-color:  mat-color($ibsys-primary);  
+    // background-color:  mat-color($ibsys-primary);
+    background: $primary-blue;
 }
 
 td {

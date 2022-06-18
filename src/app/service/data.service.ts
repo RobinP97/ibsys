@@ -169,10 +169,10 @@ export class DataService {
     productionOrders?.forEach((p) => {
       p.splits?.forEach((s) => {
         // Verbindliche Auftrage - Splitmenge
-        p.binding_orders = p.binding_orders - s.amount;
+        p.planned_production = p.planned_production - s.amount;
         // Split als neuer Auftrag für die Anzeige
         const resolvedSplit = Object.assign({}, p);
-        resolvedSplit.binding_orders = s.amount;
+        resolvedSplit.planned_production = s.amount;
         resolvedSplit.sequencePos = s.sequencePos;
         resolvedSplit.splits = undefined;
         resolvedProductionOrders.push(resolvedSplit);

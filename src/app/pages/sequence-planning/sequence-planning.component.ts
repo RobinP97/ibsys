@@ -79,7 +79,7 @@ export class SequencePlanningComponent implements OnDestroy {
   }
 
   getDefaultSplitAmount(productionOrder: Production): number {
-    return Math.floor(productionOrder.binding_orders / 20) * 10;
+    return Math.floor(productionOrder.planned_production / 20) * 10;
   }
 
   //------------------------------------
@@ -91,14 +91,14 @@ export class SequencePlanningComponent implements OnDestroy {
       +amount >= 10 &&
       amount &&
       +amount % 10 === 0 &&
-      productionOrder.binding_orders >= 20 &&
-      productionOrder.binding_orders - 10 >= +amount &&
+      productionOrder.planned_production >= 20 &&
+      productionOrder.planned_production - 10 >= +amount &&
       this.productionOrders.length < MAX_ORDERS
     );
   }
 
   canInput(productionOrder: Production) {
-    return productionOrder.binding_orders < 20;
+    return productionOrder.planned_production < 20;
   }
 
   canDelete(id: number) {
@@ -136,8 +136,8 @@ export class SequencePlanningComponent implements OnDestroy {
     const amt: number = parseInt(amtStr);
     // Anzeige anpassen => Dummy productionorder erstellen
     const newOrder: Production = Object.assign({}, productionOrder);
-    productionOrder.binding_orders = newOrder.binding_orders - amt;
-    newOrder.binding_orders = amt;
+    productionOrder.planned_production = newOrder.planned_production - amt;
+    newOrder.planned_production = amt;
     this.productionOrders.splice(
       index + 1 + this.ITEM_PER_LIST * col,
       0,
@@ -152,7 +152,7 @@ export class SequencePlanningComponent implements OnDestroy {
         p.id === productionOrder.id && idx !== index + col * this.ITEM_PER_LIST
     );
     // zu löschende Menge auf das letzte Elemete aufaddieren
-    relevantSplits.pop().binding_orders += productionOrder.binding_orders;
+    relevantSplits.pop().planned_production += productionOrder.planned_production;
     // Element entfernen
     this.productionOrders.splice(index + col * this.ITEM_PER_LIST, 1);
     this.update();
@@ -189,19 +189,19 @@ export class SequencePlanningComponent implements OnDestroy {
           .sort((a, b) => a.sequencePos - b.sequencePos);
 
         // Menge aller Aufträge zu einer produkt-id aufsummieren
-        const totalBindingOrders: number = productionOrdersSorted
-          .map((value) => value.binding_orders)
+        const totalPlannedProduction: number = productionOrdersSorted
+          .map((value) => value.planned_production)
           .reduce((acc, cur) => acc + cur, 0);
         // letzter Fertigungsauftrag: An ihm werden die Spilts sowie der Gesamtumfang des Auftrags abgespeichert
         const aggregatedOrder = Object.assign({}, productionOrdersSorted.pop());
-        aggregatedOrder.binding_orders = totalBindingOrders;
+        aggregatedOrder.planned_production = totalPlannedProduction;
 
         const splits: Split[] | undefined = productionOrdersSorted.map(
           (p) =>
             <Split>{
               parentId: p.id,
               sequencePos: p.sequencePos,
-              amount: p.binding_orders,
+              amount: p.planned_production,
             }
         );
         aggregatedOrder.splits = splits;

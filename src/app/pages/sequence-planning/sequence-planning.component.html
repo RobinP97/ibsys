@@ -27,14 +27,14 @@
             <div *ngFor="let productionOrder of getProductionOrdersToDisplay(col); let idx = index" cdkDrag class="item-box">
                 <span class="col-number">{{ (col * 15) + idx + 1 }}</span>
                 <span class="col-order">{{ productionOrder.category }}{{ productionOrder.id }}</span>
-                <span class="col-quantity">{{productionOrder.binding_orders}}</span>
+                <span class="col-quantity">{{productionOrder.planned_production}}</span>
                 <span class="col-actions">
                     <form style="display: initial">
                     <input  
                         type="number" 
                         min="10" 
                         step="10" 
-                        max="{{ productionOrder.binding_orders - 10 }}" 
+                        max="{{ productionOrder.planned_production - 10 }}" 
                         [disabled]="canInput(productionOrder)" 
                         [value]="getDefaultSplitAmount(productionOrder)"
                         #amt

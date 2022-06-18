@@ -45,6 +45,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/planning.module').then((m) => m.PlanningModule),
   },
+  { path: '**', pathMatch: 'full', component: HomeComponent },
 ];
 
 // Die forRoot-Methode übernimmt dabei die Aufgabe,

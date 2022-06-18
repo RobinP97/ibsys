@@ -41,6 +41,7 @@ const routes: Routes = [
       { path: 'export', component: ExportComponent },
     ],
   },
+  { path: '**', pathMatch: 'full', component: NavBarPlanningComponent },
 ];
 
 @NgModule({

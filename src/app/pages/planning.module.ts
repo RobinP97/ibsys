@@ -1,6 +1,5 @@
 import { CdkStepper, CdkStepperModule } from '@angular/cdk/stepper';
 
-// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CapacityComponent } from './capacity/capacity.component';
 import { DataService } from '../service/data.service';
 import { DeactivateGuardService } from '../service/deactivate-guard.service';
@@ -25,23 +24,27 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
-// import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NavBarPlanningComponent } from '../shared/nav-bar-planning/nav-bar-planning.component';
-// import { NavBarComponent } from '../shared/nav-bar/nav-bar.component';
-// import { NavBarPlanningComponent } from '../shared/nav-bar-planning/nav-bar-planning.component';
 import { NgModule } from '@angular/core';
 import { NoDataComponent } from '../shared/no-data/no-data.component';
 import { OrderPlanningComponent } from './order-planning/order-planning.component';
+import { OrderPriceOverviewComponent } from './order-price-overview/order-price-overview.component';
 import { PlanningRoutingModule } from './planning-routing.module';
 import { ProductionComponent } from './production/production.component';
 import { SequencePlanningComponent } from './sequence-planning/sequence-planning.component';
 import { SharedModule } from '../shared/shared.module';
 import { SnackbarService } from '../service/snackbar.service';
 import { ValidationService } from '../service/validation.service';
-import { OrderPriceOverviewComponent } from './order-price-overview/order-price-overview.component';
+
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+// import { MatStepperModule } from '@angular/material/stepper';
+
+// import { NavBarComponent } from '../shared/nav-bar/nav-bar.component';
+// import { NavBarPlanningComponent } from '../shared/nav-bar-planning/nav-bar-planning.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +59,7 @@ import { OrderPriceOverviewComponent } from './order-price-overview/order-price-
     CapacityComponent,
     ExitWarningDialogComponent,
     NoDataComponent,
-    OrderPriceOverviewComponent
+    OrderPriceOverviewComponent,
   ],
   imports: [
     SharedModule,

@@ -152,7 +152,8 @@ export class SequencePlanningComponent implements OnDestroy {
         p.id === productionOrder.id && idx !== index + col * this.ITEM_PER_LIST
     );
     // zu löschende Menge auf das letzte Elemete aufaddieren
-    relevantSplits.pop().planned_production += productionOrder.planned_production;
+    relevantSplits.pop().planned_production +=
+      productionOrder.planned_production;
     // Element entfernen
     this.productionOrders.splice(index + col * this.ITEM_PER_LIST, 1);
     this.update();

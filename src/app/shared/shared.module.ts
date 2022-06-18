@@ -59,7 +59,7 @@ export function ApplicationInitializerFactory(
     MatIconModule,
     MatButtonModule,
     TranslateModule,
-],
+  ],
   providers: [
     {
       provide: APP_INITIALIZER,

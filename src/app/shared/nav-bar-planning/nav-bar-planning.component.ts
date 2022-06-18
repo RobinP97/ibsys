@@ -48,7 +48,7 @@ export class NavBarPlanningComponent
   ) {
     this.completedImport = dataService.checkBrowsercache4ImportedFileData();
     console.log(this.completedImport);
-    
+
     this.lastStepCompleted = dataService.getLastCompletedStep();
   }
 
@@ -119,7 +119,7 @@ export class NavBarPlanningComponent
 
   selectionChanged(event: any) {
     console.log('TEST');
-    
+
     this.selectedStepIndex = event.selectedIndex;
     this.lastStepCompleted = this.dataService.getLastCompletedStep();
     if (!this.lastStepCompleted) {

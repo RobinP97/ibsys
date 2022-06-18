@@ -41,8 +41,9 @@ export class ProductionComponent {
     private readonly translatorService: TranslateService
   ) {
     this.inhouse_parts = dataService.getProductionOrders();
-    if (!this.inhouse_parts) //{
-    this.initializeInhouseParts(dataService);
+    if (!this.inhouse_parts)
+      //{
+      this.initializeInhouseParts(dataService);
     this.waitinglistWorkstations =
       this.dataService.getWaitinglistWorkstations();
     this.forecasts = this.dataService.getForecastsAndDirectSales();
@@ -81,20 +82,29 @@ export class ProductionComponent {
     if (this.forecasts[0] !== undefined) {
       const first = this.inhouse_parts.find((x) => x.id == 1);
       first.binding_orders = this.forecasts[0].p1;
-      if(first.planned_stock === undefined || first.planned_stock === null || isNaN(first.planned_stock))
-      {
+      if (
+        first.planned_stock === undefined ||
+        first.planned_stock === null ||
+        isNaN(first.planned_stock)
+      ) {
         first.planned_stock = first.binding_orders;
       }
       const second = this.inhouse_parts.find((x) => x.id == 2);
       second.binding_orders = this.forecasts[0].p2;
-      if(second.planned_stock === undefined || second.planned_stock === null || isNaN(second.planned_stock))
-      {
+      if (
+        second.planned_stock === undefined ||
+        second.planned_stock === null ||
+        isNaN(second.planned_stock)
+      ) {
         second.planned_stock = second.binding_orders;
       }
       const third = this.inhouse_parts.find((x) => x.id == 3);
       third.binding_orders = this.forecasts[0].p3;
-      if(third.planned_stock === undefined || third.planned_stock === null || isNaN(third.planned_stock))
-      {
+      if (
+        third.planned_stock === undefined ||
+        third.planned_stock === null ||
+        isNaN(third.planned_stock)
+      ) {
         third.planned_stock = third.binding_orders;
       }
     }

@@ -8,9 +8,8 @@ describe('OrderPriceOverviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OrderPriceOverviewComponent ]
-    })
-    .compileComponents();
+      declarations: [OrderPriceOverviewComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

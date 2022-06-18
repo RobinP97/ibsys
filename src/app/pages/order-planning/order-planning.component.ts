@@ -8,6 +8,8 @@ import { DataService } from 'src/app/service/data.service';
 import { Forecast } from 'src/app/model/import/forecast';
 import { OrderPlanning } from 'src/app/model/order-planning/order-planning';
 import { SnackbarService } from 'src/app/service/snackbar.service';
+import { ValidationService } from 'src/app/service/validation.service';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { WarehouseStock } from 'src/app/model/import/warehousestock';
 
 @Component({
@@ -42,7 +44,7 @@ export class OrderPlanningComponent implements OnInit {
 
   constructor(
     private readonly dataSerivce: DataService,
-    private readonly snackBarService: SnackbarService
+    private readonly validatorService: ValidationService
   ) {
     this.purchase_parts = this.dataSerivce.getOrderPlanning();
     // Es es die purchase_parts noch nicht gibt, dann initialisieren
@@ -192,32 +194,44 @@ export class OrderPlanningComponent implements OnInit {
     this.dataSerivce.setOrderPlanning(this.purchase_parts);
   }
 
-  checkOrderQuantity(purchase_part: OrderPlanning) {
-    purchase_part.orderQuantity = this.validateOrderNumber(
-      purchase_part.orderQuantity
+  checkOrderQuantity(purchase_part: OrderPlanning, event: any) {
+    const updatedQuantity = Number.parseInt(event.target.value);
+    // Werte validieren
+    purchase_part.orderQuantity = this.validatorService.returnValidNumber(
+      updatedQuantity,
+      purchase_part.orderQuantity,
+      'orderPlanning.error.NonValidOrderNumber'
     );
-    if (purchase_part.orderQuantity == 0) {
+    // Template aktualisieren
+    event.target.value = purchase_part.orderQuantity.toString();
+
+    // purchase_part.orderQuantity = this.validateOrderNumber(
+    //   purchase_part.orderQuantity
+    // );
+    if (purchase_part.orderQuantity === 0) {
       purchase_part.orderType = orderTypes.none;
+    } else if (purchase_part.orderType === orderTypes.none) {
+      purchase_part.orderType = orderTypes.normal;
     }
   }
 
-  validateOrderNumber(num: number) {
-    if (
-      num == null ||
-      num == undefined ||
-      num < 0 ||
-      isNaN(num) ||
-      num == NaN
-    ) {
-      this.snackBarService.openSnackBar(
-        'orderPlanning.error.NonValidOrderNumber',
-        'Ok',
-        5000
-      );
-      return 0;
-    }
-    return num;
-  }
+  // validateOrderNumber(num: number) {
+  //   if (
+  //     num == null ||
+  //     num == undefined ||
+  //     num < 0 ||
+  //     isNaN(num) ||
+  //     num == NaN
+  //   ) {
+  //     this.snackBarService.openSnackBar(
+  //       'orderPlanning.error.NonValidOrderNumber',
+  //       'Ok',
+  //       5000
+  //     );
+  //     return 0;
+  //   }
+  //   return num;
+  // }
 
   checkOrderType(purchase_part: OrderPlanning) {
     if (purchase_part.orderType == orderTypes.none) {

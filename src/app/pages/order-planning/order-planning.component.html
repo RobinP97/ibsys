@@ -66,34 +66,24 @@
     </mat-icon></td>
     </ng-container>
     
-    <ng-container matColumnDef="orderQuantity">
-      <th mat-header-cell *matHeaderCellDef>{{ "orderPlanning.orderQuantity"  | translate }} <mat-icon matTooltipClass="multiline-tooltip" matTooltip="{{ 'orderPlanning.tooltip.orderQuantity' | translate }}">
-        info_outline
-    </mat-icon></th>
-      <td mat-cell *matCellDef="let purchase_part">
-        <mat-form-field appearance="fill">
-            <input matInput [value]="purchase_part.orderQuantity" (change)="checkOrderQuantity(purchase_part)"/>
-        </mat-form-field>
-      </td>
-    </ng-container>
-
+    
     <ng-container matColumnDef="demandInPeriod1">
       <th mat-header-cell *matHeaderCellDef>{{ "orderPlanning.period" | translate }} {{ period +1 }}
         <mat-icon matTooltipClass="multiline-tooltip" matTooltip="{{ 'orderPlanning.tooltip.demand' | translate }}">
           info_outline
-      </mat-icon>
+        </mat-icon>
       </th>
       <td mat-cell *matCellDef="let purchase_part"> 
         <!-- <mat-form-field appearance="fill">
-            <input matInput [(ngModel)] = "purchase_part.current_stock"/>
+          <input matInput [(ngModel)] = "purchase_part.current_stock"/>
         </mat-form-field>     -->
         {{ purchase_part.demand[0] }}
         <mat-icon matTooltipClass="multiline-tooltip" matTooltip="{{ forecasts[0].p1 + ' * ' + purchase_part.usage[0] + ' + ' + forecasts[0].p2 + ' * ' + purchase_part.usage[1] + ' + ' + forecasts[0].p3 + ' * ' + purchase_part.usage[2] + ' = ' + purchase_part.demand[0] }}">
           info_outline
-      </mat-icon>
+        </mat-icon>
       </td>
     </ng-container>
-
+    
     <ng-container matColumnDef="demandInPeriod2">
       <th mat-header-cell *matHeaderCellDef>{{ "orderPlanning.period" | translate }} {{ period +2 }}
         <mat-icon matTooltipClass="multiline-tooltip" matTooltip="{{ 'orderPlanning.tooltip.demand' | translate }}">
@@ -101,44 +91,55 @@
       </mat-icon></th>
       <td mat-cell *matCellDef="let purchase_part"> 
         <!-- <mat-form-field appearance="fill">
-            <input matInput [(ngModel)] = "purchase_part.current_stock"/>
+          <input matInput [(ngModel)] = "purchase_part.current_stock"/>
         </mat-form-field>     -->
         {{ purchase_part.demand[1] }}
         <mat-icon matTooltipClass="multiline-tooltip" matTooltip="{{ forecasts[1].p1 + ' * ' + purchase_part.usage[0] + ' + ' + forecasts[1].p2 + ' * ' + purchase_part.usage[1] + ' + ' + forecasts[1].p3 + ' * ' + purchase_part.usage[2] + ' = ' + purchase_part.demand[1] }}">
           info_outline
-      </mat-icon>
+        </mat-icon>
       </td>
     </ng-container>
-
-      <ng-container matColumnDef="demandInPeriod3">
-        <th mat-header-cell *matHeaderCellDef>{{ "orderPlanning.period" | translate }} {{ period +3 }}
-          <mat-icon matTooltipClass="multiline-tooltip" matTooltip="{{ 'orderPlanning.tooltip.demand' | translate }}">
-            info_outline
+    
+    <ng-container matColumnDef="demandInPeriod3">
+      <th mat-header-cell *matHeaderCellDef>{{ "orderPlanning.period" | translate }} {{ period +3 }}
+        <mat-icon matTooltipClass="multiline-tooltip" matTooltip="{{ 'orderPlanning.tooltip.demand' | translate }}">
+          info_outline
         </mat-icon></th>
         <td mat-cell *matCellDef="let purchase_part"> 
           <!-- <mat-form-field appearance="fill">
-              <input matInput [(ngModel)] = "purchase_part.current_stock"/>
+            <input matInput [(ngModel)] = "purchase_part.current_stock"/>
           </mat-form-field>     -->
           {{ purchase_part.demand[2] }}
           <mat-icon matTooltipClass="multiline-tooltip" matTooltip="{{ forecasts[2].p1 + ' * ' + purchase_part.usage[0] + ' + ' + forecasts[2].p2 + ' * ' + purchase_part.usage[1] + ' + ' + forecasts[2].p3 + ' * ' + purchase_part.usage[2] + ' = ' + purchase_part.demand[2] }}">
             info_outline
-        </mat-icon>
+          </mat-icon>
         </td>      
-    </ng-container>
-        
-    <ng-container matColumnDef="demandInPeriod4">
-      <th mat-header-cell *matHeaderCellDef>{{ "orderPlanning.period" | translate }} {{ period +4 }}
-        <mat-icon matTooltipClass="multiline-tooltip" matTooltip="{{ 'orderPlanning.tooltip.demand' | translate }}">
-          info_outline
-      </mat-icon></th>
-      <td mat-cell *matCellDef="let purchase_part"> 
-        <!-- <mat-form-field appearance="fill">
+      </ng-container>
+      
+      <ng-container matColumnDef="demandInPeriod4">
+        <th mat-header-cell *matHeaderCellDef>{{ "orderPlanning.period" | translate }} {{ period +4 }}
+          <mat-icon matTooltipClass="multiline-tooltip" matTooltip="{{ 'orderPlanning.tooltip.demand' | translate }}">
+            info_outline
+          </mat-icon></th>
+          <td mat-cell *matCellDef="let purchase_part"> 
+            <!-- <mat-form-field appearance="fill">
             <input matInput [(ngModel)] = "purchase_part.current_stock"/>
         </mat-form-field>     -->
         {{ purchase_part.demand[3] }}
         <mat-icon matTooltipClass="multiline-tooltip" matTooltip="{{ forecasts[3].p1 + ' * ' + purchase_part.usage[0] + ' + ' + forecasts[3].p2 + ' * ' + purchase_part.usage[1] + ' + ' + forecasts[3].p3 + ' * ' + purchase_part.usage[2] + ' = ' + purchase_part.demand[3] }}">
           info_outline
-      </mat-icon>
+        </mat-icon>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="orderQuantity">
+      <th mat-header-cell *matHeaderCellDef>{{ "orderPlanning.orderQuantity"  | translate }} <mat-icon matTooltipClass="multiline-tooltip" matTooltip="{{ 'orderPlanning.tooltip.orderQuantity' | translate }}">
+        info_outline
+    </mat-icon></th>
+      <td mat-cell *matCellDef="let purchase_part">
+        <mat-form-field appearance="fill">
+            <input matInput [value]="purchase_part.orderQuantity" (change)="checkOrderQuantity(purchase_part, $event)"/>
+        </mat-form-field>
       </td>
     </ng-container>
 
@@ -149,7 +150,7 @@
       <td mat-cell *matCellDef="let purchase_part">
         <mat-form-field appearance="fill">
             <mat-label>{{ "orderPlanning.orderType"  | translate }}</mat-label>
-            <mat-select [value] = "purchase_part.orderType" (selectionChange)="checkOrderType(purchase_part)" (compareWith)="objectComparisonFunction">
+            <mat-select [(ngModel)] = "purchase_part.orderType" (selectionChange)="checkOrderType(purchase_part)" (compareWith)="objectComparisonFunction">
                 <mat-option *ngFor="let orderType of orderTypes" [value]="orderType">
                 {{ TypeMapping[orderType] || translate }}
                 </mat-option>

@@ -38,15 +38,15 @@
                         [disabled]="canInput(productionOrder)" 
                         [value]="getDefaultSplitAmount(productionOrder)"
                         #amt
-                        (input)="split.disabled=!canSplit(productionOrder, amt.value)"
+                        (input)="splits.disabled=!canSplit(productionOrder, amt.value)"
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                     >                
                     <button
-                        #split
+                        #splits
                         mat-icon-button 
                         matTooltip="{{ 'btn.split' | translate }}"
                         class="split-btn" 
-                        (click)="splitItem(productionOrder, idx, col, amt.value)" 
+                        (click)="splitItem(productionOrder, idx, col, amt.value); $event.preventDefault()" 
                         [disabled]="!canSplit(productionOrder, amt.value)"
                     >
                         <mat-icon> call_split</mat-icon>
@@ -56,10 +56,11 @@
                         matTooltip="{{ 'btn.delete' | translate }}"
                         class="split-btn" 
                         [disabled]="!canDelete(productionOrder.id)" 
-                        mat-button (click)="deleteItem(productionOrder, idx, col)"
+                        (click)="deleteItem(productionOrder, idx, col)"
                     >
                      <mat-icon>delete</mat-icon>
-                    </button>
+                     </button>
+
                 </form>
                 </span>
             </div>

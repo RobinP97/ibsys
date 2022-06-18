@@ -11,6 +11,7 @@ import { NgModule } from '@angular/core';
 import { OrderPlanningComponent } from './order-planning/order-planning.component';
 import { ProductionComponent } from './production/production.component';
 import { SequencePlanningComponent } from './sequence-planning/sequence-planning.component';
+import { OrderPriceOverviewComponent } from './order-price-overview/order-price-overview.component';
 
 // const routes: Routes = [
 //   { path: '', component: ImportComponent },
@@ -37,6 +38,7 @@ const routes: Routes = [
       { path: 'order-planning', component: OrderPlanningComponent },
       { path: 'sequencePlanning', component: SequencePlanningComponent },
       { path: 'orderPlanning', component: OrderPlanningComponent },
+      { path: 'orderPriceOverview', component: OrderPriceOverviewComponent },
       { path: 'capacity', component: CapacityComponent },
       { path: 'export', component: ExportComponent },
     ],

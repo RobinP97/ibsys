@@ -100,9 +100,9 @@
     "totalSetUpTimeTooltip": "Die Rüstzeit ergibt sich aus den hinterlegten Rüstzeiten für jeden Fertigungsschritt der an dem Arbeitsplatz durchgeführt wird.",
     "capacityNeedDeficitPriorPeriodTooltip": "Der Zeitdefizit aus der Vorperiode wird bestimmt, in dem aus der Eingabedatei die noch Benötigten Zeiten für Teile in der Warteschlange und in der Bearbeitung innerhalb des Arbeitsplatzes zusammengefasst werden.",
     "setUpTimeDeficitPriorPeriodTooltip": "Die benötigte Rüstzeit wird für jeden noch zutätigenden Arbeitsschritt aus der Vorperiode Summiert.",
-    "totalTimeTooltip": "Der Gesamt-Kapazizätsbedarf ergibt sich aus der Summe des Kapazitätsbedarfs, der Rüstzeit (neu), dem Kap. bed. (Rückstand Vorperiode) und der Rüstzeit (Rückstand Vorperiode).",
-    "shiftTooltip": "Die Schichten werden bestimmt, in dem der Gesamt-Kapazizätsbedarf durch 2400 geteilt wird, und ab 1,5(1200 Minuten Überstunden) aufgerundet wird. Sollte die Schicht größer als drei sein, so werden die Maximal möglichen Schichten eingetragen(3).",
-    "overTimeTooltip": "Die Überstunden werden bestimmt, in dem von dem Gesamt-Kapazizätsbedarf die Schichten * 2400 abgezogen werden, sofern das Ergebnis positiv ist. Ist die Anzahl der Schichten gleich 3, so wird hier der Wert 0 eingetragen.",
+    "totalTimeTooltip": "Der Gesamt-Kapazitätsbedarf ergibt sich aus der Summe des Kapazitätsbedarfs, der Rüstzeit (neu), dem Kap. bed. (Rückstand Vorperiode) und der Rüstzeit (Rückstand Vorperiode).",
+    "shiftTooltip": "Die Schichten werden bestimmt, in dem der Gesamt-Kapazitätsbedarf durch 2400 geteilt wird, und ab 1,5(1200 Minuten Überstunden) aufgerundet wird. Sollte die Schicht größer als drei sein, so werden die Maximal möglichen Schichten eingetragen(3).",
+    "overTimeTooltip": "Die Überstunden werden bestimmt, in dem von dem Gesamt-Kapazitätsbedarf die Schichten * 2400 abgezogen werden, sofern das Ergebnis positiv ist. Ist die Anzahl der Schichten gleich 3, so wird hier der Wert 0 eingetragen.",
     "timePerUnit": "(Zeit pro Einheit)",
     "tooltip": "Die Kapazität pro Arbeitsplatz wird berrechnet in dem die Summe der Zeiten gebildet werden.",
     "period": "Periode...",
@@ -127,7 +127,7 @@
     "set-up_time": "Rüstzeit (neu)",
     "capacity_need_deficit_prior_period": "Kap. bed. (Rückstand Vorperiode)",
     "set-up_time_deficit_prior_period": "Rüstzeit (Rückstand Vorperiode)",
-    "total_capacity_need": "Gesamt-Kapazizätsbedarf",
+    "total_capacity_need": "Gesamt-Kapazitätsbedarf",
     "tooltip_inhouse_planing": "",
     "shifts": "Schichten",
     "extra_hours": "Mehrarbeitszeit in Minuten",
@@ -180,6 +180,22 @@
     "error": {
       "NonValidNumber": "Die Eingabe war keine gültige Nummer oder kleiner 0!",
       "NonMultipleOfTen": "Die Eingabe muss ein Vielfaches von 10 sein!"
+    }
+  },
+  "orderPriceOverview":{
+    "title": "Bestellkosten",
+    "productNumber": "Sachnummer",
+    "amount": "Menge",
+    "pricePerPiece": "Stückpreis",
+    "cost": "Teilkosten",
+    "ordercost": "Bestellkosten",
+    "totalOrderCost": "Gesammkosten",
+    "sum": "Summe",
+    "tooltip": {
+      "cost": "Die Teilkosten werden bestimmt, in dem der Stückpreis mit der bestellten Menge multipliziert wird.",
+      "orderCost": "Die Bestellkosten werden abhängig von der Art der Bestellung bestimmt. Eilbestellungen verursachen 10x so hohe Bestellkosten wie Normalbestellungen.",
+      "totalOrderCost": "Summe der Teilkosten und Bestellkosten. Gibt an wie viel die Bestellung insgesammt kostet.",
+      "totalSum": "Gesammtsumme aus den Gesammtkosten der einzelnen Bestellungen."
     }
   },
   "export": {

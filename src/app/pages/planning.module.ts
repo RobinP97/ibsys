@@ -41,6 +41,7 @@ import { SequencePlanningComponent } from './sequence-planning/sequence-planning
 import { SharedModule } from '../shared/shared.module';
 import { SnackbarService } from '../service/snackbar.service';
 import { ValidationService } from '../service/validation.service';
+import { OrderPriceOverviewComponent } from './order-price-overview/order-price-overview.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { ValidationService } from '../service/validation.service';
     CapacityComponent,
     ExitWarningDialogComponent,
     NoDataComponent,
+    OrderPriceOverviewComponent
   ],
   imports: [
     SharedModule,

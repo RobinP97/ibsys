@@ -41,9 +41,8 @@ export class ProductionComponent {
     private readonly translatorService: TranslateService
   ) {
     this.inhouse_parts = dataService.getProductionOrders();
-    //if (!this.inhouse_parts) { inhouse_parts müssen geupdatet werden wenn vor und zurück gesprungen wird!
+    if (!this.inhouse_parts) //{
     this.initializeInhouseParts(dataService);
-
     this.waitinglistWorkstations =
       this.dataService.getWaitinglistWorkstations();
     this.forecasts = this.dataService.getForecastsAndDirectSales();
@@ -82,13 +81,22 @@ export class ProductionComponent {
     if (this.forecasts[0] !== undefined) {
       const first = this.inhouse_parts.find((x) => x.id == 1);
       first.binding_orders = this.forecasts[0].p1;
-      first.planned_stock = first.binding_orders;
+      if(first.planned_stock === undefined || first.planned_stock === null || isNaN(first.planned_stock))
+      {
+        first.planned_stock = first.binding_orders;
+      }
       const second = this.inhouse_parts.find((x) => x.id == 2);
       second.binding_orders = this.forecasts[0].p2;
-      second.planned_stock = second.binding_orders;
+      if(second.planned_stock === undefined || second.planned_stock === null || isNaN(second.planned_stock))
+      {
+        second.planned_stock = second.binding_orders;
+      }
       const third = this.inhouse_parts.find((x) => x.id == 3);
       third.binding_orders = this.forecasts[0].p3;
-      third.planned_stock = third.binding_orders;
+      if(third.planned_stock === undefined || third.planned_stock === null || isNaN(third.planned_stock))
+      {
+        third.planned_stock = third.binding_orders;
+      }
     }
   }
 
@@ -107,7 +115,7 @@ export class ProductionComponent {
       part.binding_orders = 0;
       part.current_stock = 0;
       part.planned_production = 0;
-      part.planned_stock = 0;
+      part.planned_stock = null;
       part.in_queue = 0;
       part.predecessor_waiting_list = 0;
       part.in_process = 0;
@@ -308,7 +316,7 @@ export class ProductionComponent {
     predecessor_waiting_list?: number
   ): void {
     let planned = 0;
-    if (imported) {
+    if (part.planned_stock === undefined || part.planned_stock === null) {
       part.planned_stock = part.current_stock;
     }
     if (typeof predecessor_waiting_list !== 'undefined') {

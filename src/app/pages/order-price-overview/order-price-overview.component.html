@@ -1,0 +1,70 @@
+<table class="order-price-overview-table">
+    <tr>
+        <th>
+            {{ "orderPriceOverview.productNumber" | translate }}
+        </th>
+        <th>
+            {{ "orderPriceOverview.amount" | translate }}
+        </th>
+        <th>
+            {{ "orderPriceOverview.pricePerPiece" | translate }}
+        </th>
+        <th>
+            {{ "orderPriceOverview.cost" | translate }}
+            <mat-icon matTooltipClass="multiline-tooltip" matTooltip='{{ "orderPriceOverview.tooltip.cost" | translate }}'>
+                info_outline
+            </mat-icon>
+        </th>
+        <th>
+            {{ "orderPriceOverview.ordercost" | translate }}
+            <mat-icon matTooltipClass="multiline-tooltip" matTooltip='{{ "orderPriceOverview.tooltip.orderCost" | translate }}'>
+                info_outline
+            </mat-icon>
+        </th>
+        <th>
+            {{ "orderPriceOverview.totalOrderCost" | translate }}
+            <mat-icon matTooltipClass="multiline-tooltip" matTooltip='{{ "orderPriceOverview.tooltip.totalOrderCost" | translate }}'>
+                info_outline
+            </mat-icon>
+        </th>
+    </tr>
+    <tr *ngFor="let order of orders">
+        <td>            
+            K{{ order.id }}
+        </td>
+        <td>
+            {{ order.orderQuantity }}
+        </td>
+        <td>
+            {{ getOrderCostPerPiece(order.id) }}
+        </td>
+        <td>
+            {{ getOrderCostForPieces(order.id) }}
+        </td>
+        <td>
+            {{ getOrderCost(order.id) }}
+        </td>
+        <td>
+            {{ getTotalOrderCost(order.id) }}
+        </td>
+    </tr> 
+    <tr>
+        <td class="none">
+        </td>
+        <td class="none">
+        </td>
+        <td class="none">
+        </td>
+        <td class="none">
+        </td>
+        <td>            
+            {{ "orderPriceOverview.sum" | translate }}
+        </td>
+        <td>
+            {{ getSumOfTotalOrderCost() }}              
+            <mat-icon matTooltipClass="multiline-tooltip" matTooltip='{{ "orderPriceOverview.tooltip.totalSum" | translate }}'>
+                info_outline
+            </mat-icon>          
+        </td>
+    </tr>
+</table>

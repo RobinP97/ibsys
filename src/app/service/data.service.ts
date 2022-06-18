@@ -81,7 +81,14 @@ export class DataService {
 
   // Prüft, ob die Daten einer Datein scnon im Borwsercache liegen
   checkBrowsercache4ImportedFileData(): boolean {
-    for (let key of ['GAME', 'GROUP', 'PERIOD']) {
+    for (let key of [
+      'GAME',
+      'PERIOD',
+      'GROUP',
+      'WAREHOUSESTOCK',
+      'MANDATORYORDERS',
+      'RESULT',
+    ]) {
       const value = keys.import[key];
       const isLoaded = this.localStorageService.getItem(value) != undefined;
       if (!isLoaded) return false;
@@ -195,6 +202,11 @@ export class DataService {
       keys.other.WORKSTATIONS
     );
     return workStations;
+  }
+
+  getLastCompletedStep() {
+    const index = this.localStorageService.getItem(keys.other.INDEX);
+    return index;
   }
 
   //-------------------------------------------------------------------------------------------
@@ -374,5 +386,9 @@ export class DataService {
   setOrderPlanning(orderPlanning: OrderPlanning[]) {
     this.orderPlanning$.next(orderPlanning);
     this.localStorageService.setItem(keys.other.ORDERPLANNING, orderPlanning);
+  }
+
+  setLastCompletedStep(index: number) {
+    this.localStorageService.setItem(keys.other.INDEX, index);
   }
 }

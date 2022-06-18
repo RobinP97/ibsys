@@ -22,6 +22,7 @@ export const localStorageKeys = {
     DIRECTSALES: 'directsales',
     WORKSTATIONS: 'workstations',
     ORDERPLANNING: 'orderplanning',
+    INDEX: 'index',
   },
 };
 

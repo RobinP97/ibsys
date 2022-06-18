@@ -18,10 +18,6 @@ import { STEPS } from '../production-planning-steps';
 import { SnackbarService } from 'src/app/service/snackbar.service';
 import { Step } from 'src/app/model/production/step';
 
-// export interface PlanningComponent {
-//   saveDate(): () => void;
-// }
-
 @Component({
   templateUrl: './nav-bar-planning.component.html',
   styleUrls: ['./nav-bar-planning.component.scss'],
@@ -35,7 +31,6 @@ export class NavBarPlanningComponent
     IDeactivateComponent
 {
   @ViewChild('stepper') stepper: MatStepper | undefined;
-  // @ViewChildren(RouterOutlet) fooList: any;
   @ViewChildren('matStep') stepList: any;
   steps: Step[];
 
@@ -43,6 +38,7 @@ export class NavBarPlanningComponent
   completedImport: boolean = false;
   isLinear: boolean = true;
   exitWarning: boolean = false;
+  lastStepCompleted: number;
 
   constructor(
     private readonly router: Router,
@@ -51,17 +47,25 @@ export class NavBarPlanningComponent
     public dialog: MatDialog
   ) {
     this.completedImport = dataService.checkBrowsercache4ImportedFileData();
+    console.log(this.completedImport);
+    
+    this.lastStepCompleted = dataService.getLastCompletedStep();
   }
 
   ngOnInit(): void {
     this.steps = STEPS;
     this.dataService.fileUploadSuccessful$.subscribe({
-      next: (success) => (this.completedImport = success),
+      next: (success) => {
+        this.completedImport = success;
+        this.stepList._results[0].completed = success;
+      },
     });
   }
 
   ngAfterContentInit() {
-    if (this.completedImport) {
+    console.log('TEST', this.completedImport, this.lastStepCompleted);
+
+    if (this.completedImport && this.lastStepCompleted) {
       // Match: Path to stepper index
       const currentUrlParts = this.router.url.split('/');
       const lastUrlPart =
@@ -69,6 +73,11 @@ export class NavBarPlanningComponent
           ? currentUrlParts[currentUrlParts.length - 1]
           : '';
       for (let step of this.steps) {
+        // Zugriff nur auf abgeschlossene Tabs mit Index lastStepCompleted + 1
+        if (step.index > this.lastStepCompleted + 1) {
+          this.selectedStepIndex = this.lastStepCompleted + 1;
+          break;
+        }
         if (step.path !== lastUrlPart) continue;
         // this.stepper.selectedIndex = step.index;
         this.selectedStepIndex = step.index;
@@ -92,12 +101,12 @@ export class NavBarPlanningComponent
       .filter((step, idx) => idx < this.selectedStepIndex)
       .forEach((step) => (step.interacted = true));
     this.dataService.importFileStatus(this.completedImport);
-
+    // console.log(this.stepList._results[0].completed);
     this.navigateToPlanningStep();
   }
 
   ngOnDestroy(): void {
-    this.dataService.fileUploadSuccessful$.complete();
+    // this.dataService.fileUploadSuccessful$.complete();
     this.dataService.completedProductionPlanningStep$.complete();
   }
 
@@ -109,7 +118,17 @@ export class NavBarPlanningComponent
   }
 
   selectionChanged(event: any) {
+    console.log('TEST');
+    
     this.selectedStepIndex = event.selectedIndex;
+    this.lastStepCompleted = this.dataService.getLastCompletedStep();
+    if (!this.lastStepCompleted) {
+      this.lastStepCompleted = Math.max(this.selectedStepIndex - 1, 0);
+    } else if (this.selectedStepIndex - 1 > this.lastStepCompleted) {
+      this.lastStepCompleted = this.selectedStepIndex - 1;
+    }
+    this.dataService.setLastCompletedStep(this.selectedStepIndex - 1);
+
     this.navigateToPlanningStep();
   }
 
@@ -120,5 +139,9 @@ export class NavBarPlanningComponent
         'planning',
         this.steps[this.selectedStepIndex].path,
       ]);
+  }
+
+  saveCompletedStep(index: number) {
+    this.dataService.setLastCompletedStep(index);
   }
 }

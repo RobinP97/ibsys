@@ -21,10 +21,9 @@
 <!--Vorlage: https://github.com/TheFringe/mat-stepper-routing -->
 <mat-horizontal-stepper #stepper (selectionChange)="selectionChanged($event)" [linear]="isLinear" [selectedIndex]="selectedStepIndex">
     <mat-step
-      [label]="step.title | translate"
-      #matStep
-      [editable]="i === 0 ? !completedImport : true"
-      [errorMessage]="asdfsadf"
+    [label]="step.title | translate"
+    #matStep
+    [editable]="i === 0 ? !completedImport : completedImport"
       *ngFor="let step of steps; let i = index"
       [routerLink]="'planning/' + step.path"
       class="mat-step-wrapper"
@@ -35,7 +34,7 @@
             <button *ngIf="i !== 0 && i !== 1" mat-button matStepperPrevious class="btn btn-secondary">{{ "btn.back" | translate }}</button>
         </div>
         <div>
-            <button *ngIf="( i > 0 && steps.length !== i + 1) || (completedImport && i === 0)" mat-button matStepperNext class="btn btn-secondary">{{ "btn.next" | translate }}</button>
+            <button *ngIf="( i > 0 && steps.length !== i + 1) || (completedImport && i === 0)" mat-button matStepperNext (click)="saveCompletedStep(i)" class="btn btn-secondary">{{ "btn.next" | translate }}</button>
         </div>
       </div>
       <div style="min-height: 10px;"></div>

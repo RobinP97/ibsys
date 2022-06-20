@@ -36,16 +36,16 @@
             {{ order.orderQuantity }}
         </td>
         <td>
-            {{ getOrderCostPerPiece(order.id) }}
+            {{ getOrderCostPerPiece(order.id) | number:'1.2-3' }}
         </td>
         <td>
-            {{ getOrderCostForPieces(order.id)  |  number:'1.2-2' }}
+            {{ getOrderCostForPieces(order.id) | number:'1.2-2' }}
         </td>
         <td>
             {{ getOrderCost(order.id) }}
         </td>
         <td>
-            {{ getTotalOrderCost(order.id)  |  number:'1.2-2' }}
+            {{ getTotalOrderCost(order.id) | number:'1.2-2' }}
         </td>
     </tr> 
     <tr>

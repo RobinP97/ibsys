@@ -23,6 +23,7 @@ export class OrderPlanningComponent implements OnInit {
   purchase_parts: OrderPlanning[];
   forecasts: Forecast[];
   period: number;
+  reloaded: boolean;
   warehousestock: WarehouseStock;
   displayedColumns: Array<string> = [
     'id',
@@ -51,8 +52,10 @@ export class OrderPlanningComponent implements OnInit {
 
     if (!this.purchase_parts) {
       this.loadDataFromJson();
+      this.reloaded = false;
     } else {
       this.resetDemand(this.purchase_parts);
+      this.reloaded = true;
     }
     this.forecasts = dataSerivce.getForecastsAndDirectSales();
     this.calculateDemand();
@@ -172,7 +175,7 @@ export class OrderPlanningComponent implements OnInit {
   }
 
   calculateOrderQuantityAndType(purchase_part: OrderPlanning) {
-    if (purchase_part.differenceTillReplacedAndStock > 0) {
+    if (purchase_part.differenceTillReplacedAndStock > 0 && !this.reloaded) {
       purchase_part.orderQuantity = purchase_part.discountAmount;
       purchase_part.orderType = orderTypes.fast;
     }
@@ -182,7 +185,7 @@ export class OrderPlanningComponent implements OnInit {
   calculateOrderQuantityAndTypeNormal(purchase_part: OrderPlanning) {
     if (
       purchase_part.differenceTillReplacedAndStockAfterAPeriod > 0 &&
-      purchase_part.orderType !== orderTypes.fast
+      purchase_part.orderType !== orderTypes.fast && !this.reloaded
     ) {
       purchase_part.orderQuantity = purchase_part.discountAmount;
       purchase_part.orderType = orderTypes.normal;

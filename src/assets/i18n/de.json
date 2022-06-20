@@ -189,13 +189,13 @@
     "pricePerPiece": "Stückpreis",
     "cost": "Teilkosten",
     "ordercost": "Bestellkosten",
-    "totalOrderCost": "Gesammkosten",
+    "totalOrderCost": "Gesamtkosten",
     "sum": "Summe",
     "tooltip": {
       "cost": "Die Teilkosten werden bestimmt, in dem der Stückpreis mit der bestellten Menge multipliziert wird.",
       "orderCost": "Die Bestellkosten werden abhängig von der Art der Bestellung bestimmt. Eilbestellungen verursachen 10x so hohe Bestellkosten wie Normalbestellungen.",
       "totalOrderCost": "Summe der Teilkosten und Bestellkosten. Gibt an wie viel die Bestellung insgesammt kostet.",
-      "totalSum": "Gesammtsumme aus den Gesammtkosten der einzelnen Bestellungen."
+      "totalSum": "Gesamtsumme aus den Gesamtkosten der einzelnen Bestellungen."
     }
   },
   "export": {

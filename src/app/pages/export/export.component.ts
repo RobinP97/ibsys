@@ -133,6 +133,14 @@ export class ExportComponent implements OnInit {
     xml += '</input>';
 
     const blob = new Blob([xml], { type: 'text/xml;charset=utf-8' });
-    saveAs(blob, 'output' + '.xml');
+    saveAs(blob, this.getFilename());
+  }
+
+  getFilename(): string {
+    const game = this.dataService.getGame() ?? '';
+    const group = this.dataService.getGroup() ?? '';
+    let period = this.dataService.getPeriod();
+    if (period) period = period + 1;
+    return `${game}_${group}_${period}input.xml`;
   }
 }

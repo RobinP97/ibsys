@@ -104,6 +104,16 @@ export class DataService {
     return period;
   }
 
+  getGame(): number {
+    const game = this.localStorageService.getItem(keys.import.GAME);
+    return game;
+  }
+
+  getGroup(): number {
+    const group = this.localStorageService.getItem(keys.import.GROUP);
+    return group;
+  }
+
   getForcasts(): Forecast[] {
     const forecasts: Forecast[] = this.localStorageService.getItem(
       keys.other.FORECASTS

@@ -24,10 +24,7 @@ export class CapacityComponent implements OnInit {
       dataSerivce.getWaitinglistWorkstations();
     this.inhouse_parts = dataSerivce.getProductionOrders();
     this.workstations = dataSerivce.getWorkStations();
-    if (!this.workstations) this.initializeWorkstations();
-    else {
-      this.resetWorkstationTime();
-    }
+    this.initializeWorkstations();
 
     const imported_parts = require('../../data/inhouse-parts.json');
     waitinglistworkstations?.forEach((waitinglist) => {

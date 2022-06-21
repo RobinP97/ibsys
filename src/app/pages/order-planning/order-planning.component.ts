@@ -296,7 +296,7 @@ export class OrderPlanningComponent implements OnInit {
         ' * ' +
         element.demand[round];
     }
-    needed += ' = ' + element.neededTillReplaced;
+    needed += ' = ' + element.neededTillReplacedAfterAPeriod;
     return needed;
     /*
       

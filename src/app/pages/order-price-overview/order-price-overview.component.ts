@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+
+import { DataService } from 'src/app/service/data.service';
 import { OrderPlanning } from 'src/app/model/order-planning/order-planning';
 import { orderTypes } from 'src/app/model/order-planning/orderTypeEnum';
-import { DataService } from 'src/app/service/data.service';
 
 @Component({
   selector: 'app-order-price-overview',

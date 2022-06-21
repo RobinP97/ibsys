@@ -36,16 +36,16 @@
             {{ order.orderQuantity }}
         </td>
         <td>
-            {{ getOrderCostPerPiece(order.id) }}
+            {{ getOrderCostPerPiece(order.id) | number:'1.2-3' }}
         </td>
         <td>
-            {{ getOrderCostForPieces(order.id) }}
+            {{ getOrderCostForPieces(order.id) | number:'1.2-2' }}
         </td>
         <td>
             {{ getOrderCost(order.id) }}
         </td>
         <td>
-            {{ getTotalOrderCost(order.id) }}
+            {{ getTotalOrderCost(order.id) | number:'1.2-2' }}
         </td>
     </tr> 
     <tr>
@@ -61,7 +61,7 @@
             {{ "orderPriceOverview.sum" | translate }}
         </td>
         <td>
-            {{ getSumOfTotalOrderCost() }}              
+            {{ getSumOfTotalOrderCost() |  number:'1.2-2' }}              
             <mat-icon matTooltipClass="multiline-tooltip" matTooltip='{{ "orderPriceOverview.tooltip.totalSum" | translate }}'>
                 info_outline
             </mat-icon>          

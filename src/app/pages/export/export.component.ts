@@ -63,6 +63,9 @@ export class ExportComponent implements OnInit {
     this.orders = this.orders?.filter(
       (order) => order.orderType !== orderTypes.none
     );
+    this.productionOrders = this.productionOrders?.filter(
+      (productionOrder) => productionOrder.planned_production !== 0
+    );
   }
 
   getObjectKeys(object: any) {

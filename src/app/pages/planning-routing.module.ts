@@ -9,9 +9,9 @@ import { ImportComponent } from './import/import.component';
 import { NavBarPlanningComponent } from '../shared/nav-bar-planning/nav-bar-planning.component';
 import { NgModule } from '@angular/core';
 import { OrderPlanningComponent } from './order-planning/order-planning.component';
+import { OrderPriceOverviewComponent } from './order-price-overview/order-price-overview.component';
 import { ProductionComponent } from './production/production.component';
 import { SequencePlanningComponent } from './sequence-planning/sequence-planning.component';
-import { OrderPriceOverviewComponent } from './order-price-overview/order-price-overview.component';
 
 // const routes: Routes = [
 //   { path: '', component: ImportComponent },

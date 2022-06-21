@@ -118,16 +118,15 @@ export class NavBarPlanningComponent
   }
 
   selectionChanged(event: any) {
-    console.log('TEST');
-
     this.selectedStepIndex = event.selectedIndex;
-    this.lastStepCompleted = this.dataService.getLastCompletedStep();
-    if (!this.lastStepCompleted) {
-      this.lastStepCompleted = Math.max(this.selectedStepIndex - 1, 0);
-    } else if (this.selectedStepIndex - 1 > this.lastStepCompleted) {
-      this.lastStepCompleted = this.selectedStepIndex - 1;
-    }
-    this.dataService.setLastCompletedStep(this.selectedStepIndex - 1);
+    this.dataService.setLastCompletedStep(
+      Math.max(this.selectedStepIndex - 1, 0)
+    );
+
+    // All Planungsschritte nach dem aktuellen als interacted=false damit keine Sprünge erlaubt sind
+    this.stepList._results
+      .filter((step, idx) => idx > this.selectedStepIndex)
+      .forEach((step) => (step.interacted = false));
 
     this.navigateToPlanningStep();
   }

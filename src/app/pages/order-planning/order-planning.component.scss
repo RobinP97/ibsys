@@ -19,7 +19,7 @@ th {
 
 td {
     text-align: center;
-    font-size: large;
+    // font-size: large;
     padding: 0px 10px 0px 10px !important;
     border: 1px;
     border-style: solid;
@@ -33,4 +33,10 @@ td {
 
 .multiline-tooltip {
     white-space: pre-line;
+}
+
+input[type="number"] {
+    width: 6em;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 4px;
 }

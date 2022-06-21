@@ -30,7 +30,8 @@ td {
 
 input[type="number"].matInputField {
     width: 5em;
-
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 4px;
 }
 
 .table-wrapper{

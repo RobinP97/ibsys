@@ -128,6 +128,7 @@ export class ProductionComponent {
     this.setOrderInWork(); // Spalte Aufträge in Bearbeitung
     this.updateWareHouse(); // Spalte Aktueller Lagerbestand
     this.resetBindingOrders(); // Spalte verbindliche Aufträge ab id=4
+    this.tooltips.clear();
     this.onChange(
       this.inhouse_parts.find((x) => x.id == 1),
       undefined,
@@ -150,6 +151,7 @@ export class ProductionComponent {
     this.validatePartNumber(event, inhouse_part);
     // dann neu berechnen
     this.resetBindingOrders();
+    this.tooltips.clear();
     this.updateChain(this.inhouse_parts.find((x) => x.id == 1));
     this.updateChain(this.inhouse_parts.find((x) => x.id == 2));
     this.updateChain(this.inhouse_parts.find((x) => x.id == 3));
